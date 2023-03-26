@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@css/BranchMarket.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.project.management.EmployeeFunctionsPageController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@css/BranchMarket.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="lbchucnangquantrivien" layoutX="93.0" layoutY="296.0" text="Danh sách chi nhánh">
+      <Label layoutX="93.0" layoutY="296.0" text="Danh sách chi nhánh">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <Button fx:id="btndangxuat" layoutX="27.0" layoutY="637.0" mnemonicParsing="false" onAction="#switchToMainLoginPage" prefHeight="76.0" prefWidth="202.0" styleClass="ButtonLogout" stylesheets="@../../../../css/GlobalStyle.css" text="Trở về" textFill="#121111">
+      <Button layoutX="27.0" layoutY="637.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="202.0" styleClass="ButtonLogout" stylesheets="@../../../../css/GlobalStyle.css" text="Trở về" textFill="#121111">
          <font>
             <Font name="System Bold" size="34.0" />
          </font>
@@ -27,7 +27,7 @@
       <TextField layoutX="184.0" layoutY="138.0" prefHeight="25.0" prefWidth="202.0" />
       <TextField layoutX="184.0" layoutY="169.0" prefHeight="25.0" prefWidth="202.0" />
       <TextField layoutX="184.0" layoutY="204.0" prefHeight="25.0" prefWidth="202.0" />
-      <Label fx:id="lbchucnangquantrivien1" layoutX="47.0" layoutY="32.0" text="Quản lý chi nhánh:">
+      <Label layoutX="47.0" layoutY="32.0" text="Quản lý chi nhánh:">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
@@ -38,22 +38,22 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Button fx:id="btndangxuat1" layoutX="495.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchToMainLoginPage" prefHeight="75.0" prefWidth="151.0" styleClass="ButtonLogout" stylesheets="@../../../../css/GlobalStyle.css" text="Thêm" textFill="#121111">
+      <Button layoutX="495.0" layoutY="270.0" mnemonicParsing="false"  prefHeight="75.0" prefWidth="151.0" styleClass="ButtonLogout" stylesheets="@../../../../css/GlobalStyle.css" text="Thêm" textFill="#121111">
          <font>
             <Font name="System Bold" size="34.0" />
          </font>
       </Button>
-      <Button fx:id="btndangxuat11" layoutX="725.0" layoutY="269.0" mnemonicParsing="false" onAction="#switchToMainLoginPage" prefHeight="76.0" prefWidth="151.0" styleClass="ButtonLogout" stylesheets="@../../../../css/GlobalStyle.css" text="Sửa" textFill="#121111">
+      <Button  layoutX="725.0" layoutY="269.0" mnemonicParsing="false"  prefHeight="76.0" prefWidth="151.0" styleClass="ButtonLogout" stylesheets="@../../../../css/GlobalStyle.css" text="Sửa" textFill="#121111">
          <font>
             <Font name="System Bold" size="34.0" />
          </font>
       </Button>
-      <Button fx:id="btndangxuat12" layoutX="962.0" layoutY="269.0" mnemonicParsing="false" onAction="#switchToMainLoginPage" prefHeight="34.0" prefWidth="151.0" styleClass="ButtonLogout" stylesheets="@../../../../css/GlobalStyle.css" text="Xóa" textFill="#121111">
+      <Button  layoutX="962.0" layoutY="269.0" mnemonicParsing="false"  prefHeight="34.0" prefWidth="151.0" styleClass="ButtonLogout" stylesheets="@../../../../css/GlobalStyle.css" text="Xóa" textFill="#121111">
          <font>
             <Font name="System Bold" size="34.0" />
          </font>
       </Button>
-      <Label fx:id="hoTen" alignment="CENTER_RIGHT" contentDisplay="TOP" layoutX="824.0" layoutY="35.0" prefHeight="35.0" prefWidth="346.0" stylesheets="@css/ManagerServicePage.css" text="Họ và tên quản trị viên " textAlignment="RIGHT" wrapText="true">
+      <Label  alignment="CENTER_RIGHT" contentDisplay="TOP" layoutX="824.0" layoutY="35.0" prefHeight="35.0" prefWidth="346.0" stylesheets="@css/ManagerServicePage.css" text="Họ và tên quản trị viên " textAlignment="RIGHT" wrapText="true">
          <font>
             <Font size="24.0" />
          </font>

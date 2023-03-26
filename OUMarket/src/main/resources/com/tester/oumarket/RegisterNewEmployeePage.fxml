@@ -10,76 +10,74 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="959.0" styleClass="Pane" stylesheets="@css/RegisterNewEmployee.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.project.management.RegisterNewEmployeePageController">
-   <children>
-      <Label layoutX="322.0" layoutY="31.0" prefHeight="53.0" prefWidth="316.0" styleClass="Label" text="Thêm nhân viên mới">
-         <font>
-            <Font name="System Bold" size="30.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="81.0" fitWidth="110.0" layoutX="1163.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../images/manager-avt.jpg" />
-         </image>
-      </ImageView>
-      <Label layoutX="215.0" layoutY="149.0" prefHeight="35.0" prefWidth="350.0" styleClass="Label" text="THIẾT LẬP TÀI KHOẢN ">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="215.0" layoutY="211.0" prefHeight="17.0" prefWidth="168.0" text="Tên nhân viên:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tfSoDienThoai" layoutX="396.0" layoutY="203.0" prefHeight="40.0" prefWidth="282.0" promptText="Số điện thoại">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <Button layoutX="74.0" layoutY="463.0" mnemonicParsing="false" onAction="#switchToManageListOfEmployeePage" prefHeight="53.0" prefWidth="158.0" styleClass="Button1" text="QUAY LẠI">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Button>
-      <Button layoutX="326.0" layoutY="463.0" mnemonicParsing="false" onAction="#btnDangKyNhanVien" prefHeight="53.0" prefWidth="308.0" stylesheets="@../../../../css/GlobalStyle.css" text="ĐĂNG KÝ ">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-         <styleClass>
-            <String fx:value="bg-green" />
-            <String fx:value="btn" />
-         </styleClass>
-      </Button>
-      <Button layoutX="709.0" layoutY="463.0" mnemonicParsing="false" onAction="#btnHuyThongTin" prefHeight="53.0" prefWidth="191.0" styleClass="Button2" stylesheets="@../../../../css/GlobalStyle.css" text="HỦY">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Button>
-      <PasswordField fx:id="pfMatKhau" layoutX="396.0" layoutY="260.0" prefHeight="40.0" prefWidth="282.0" promptText="Username">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </PasswordField>
-      <Label layoutX="215.0" layoutY="267.0" prefHeight="17.0" prefWidth="168.0" text="Username:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="215.0" layoutY="325.0" prefHeight="17.0" prefWidth="168.0" text="Password:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <PasswordField fx:id="pfNhapLaiMatKhau" layoutX="396.0" layoutY="380.0" prefHeight="40.0" prefWidth="282.0" promptText="Nhập lại mật khẩu">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </PasswordField>
-      <PasswordField fx:id="pfMatKhau1" layoutX="396.0" layoutY="319.0" prefHeight="40.0" prefWidth="282.0" promptText="Mật khẩu">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </PasswordField>
-   </children>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="959.0" styleClass="Pane" stylesheets="@css/RegisterNewEmployee.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label layoutX="322.0" layoutY="31.0" prefHeight="53.0" prefWidth="316.0" styleClass="Label" text="Thêm nhân viên mới">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="81.0" fitWidth="110.0" layoutX="1163.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+         
+        </ImageView>
+        <Label layoutX="215.0" layoutY="149.0" prefHeight="35.0" prefWidth="350.0" styleClass="Label" text="THIẾT LẬP TÀI KHOẢN ">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="215.0" layoutY="211.0" prefHeight="17.0" prefWidth="168.0" text="Tên nhân viên:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField layoutX="396.0" layoutY="203.0" prefHeight="40.0" prefWidth="282.0" promptText="Số điện thoại">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <Button layoutX="74.0" layoutY="463.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="158.0" styleClass="Button1" text="QUAY LẠI">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Button>
+        <Button layoutX="326.0" layoutY="463.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="308.0" text="ĐĂNG KÝ ">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <styleClass>
+                <String fx:value="bg-green" />
+                <String fx:value="btn" />
+            </styleClass>
+        </Button>
+        <Button layoutX="709.0" layoutY="463.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="191.0" styleClass="Button2" text="HỦY">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Button>
+        <PasswordField layoutX="396.0" layoutY="260.0" prefHeight="40.0" prefWidth="282.0" promptText="Username">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </PasswordField>
+        <Label layoutX="215.0" layoutY="267.0" prefHeight="17.0" prefWidth="168.0" text="Username:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Label layoutX="215.0" layoutY="325.0" prefHeight="17.0" prefWidth="168.0" text="Password:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <PasswordField layoutX="396.0" layoutY="380.0" prefHeight="40.0" prefWidth="282.0" promptText="Nhập lại mật khẩu">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </PasswordField>
+        <PasswordField layoutX="396.0" layoutY="319.0" prefHeight="40.0" prefWidth="282.0" promptText="Mật khẩu">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </PasswordField>
+    </children>
 </Pane>

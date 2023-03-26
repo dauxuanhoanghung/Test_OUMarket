@@ -5,11 +5,15 @@
 package com.tester.service;
 
 import com.tester.pojo.Employee;
+import java.util.List;
 
 /**
  *
  * @author LENOVO
  */
 public interface EmployeeService {
+    List<Employee> getEmployees(String kw);
     Employee getEmployeeByUsername(String username);
+    Employee authencateEmployee(String username, String password);
+//    int addEmployee(Employee employee);
 }

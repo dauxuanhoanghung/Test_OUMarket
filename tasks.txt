@@ -1,0 +1,14 @@
+Huy, Tính:
++ xem mẫu
++ viết báo cáo về db trước đi, có sửa thì thêm sửa lại sau, viết docx ấy
++ 
+
+V.Anh:
++ xài git:
+	- git clone https://github.com/dauxuanhoanghung/Test_OUMarket.git
+	- git checkout -b (tên nhánh j cg đc)
+	- làm xong add, commit, push lên nhánh
++ làm cho xong mấy cái giao diện thanh toán, quản lý hàng hóa. (Cho mỗi cái 1 cái table như trc)
+- tạm thời trước đó, để t xem còn j thì t sửa
+
+Hỏi t làm j thì cc nhé, code tumlum đây

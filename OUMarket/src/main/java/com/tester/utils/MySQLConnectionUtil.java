@@ -23,6 +23,6 @@ public class MySQLConnectionUtil {
         }
     }
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost/englishdb", "root", "Hung28122002@");
+        return DriverManager.getConnection("jdbc:mysql://localhost/oumarket", "root", "Hung28122002@");
     }
 }
