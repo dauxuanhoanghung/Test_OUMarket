@@ -1,0 +1,33 @@
+Label{
+    -fx-font-family: Tahoma;
+    
+    -fx-border-bottom-style: solid;
+    -fx-border-color: #00CC66;
+    -fx-border-width: 0 0 2 0;
+}
+
+Pane{
+    -fx-background-color: #FCF3CF  ;
+}
+.ButtonLogout{
+    -fx-background-color: linear-gradient(to bottom right, #6C5B7B, #C06C84, #F67280);
+    -fx-text-fill: white; /* set text color */
+    -fx-font-size: 24pt; /* set font size */
+    -fx-padding: 10px 20px; /* set padding */
+    -fx-border-style: solid;
+    -fx-border-width: 4px;
+    -fx-font-weight: bolder;
+    
+}
+.ButtonLogout:hover{
+    -fx-background-color: #FF6656;
+}
+Button{
+    -fx-background-color: linear-gradient(to bottom right, #AAB7B8, #34495E , #1E8449);;
+    -fx-text-fill: white; /* set text color */
+    -fx-font-size: 24pt; /* set font size */
+    -fx-padding: 10px 20px; /* set padding */
+    -fx-border-style: solid;
+    -fx-border-width: 4px;
+    -fx-font-weight: bolder;
+}
