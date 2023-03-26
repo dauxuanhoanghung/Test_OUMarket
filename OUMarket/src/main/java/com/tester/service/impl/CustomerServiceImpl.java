@@ -1,0 +1,89 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.tester.service.impl;
+
+import com.tester.pojo.Customer;
+import com.tester.service.CustomerService;
+import com.tester.utils.MySQLConnectionUtil;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author LENOVO
+ */
+public class CustomerServiceImpl implements CustomerService {
+
+    @Override
+    public List<Customer> getCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM customer");
+            while (rs.next()) {
+                Customer c = new Customer(rs.getString("id"),
+                        rs.getNString("name"),
+                        rs.getString("phone"),
+                        rs.getDate("birthday"));
+                customers.add(c);
+            }
+            return customers;
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public Customer getCustomerByPhone(String phone) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "SELECT * FROM customer WHERE phone = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setString(1, phone);
+            ResultSet rs = stm.executeQuery();
+            if (rs != null) {
+                return new Customer(rs.getString("id"), rs.getString("name"), 
+                        rs.getString("phone"), rs.getDate("birthday"));
+            }
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public Customer addCustomer(Customer cus) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            String query = "INSERT INTO customer(id, name, phone, birthday) VALUES (?, ?, ?, ?)";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setString(1, cus.getId());
+            stm.setString(2, cus.getName());
+            stm.setString(3, cus.getPhone());
+            stm.setDate(4, (Date) cus.getBirthday());
+            int r = stm.executeUpdate();
+            conn.commit();
+            return r != 0 ? cus : null;
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public Customer updateCustomer(Customer customer) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+}
