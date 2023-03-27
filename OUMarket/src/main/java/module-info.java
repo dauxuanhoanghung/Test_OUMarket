@@ -4,4 +4,6 @@ module com.tester.oumarket {
     requires java.sql;
     opens com.tester.oumarket to javafx.fxml;
     exports com.tester.oumarket;
+    opens com.tester.pojo to javafx.fxml;
+    exports com.tester.pojo;
 }

@@ -27,7 +27,7 @@ public class BranchMarketServiceImpl implements BranchMarketService {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             List<BranchMarket> branchMarkets = new ArrayList<>();
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM category");
+            ResultSet rs = stm.executeQuery("SELECT * FROM branch_market");
             while(rs.next()) {
                 BranchMarket c = new BranchMarket(rs.getInt("id"), 
                         rs.getString("name"), rs.getString("location"));
