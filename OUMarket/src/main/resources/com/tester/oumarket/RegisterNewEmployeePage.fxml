@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="959.0" styleClass="Pane" stylesheets="@css/RegisterNewEmployee.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="959.0" styleClass="Pane" stylesheets="@css/RegisterNewEmployee.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label layoutX="322.0" layoutY="31.0" prefHeight="53.0" prefWidth="316.0" styleClass="Label" text="Thêm nhân viên mới">
             <font>

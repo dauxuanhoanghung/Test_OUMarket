@@ -20,4 +20,5 @@ public interface EventService {
      * @return >0 nếu add thành công, -1 nếu có lỗi
      */
     int addEvent(Event evt, List<BranchMarket> branches);
+//    List<Event> getCurrrentEvents();
 }

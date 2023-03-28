@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author LENOVO
  */
-public class OrderSerivceImpl implements OrderService {
+public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrders(Map<String, Object> params) {
@@ -47,7 +47,7 @@ public class OrderSerivceImpl implements OrderService {
             }
             return orders;
         } catch (SQLException ex) {
-            Logger.getLogger(OrderSerivceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -80,7 +80,7 @@ public class OrderSerivceImpl implements OrderService {
 
             return r;
         } catch (SQLException ex) {
-            Logger.getLogger(OrderSerivceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
         }
     }

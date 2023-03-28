@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="823.0" prefWidth="1280.0" stylesheets="@css/ManagerServicePage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.ManagerServiceController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="823.0" prefWidth="1280.0" stylesheets="@css/ManagerServicePage.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.ManageServiceController">
     <children>
         <Label layoutX="52.0" layoutY="48.0" stylesheets="@css/ManagerServicePage.css" text="Chức năng quản trị viên ">
             <font>
@@ -17,12 +17,12 @@
         <ImageView fitHeight="118.0" fitWidth="149.0" layoutX="1117.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
         
         </ImageView>
-        <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutX="762.0" layoutY="51.0" prefHeight="35.0" prefWidth="346.0" stylesheets="@css/ManagerServicePage.css" text="Họ và tên quản trị viên " textAlignment="RIGHT" wrapText="true">
+        <Label fx:id="lblNameAdmin" alignment="CENTER_RIGHT" contentDisplay="TOP" layoutX="762.0" layoutY="51.0" prefHeight="35.0" prefWidth="346.0" stylesheets="@css/ManagerServicePage.css" text="Họ và tên quản trị viên " textAlignment="RIGHT" wrapText="true">
             <font>
                 <Font size="24.0" />
             </font>
         </Label>
-        <Button fx:id="btnEmployeeManage" layoutX="132.0" layoutY="162.0" mnemonicParsing="false" onAction="#manageEmployee" prefHeight="130.0" prefWidth="1018.0" text="QUẢN LÝ NHÂN VIÊN " textAlignment="CENTER" wrapText="true">
+        <Button layoutX="132.0" layoutY="162.0" mnemonicParsing="false" onAction="#manageEmployee" prefHeight="130.0" prefWidth="1018.0" text="QUẢN LÝ NHÂN VIÊN " textAlignment="CENTER" wrapText="true">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -32,7 +32,7 @@
                 <String fx:value="function" />
             </styleClass>
         </Button>
-        <Button fx:id="btnBranchManage" layoutX="132.0" layoutY="342.0" mnemonicParsing="false" onAction="#manageBranch" prefHeight="130.0" prefWidth="1018.0" text="QUẢN LÝ CHI NHÁNH" textAlignment="CENTER" wrapText="true">
+        <Button layoutX="132.0" layoutY="342.0" mnemonicParsing="false" onAction="#manageBranch" prefHeight="130.0" prefWidth="1018.0" text="QUẢN LÝ CHI NHÁNH" textAlignment="CENTER" wrapText="true">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -41,7 +41,7 @@
                 <String fx:value="function" />
             </styleClass>
         </Button>
-        <Button fx:id="btnProductManage" layoutX="132.0" layoutY="531.0" mnemonicParsing="false" onAction="#manageProduct" prefHeight="130.0" prefWidth="1018.0" text="QUẢN LÝ HÀNG HÓA" textAlignment="CENTER" wrapText="true">
+        <Button layoutX="132.0" layoutY="531.0" mnemonicParsing="false" onAction="#manageProduct" prefHeight="130.0" prefWidth="1018.0" text="QUẢN LÝ HÀNG HÓA" textAlignment="CENTER" wrapText="true">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -50,7 +50,7 @@
                 <String fx:value="function" />
             </styleClass>
         </Button>
-        <Button fx:id="btnLogout" layoutX="436.0" layoutY="699.0" mnemonicParsing="false" onAction="#logout" prefHeight="61.0" prefWidth="409.0" styleClass="ButtonLogout" stylesheets="@css/ManagerServicePage.css" text="ĐĂNG XUẤT" textFill="#121111">
+        <Button layoutX="436.0" layoutY="699.0" mnemonicParsing="false" onAction="#logout" prefHeight="61.0" prefWidth="409.0" styleClass="ButtonLogout" stylesheets="@css/ManagerServicePage.css" text="ĐĂNG XUẤT" textFill="#121111">
             <font>
                 <Font name="System Bold" size="34.0" />
             </font>

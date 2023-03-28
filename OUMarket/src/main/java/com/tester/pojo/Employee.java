@@ -4,6 +4,7 @@
  */
 package com.tester.pojo;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -18,6 +19,8 @@ public class Employee {
     private String name;
     private String username;
     private String password;
+    private Date joinDate;
+    private String phone;
     private String role;
     private int branchId;
 
@@ -28,23 +31,24 @@ public class Employee {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Employee(String name, String username, String password, String role, int branchId) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.branchId = branchId;
+    public Employee(String name, String username, String password, Date joinDate, String phone, String role, int branchId) {
+        this(null, name, username, password, joinDate, phone, role, branchId);
     }
 
     public Employee(String id, String name, String username, String password, String role, int branchId) {
+        this(id, name, username, password, null, null, role, branchId);
+    }
+
+    public Employee(String id, String name, String username, String password, Date joinDate, String phone, String role, int branchId) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
+        this.joinDate = joinDate;
+        this.phone = phone;
         this.role = role;
         this.branchId = branchId;
     }
-
     /**
      * @return the id
      */
@@ -127,6 +131,34 @@ public class Employee {
      */
     public void setBranchId(int branchId) {
         this.branchId = branchId;
+    }
+
+    /**
+     * @return the joinDate
+     */
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    /**
+     * @param joinDate the joinDate to set
+     */
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    /**
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone the phone to set
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 }

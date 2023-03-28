@@ -8,6 +8,6 @@ package com.tester.oumarket;
  *
  * @author LENOVO
  */
-public class ManageEmployeeController {
-    
+public class ManageEmployeeController extends AbstractManageController {
+
 }

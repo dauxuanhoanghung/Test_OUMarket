@@ -82,8 +82,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Customer customer) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int updateCustomer(Customer customer) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "UPDATE customer SET name = ?, phone = ?, birthday = ? WHERE id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setString(1, customer.getName());
+            stm.setString(2, customer.getPhone());
+            stm.setDate(3, (Date) customer.getBirthday());
+            stm.setString(4, customer.getId());
+            return stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import com.tester.pojo.BranchMarket;
 import com.tester.service.BranchMarketService;
 import com.tester.service.impl.BranchMarketServiceImpl;
 import com.tester.utils.MessageBox;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,16 +27,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author LENOVO
  */
-public class ManageBranchService implements Initializable {
+public class ManageBranchService extends AbstractManageController {
 
     @FXML
     private TableView tbvBranch;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        super.initialize(url, rb);
         loadTableColumn();
-        
-        
         loadBranchesToTableView(null);
     }
 
@@ -46,6 +46,7 @@ public class ManageBranchService implements Initializable {
 
         TableColumn nameCol = new TableColumn("Tên chi nhánh");
         nameCol.setCellValueFactory(new PropertyValueFactory("name"));
+        nameCol.setPrefWidth(300);
 
         TableColumn locationCol = new TableColumn("Địa chỉ chi nhánh");
         locationCol.setCellValueFactory(new PropertyValueFactory("location"));

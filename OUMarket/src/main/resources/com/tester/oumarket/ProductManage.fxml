@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="602.0" prefWidth="1177.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lva.oumarket.ProductManageController">
+<AnchorPane id="AnchorPane" prefHeight="602.0" prefWidth="1177.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
    <children>
       <ListView layoutY="210.0" prefHeight="396.0" prefWidth="1177.0" />
       <Label layoutX="261.0" layoutY="34.0" text="Product Manage" />

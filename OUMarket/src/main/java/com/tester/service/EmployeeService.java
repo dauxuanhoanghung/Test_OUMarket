@@ -15,5 +15,6 @@ public interface EmployeeService {
     List<Employee> getEmployees(String kw);
     Employee getEmployeeByUsername(String username);
     Employee authencateEmployee(String username, String password);
-//    int addEmployee(Employee employee);
+    int addEmployee(Employee employee);
+    int updateEmployee(Employee employee);
 }

@@ -7,9 +7,12 @@ package com.tester.oumarket;
 import com.tester.pojo.Employee;
 import com.tester.service.EmployeeService;
 import com.tester.service.impl.EmployeeServiceImpl;
+import com.tester.utils.CheckUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 /**
  *
@@ -35,6 +39,20 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.txtUsername.positionCaret(0);
+        this.txtUsername.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                this.txtPassword.requestFocus();
+            }
+        });
+        this.txtPassword.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    loginHandler();
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         Platform.runLater(() -> this.txtUsername.requestFocus());
     }
 
@@ -50,12 +68,12 @@ public class LoginController implements Initializable {
         String password = this.txtPassword.getText();
         String username = this.txtUsername.getText();
 
-        if (!password.isBlank() && !username.isBlank()) {
+        if (CheckUtils.isNotNullAndBlankText(password, username)) {
             this.employeeService = new EmployeeServiceImpl();
             Employee emp = employeeService.authencateEmployee(username, password);
             if (emp != null) {
                 App.setCurrentEmployee(emp);
-                App.setRoot("ManagerServicePage");
+                App.setRoot("ManageServicePage");
                 App.setSceneSize(1280, 820);
             } else {
                 this.lblLoginFailed.setVisible(true);
@@ -63,11 +81,11 @@ public class LoginController implements Initializable {
                 this.txtUsername.requestFocus();
             }
         } else {
-            if (this.txtPassword.getText().isBlank()) {
+            if (!CheckUtils.isNotNullAndBlankText(this.txtPassword)) {
                 this.lblPasswordError.setVisible(true);
                 this.txtPassword.requestFocus();
             }
-            if (this.txtUsername.getText().isBlank()) {
+            if (!CheckUtils.isNotNullAndBlankText(this.txtUsername)) {
                 this.lblUsernameError.setVisible(true);
                 this.txtUsername.requestFocus();
             }

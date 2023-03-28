@@ -4,11 +4,11 @@
  */
 package com.tester.service.impl;
 
-import com.tester.pojo.Category;
 import com.tester.pojo.Employee;
 import com.tester.service.EmployeeService;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,8 +54,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             if (rs.first()) {
                 return new Employee(rs.getString("id"), rs.getString("name"),
                         username, rs.getString("password"),
-                        rs.getString("role"),
-                        rs.getInt("branch_id"));
+                        rs.getDate("join_date"), rs.getString("phone"),
+                        rs.getString("role"),rs.getInt("branch_id"));
             }
             return null;
         } catch (SQLException ex) {
@@ -75,14 +75,42 @@ public class EmployeeServiceImpl implements EmployeeService {
             if (rs != null && rs.next()) {
                 return new Employee(rs.getString("id"), rs.getString("name"),
                         username, rs.getString("password"),
-                        rs.getString("role"),
-                        rs.getInt("branch_id"));
+                        rs.getDate("join_date"), rs.getString("phone"),
+                        rs.getString("role"),rs.getInt("branch_id"));
             }
             return null;
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    @Override
+    public int addEmployee(Employee employee) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            String query = "INSERT INTO employee(id, name, username, password, join_date, phone, role, branch_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setString(1, employee.getId());
+            stm.setString(2, employee.getName());
+            stm.setString(3, employee.getUsername());
+            stm.setString(4, employee.getPassword());
+            stm.setDate(5, (Date) employee.getJoinDate());
+            stm.setString(6, employee.getPhone());
+            stm.setString(7, employee.getRole());
+            stm.setInt(8, employee.getBranchId());
+            int r = stm.executeUpdate();
+            conn.commit();
+            return r;
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeServiceImpl.class.getName()).log(Level.SEVERE, "Hệ thống có lỗi!!!", ex);
+            return -1;
+        }
+    }
+
+    @Override
+    public int updateEmployee(Employee employee) {
+        return 0;
     }
 
 }

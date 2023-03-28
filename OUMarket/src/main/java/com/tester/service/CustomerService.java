@@ -15,5 +15,5 @@ public interface CustomerService {
     List<Customer> getCustomers();
     Customer getCustomerByPhone(String phone);
     Customer addCustomer(Customer customer);
-    Customer updateCustomer(Customer customer);
+    int updateCustomer(Customer customer);
 }

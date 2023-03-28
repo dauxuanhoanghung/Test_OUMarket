@@ -9,22 +9,15 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 
 /**
  *
  * @author LENOVO
  */
-public class ManagerServiceController {
-
-    @FXML private Button btnEmployeeManage;
-    @FXML private Button btnBranchManage;
-    @FXML private Button btnProductManage;
-    @FXML private Button btnLogout;
-
+public class ManageServiceController extends AbstractManageController {
+    
     public void logout(ActionEvent event) {
         Alert alert = MessageBox.AlertBox("Delete", "R U sure to delete", Alert.AlertType.CONFIRMATION);
         alert.showAndWait().ifPresent(res -> {
@@ -34,7 +27,7 @@ public class ManagerServiceController {
                     App.setRoot("Login");
                     App.setSceneSize(540, 320);
                 } catch (IOException ex) {
-                    Logger.getLogger(ManagerServiceController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ManageServiceController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
