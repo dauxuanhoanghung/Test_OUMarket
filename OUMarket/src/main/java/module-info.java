@@ -6,4 +6,5 @@ module com.tester.oumarket {
     exports com.tester.oumarket;
     opens com.tester.pojo to javafx.fxml;
     exports com.tester.pojo;
+    exports com.tester.utils;
 }

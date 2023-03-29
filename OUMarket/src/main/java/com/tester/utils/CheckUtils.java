@@ -36,8 +36,12 @@ public class CheckUtils {
     /**
      *
      * @param phoneNumber
-     * @return 1: số điện thoại hợp lệ 0: chuỗi rỗng -1: sđt ko dài = 10 -2: có
-     * chứa kí tự lạ không phải là số -3: không bắt đầu bằng số 0
+     * @return 
+     * 1: số điện thoại hợp lệ 
+     * 0: chuỗi rỗng 
+     * -1: sđt ko dài = 10 
+     * -2: có chứa kí tự lạ không phải là số 
+     * -3: không bắt đầu bằng số 0
      */
     public static int isValidPhoneNumber(String phoneNumber) {
         if (!isNotNullAndBlankText(phoneNumber)) {
@@ -67,19 +71,19 @@ public class CheckUtils {
     /**
      *
      * @param name
-     * @return 1: hợp lệ 0: chuỗi rỗng -1: tên có chứa số, kí tự đặc biệt -2: độ
-     * dài lớn hơn 50 được quy định bên Db
+     * @return 
+     * 1: hợp lệ 
+     * 0: chuỗi rỗng 
+     * -1: tên có chứa số, kí tự đặc biệt 
+     * -2: độ dài lớn hơn 50 được quy định bên Db
      */
     public static int isValidName(String name) {
-        if (!isNotNullAndBlankText(name)) {
+        if (!isNotNullAndBlankText(name)) 
             return 0;
-        }
-        if (name.matches("^[\\p{L}]+$")) {
+        if (!name.matches("^[\\p{L}]+$")) 
             return -1;
-        }
-        if (name.length() > 50) {
+        if (name.length() > 50) 
             return -2;
-        }
         return 1;
     }
 
@@ -87,9 +91,11 @@ public class CheckUtils {
      *
      * @param p
      * @param quantity
-     * @return 0: chuỗi rỗng -1: không khớp là double hoặc int, check ở đây là
-     * loại bỏ các kí tự -2: đơn vị cho các loại khác kg là số nguyên, check
-     * double -3: đơn vị là số âm, cho các loại đơn vị kg và các loại khác
+     * @return 
+     * 0: chuỗi rỗng 
+     * -1: không khớp là double hoặc int, check ở đây là loại bỏ các kí tự 
+     * -2: đơn vị cho các loại khác kg là số nguyên, check double
+     * -3: đơn vị là số âm, cho các loại đơn vị kg và các loại khác
      */
     public static int isValidQuantity(Product p, String quantity) {
         if (isNotNullAndBlankText(quantity))
