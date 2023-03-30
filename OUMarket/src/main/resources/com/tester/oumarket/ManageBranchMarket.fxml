@@ -41,17 +41,17 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <TextField layoutX="317.0" layoutY="136.0" prefHeight="25.0" prefWidth="248.0">
+        <TextField fx:id="txtBranchId" layoutX="317.0" layoutY="136.0" prefHeight="25.0" prefWidth="248.0">
             <font>
                 <Font size="14.0" />
             </font>
         </TextField>
-        <TextField layoutX="317.0" layoutY="182.0" prefHeight="25.0" prefWidth="248.0">
+        <TextField fx:id="txtBranchName" layoutX="317.0" layoutY="182.0" prefHeight="25.0" prefWidth="248.0">
             <font>
                 <Font size="14.0" />
             </font>
         </TextField>
-        <TextField layoutX="317.0" layoutY="231.0" prefHeight="25.0" prefWidth="248.0">
+        <TextField fx:id="txtBranchLocation" layoutX="317.0" layoutY="231.0" prefHeight="25.0" prefWidth="248.0">
             <font>
                 <Font size="14.0" />
             </font>
