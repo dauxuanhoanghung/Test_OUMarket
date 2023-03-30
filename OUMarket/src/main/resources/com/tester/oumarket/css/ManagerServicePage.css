@@ -7,27 +7,34 @@ Label{
 }
 
 Pane{
+    -fx-font-family: Tahoma;
     -fx-background-color: #FCF3CF  ;
 }
 .ButtonLogout{
+    -fx-font-family: Tahoma;
     -fx-background-color: linear-gradient(to bottom right, #6C5B7B, #C06C84, #F67280);
     -fx-text-fill: white; /* set text color */
     -fx-font-size: 24pt; /* set font size */
     -fx-padding: 10px 20px; /* set padding */
-    -fx-border-style: solid;
-    -fx-border-width: 4px;
+    
     -fx-font-weight: bolder;
     
 }
 .ButtonLogout:hover{
+    -fx-font-family: Tahoma;
     -fx-background-color: #FF6656;
 }
+.Button:hover{
+    -fx-translate-x: 20px;
+}
 Button{
+    -fx-font-family: Tahoma;
     -fx-background-color: linear-gradient(to bottom right, #AAB7B8, #34495E , #1E8449);;
     -fx-text-fill: white; /* set text color */
     -fx-font-size: 24pt; /* set font size */
     -fx-padding: 10px 20px; /* set padding */
-    -fx-border-style: solid;
-    -fx-border-width: 4px;
     -fx-font-weight: bolder;
+    -fx-background-radius: 50px;
+    -fx-translate-x: 0;
+    -fx-transition: -fx-translate-x 1s ease;
 }

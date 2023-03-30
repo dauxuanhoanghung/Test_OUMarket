@@ -27,7 +27,7 @@ Button{
     -fx-font-size: 20px; /* set font size */
     -fx-padding: 10px 20px; /* set padding */
     -fx-border-style: solid;
-    -fx-border-width: 4px;
+    -fx-border-width: 2px;
     -fx-font-weight: bold;
 }
 .Button2{
@@ -37,6 +37,23 @@ Button{
     -fx-font-size: 20px; /* set font size */
     -fx-padding: 10px 20px; /* set padding */
     -fx-border-style: solid;
-    -fx-border-width: 4px;
+    -fx-border-width: 2 px;
     -fx-font-weight: bold;
+}
+.label1{
+    -fx-font-family: Tahoma;
+    -fx-font-size: 16px;
+}
+.label2{
+    -fx-font-family: Tahoma;
+    -fx-font-size: 24px;
+}
+Button{
+    -fx-font-family: Tahoma;
+    -fx-background-color: #00CC66;
+  -fx-text-fill: #FFFFFF;
+  -fx-font-size: 18px;
+  -fx-font-weight: bold;
+  -fx-padding: 10px 20px;
+  -fx-background-radius: 50px;
 }
