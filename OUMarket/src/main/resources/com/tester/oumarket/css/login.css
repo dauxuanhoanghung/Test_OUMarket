@@ -1,57 +1,64 @@
 /* VBox */
 .Pane {
-  -fx-padding: 20px;
-  -fx-spacing: 10px;
-  -fx-alignment: center;
-  -fx-background-color: #FCF3CF  ;
-  
+    -fx-font-family: Tahoma;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-background-color: #FCF3CF  ;
 }
 .ImageView{
+    -fx-font-family: Tahoma;
     -fx-background-color: #FCF3CF  ;
 }
 /* Label */
 .Label {
-  -fx-font-size: 24px;
-  -fx-font-weight: bold;
+    -fx-font-family: Tahoma;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
 }
 
 /* TextField */
 .TextField {
-  -fx-prompt-text-fill: #A0A0A0;
-  -fx-background-color: #F0F0F0;
-  -fx-border-color: #D0D0D0;
+    -fx-font-family: Tahoma;
+    -fx-prompt-text-fill: #A0A0A0;
+    -fx-background-color: #F0F0F0;
+    -fx-border-color: #D0D0D0;
 }
 
 /* PasswordField */
 .PasswordField {
-   -fx-border-color: black;
+    -fx-font-family: Tahoma;
+    -fx-border-color: black;
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
-     -fx-control-inner-background: #FFFFFF;
-     -fx-background-color: #FFFFFF;
-     
+    -fx-control-inner-background: #FFFFFF;
+    -fx-background-color: #FFFFFF;
+
 }
 
 /* Button */
 .Button {
-  -fx-background-color: #00CC66;
-  -fx-text-fill: #FFFFFF;
-  -fx-font-size: 18px;
-  -fx-font-weight: bold;
-  -fx-padding: 10px 20px;
-  -fx-background-radius: 50px;
-  
+    -fx-font-family: Tahoma;
+    -fx-background-color: #00CC66;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 50px;
+
 }
 Pane .CloseButton{
-   -fx-background-color: #c00000;
-  -fx-text-fill: #FFFFFF;
-  -fx-font-size: 18px;
-  -fx-font-weight: bold;
-  -fx-padding: 10px 20px;
-  -fx-background-radius: 50px;
-  -fx-border-radius: 5px;
+    -fx-font-family: Tahoma;
+    -fx-background-color: #c00000;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 5px;
 }
 /* Button:hover */
 .Button:hover {
-  -fx-background-color: #00B359;
+    -fx-font-family: Tahoma;
+    -fx-background-color: #00B359;
 }
