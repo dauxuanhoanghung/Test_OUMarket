@@ -31,9 +31,10 @@ public class ProductServiceImpl implements ProductService {
                 sql += " WHERE name LIKE concat('%', ?, '%') OR description LIKE concat('%', ?, '%')";
             }
             PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, kw);
-            stm.setString(2, kw);
-
+            if (kw != null && !kw.isBlank()) {
+                stm.setString(1, kw);
+                stm.setString(2, kw);
+            }
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Product p = new Product(rs.getString("id"), rs.getString("name"),

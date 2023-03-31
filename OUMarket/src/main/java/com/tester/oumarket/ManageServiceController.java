@@ -4,6 +4,7 @@
  */
 package com.tester.oumarket;
 
+import com.tester.constant.UIConstant;
 import com.tester.utils.MessageBox;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -17,17 +18,18 @@ import javafx.scene.control.ButtonType;
  * @author LENOVO
  */
 public class ManageServiceController extends AbstractManageController {
-    
+
     public void logout(ActionEvent event) {
-        Alert alert = MessageBox.AlertBox("Delete", "R U sure to delete", Alert.AlertType.CONFIRMATION);
+        Alert alert = MessageBox.AlertBox("LOGOUT", "Are you sure to exit this session?", Alert.AlertType.CONFIRMATION);
         alert.showAndWait().ifPresent(res -> {
             if (res == ButtonType.OK) {
                 App.setCurrentEmployee(null);
                 try {
+                    App.setSceneSize(UIConstant.loginWidth, UIConstant.loginHeight);
                     App.setRoot("Login");
-                    App.setSceneSize(540, 320);
                 } catch (IOException ex) {
-                    Logger.getLogger(ManageServiceController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ManageServiceController.class.getName()).log(Level.SEVERE,
+                            "There's something error in ManageServiceController", ex);
                 }
             }
         });
@@ -35,7 +37,6 @@ public class ManageServiceController extends AbstractManageController {
 
     private void changeScene(String fxml) throws IOException {
         App.setRoot(fxml);
-        App.setSceneSize(1280, 820);
     }
 
     public void manageBranch(ActionEvent event) throws IOException {

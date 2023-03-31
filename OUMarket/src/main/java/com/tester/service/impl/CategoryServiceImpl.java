@@ -8,6 +8,7 @@ import com.tester.pojo.Category;
 import com.tester.service.CategoryService;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,12 +33,30 @@ public class CategoryServiceImpl implements CategoryService {
             List<Category> categories = new ArrayList<>();
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM category");
-            while(rs.next()) {
-                Category c = new Category(rs.getInt("id"), 
+            while (rs.next()) {
+                Category c = new Category(rs.getInt("id"),
                         rs.getString("name"), rs.getString("description"));
                 categories.add(c);
             }
             return categories;
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public Category getCategoryById(int id) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "SELECT * FROM category WHERE id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next())
+                return new Category(rs.getInt("id"),
+                        rs.getString("name"), rs.getString("description"));
+            else 
+                return null;
         } catch (SQLException ex) {
             Logger.getLogger(CategoryServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;

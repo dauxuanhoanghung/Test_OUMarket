@@ -33,6 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             while (rs.next()) {
                 Employee c = new Employee(rs.getString("id"), rs.getString("name"),
                         rs.getString("username"), rs.getString("password"),
+                        rs.getDate("join_date"), rs.getString("phone"),
                         rs.getString("role"),
                         rs.getInt("branch_id"));
                 employees.add(c);
@@ -51,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
-            if (rs.first()) {
+            if (rs.next()) {
                 return new Employee(rs.getString("id"), rs.getString("name"),
                         username, rs.getString("password"),
                         rs.getDate("join_date"), rs.getString("phone"),

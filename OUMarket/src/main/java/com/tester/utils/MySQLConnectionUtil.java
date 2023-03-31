@@ -4,6 +4,7 @@
  */
 package com.tester.utils;
 
+import com.tester.constant.DBConstant;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,10 +20,11 @@ public class MySQLConnectionUtil {
             //B1: Nap driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MySQLConnectionUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySQLConnectionUtil.class.getName()).log(Level.SEVERE, 
+                    "There's something error in MySQLConnectionUtil!!!", ex);
         }
     }
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost/oumarket", "root", "Hung28122002@");
+        return DriverManager.getConnection(DBConstant.dbUrl, DBConstant.user, DBConstant.password);
     }
 }

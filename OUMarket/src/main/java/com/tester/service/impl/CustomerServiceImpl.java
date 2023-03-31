@@ -51,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, phone);
             ResultSet rs = stm.executeQuery();
-            if (rs != null) {
+            if (rs.next()) {
                 return new Customer(rs.getString("id"), rs.getString("name"), 
                         rs.getString("phone"), rs.getDate("birthday"));
             }

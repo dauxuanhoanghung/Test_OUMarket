@@ -6,7 +6,9 @@ package com.tester.utils;
 
 import com.tester.pojo.Product;
 import com.tester.service.ProductService;
+import com.tester.service.UnitService;
 import com.tester.service.impl.ProductServiceImpl;
+import com.tester.service.impl.UnitServiceImpl;
 import javafx.scene.control.TextInputControl;
 
 /**
@@ -102,6 +104,7 @@ public class CheckUtils {
             return 0;
         if (!quantity.matches("-?\\d+(\\.\\d+)?"))
             return -1; //có thể là double or int
+//        UnitService us = new UnitServiceImpl();
         if (p.getUnitId() != 1) 
             if (!quantity.matches("-?\\d+"))
                 if (!quantity.matches("\\d+"))
@@ -132,5 +135,15 @@ public class CheckUtils {
             return isValidQuantity(p, quantity);
         else 
             return -1000;
+    }
+    
+    public static int isValidPassword(String password) {
+        if (!isNotNullAndBlankText(password)) 
+            return 0;
+        if (!password.matches(".{8,}")) 
+            return -1;
+        if (password.length() > 50) 
+            return -2;
+        return 1;
     }
 }

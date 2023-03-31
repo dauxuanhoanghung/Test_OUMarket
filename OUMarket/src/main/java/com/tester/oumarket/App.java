@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import javafx.application.Platform;
+import javafx.stage.Screen;
 import javafx.stage.Window;
 
 /**
@@ -23,13 +24,14 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Login"));
         stage.setTitle("OU MARKET by Group 4 - DH20IT03");
-        stage.centerOnScreen();
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
+        centerOnScreen();
     }
 
     public static void setSceneSize(double width, double height) {
@@ -65,5 +67,14 @@ public class App extends Application {
     public static void setCurrentEmployee(Employee aCurrentEmployee) {
         currentEmployee = aCurrentEmployee;
     }
-
+    
+    public static void centerOnScreen() {
+        Stage stage = (Stage) scene.getRoot().getScene().getWindow(); 
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+        
+        stage.setX((screenWidth - stage.getWidth()) / 2);
+        stage.setY((screenHeight - stage.getHeight()) / 2);
+    }
+    
 }

@@ -4,6 +4,7 @@
  */
 package com.tester.oumarket;
 
+import com.tester.constant.UIConstant;
 import com.tester.pojo.Employee;
 import com.tester.service.EmployeeService;
 import com.tester.service.impl.EmployeeServiceImpl;
@@ -28,11 +29,16 @@ import javafx.scene.input.KeyCode;
  */
 public class LoginController implements Initializable {
 
-    @FXML private TextField txtUsername;
-    @FXML private PasswordField txtPassword;
-    @FXML private Label lblUsernameError;
-    @FXML private Label lblPasswordError;
-    @FXML private Label lblLoginFailed;
+    @FXML
+    private TextField txtUsername;
+    @FXML
+    private PasswordField txtPassword;
+    @FXML
+    private Label lblUsernameError;
+    @FXML
+    private Label lblPasswordError;
+    @FXML
+    private Label lblLoginFailed;
 
     private EmployeeService employeeService;
 
@@ -49,7 +55,8 @@ public class LoginController implements Initializable {
                 try {
                     loginHandler();
                 } catch (IOException ex) {
-                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, 
+                            "There's something error in LoginController!!!", ex);
                 }
             }
         });
@@ -71,10 +78,11 @@ public class LoginController implements Initializable {
         if (CheckUtils.isNotNullAndBlankText(password, username)) {
             this.employeeService = new EmployeeServiceImpl();
             Employee emp = employeeService.authencateEmployee(username, password);
-            if (emp != null) {
-                App.setCurrentEmployee(emp);
-                App.setRoot("ManageServicePage");
-                App.setSceneSize(1280, 820);
+            if (emp != null) { 
+                String root = emp.getRole().equals(Employee.ADMIN) ? "ManageServicePage" : "EmployeeServicePage";
+                App.setCurrentEmployee(emp);            
+                App.setSceneSize(UIConstant.otherWidth, UIConstant.otherHeight);
+                App.setRoot(root);
             } else {
                 this.lblLoginFailed.setVisible(true);
                 this.txtUsername.positionCaret(username.length());

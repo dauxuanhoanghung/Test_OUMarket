@@ -23,12 +23,12 @@
         <Button id="CloseButton" layoutX="319.0" layoutY="242.0" mnemonicParsing="false" onAction="#closeApp" prefHeight="47.0" prefWidth="113.0" styleClass="CloseButton" text="Close" />
         <TextField fx:id="txtUsername" layoutX="210.0" layoutY="95.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="272.0" promptText="Username" styleClass="PasswordField" />
         <PasswordField fx:id="txtPassword" layoutX="210.0" layoutY="168.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="272.0" promptText="Password" styleClass="PasswordField" />
-      <Label fx:id="lblUsernameError" layoutX="209.0" layoutY="130.0" prefHeight="17.0" prefWidth="247.0" text="Vui lòng nhập username!!!" textFill="RED" visible="false" />
-      <Label fx:id="lblPasswordError" layoutX="210.0" layoutY="203.0" prefHeight="17.0" prefWidth="247.0" text="Vui lòng nhập password!!!" textFill="RED" visible="false" />
-      <Label fx:id="lblLoginFailed" layoutX="118.0" layoutY="65.0" prefHeight="17.0" prefWidth="293.0" text="Username hoặc password không khớp!!!!!" textFill="RED" visible="false">
-         <font>
-            <Font name="Arial Bold" size="14.0" />
-         </font>
-      </Label>
+        <Label fx:id="lblUsernameError" layoutX="209.0" layoutY="130.0" prefHeight="17.0" prefWidth="247.0" text="Vui lòng nhập username!!!" textFill="RED" visible="false" />
+        <Label fx:id="lblPasswordError" layoutX="210.0" layoutY="203.0" prefHeight="17.0" prefWidth="247.0" text="Vui lòng nhập password!!!" textFill="RED" visible="false" />
+        <Label fx:id="lblLoginFailed" layoutX="118.0" layoutY="65.0" prefHeight="17.0" prefWidth="293.0" text="Username hoặc password không khớp!!!!!" textFill="RED" visible="false">
+            <font>
+                <Font name="Arial Bold" size="14.0" />
+            </font>
+        </Label>
     </children>
 </Pane>

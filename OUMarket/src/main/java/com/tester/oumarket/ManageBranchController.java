@@ -38,7 +38,7 @@ public class ManageBranchController extends AbstractManageController {
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
         loadTableColumn();
-        loadBranchesToTableView(null);
+        loadContentToTableView(null);
     }
 
     private void loadTableColumn() {
@@ -73,7 +73,7 @@ public class ManageBranchController extends AbstractManageController {
         this.tbvBranch.getColumns().addAll(idCol, nameCol, locationCol, updateCol);
     }
 
-    private void loadBranchesToTableView(String kw) {
+    private void loadContentToTableView(String kw) {
         if (kw != null && !kw.isBlank()) {
 
         }

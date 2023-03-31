@@ -19,4 +19,5 @@ public interface UnitService {
      * @return >0 nếu add thành công, -1 nếu lỗi
      */
     int addUnit(Unit u);
+    Unit getUnitById(int id);
 }

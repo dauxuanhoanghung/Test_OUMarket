@@ -57,4 +57,21 @@ public class UnitServiceImpl implements UnitService {
         }
     }
 
+    @Override
+    public Unit getUnitById(int id) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "SELECT * FROM unit WHERE id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next())
+                return new Unit(rs.getInt("id"), rs.getString("name"));
+            else 
+                return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
 }
