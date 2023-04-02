@@ -28,17 +28,28 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author LENOVO
  */
 public class ManageProductController extends AbstractManageController {
+
     @FXML
     private TableView tbvProduct;
-    
+//    private List<Unit> units;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
+        long startTime = System.currentTimeMillis();
+//        UnitService us = new UnitServiceImpl();
+//        units = us.getUnits();
         loadTableColumn();
         loadContentToTableView(null);
+        long endTime = System.currentTimeMillis();
+
+        long executionTime = endTime - startTime;
+
+        System.out.println("Product time: " + executionTime + " ms");
     }
 
     private void loadTableColumn() {
+        UnitService us = new UnitServiceImpl();
         TableColumn<Product, String> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -69,8 +80,8 @@ public class ManageProductController extends AbstractManageController {
         TableColumn<Product, String> unitCol = new TableColumn<>("Unit");
         unitCol.setCellValueFactory(cellData -> {
             Integer unitId = cellData.getValue().getUnitId();
-            UnitService us = new UnitServiceImpl();
             Unit unit = us.getUnitById(unitId);
+//            Unit unit = units.stream().filter(u -> u.getId() == unitId).findFirst().orElse(null);
             if (unit == null) {
                 return new SimpleStringProperty("");
             } else {
@@ -79,7 +90,7 @@ public class ManageProductController extends AbstractManageController {
         });
         this.tbvProduct.getColumns().addAll(idCol, nameCol, descriptionCol, priceCol, originCol, unitCol, categoryCol);
     }
-    
+
     private void loadContentToTableView(String kw) {
         if (kw != null && !kw.isBlank()) {
 

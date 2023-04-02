@@ -88,5 +88,10 @@ public class Event {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-
+    
+    @Override
+    public String toString() {
+        return String.format("%s - %s - %s - %s", this.id, this.startDate, 
+                this.endDate, this.description);
+    }
 }

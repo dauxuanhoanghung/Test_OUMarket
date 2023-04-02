@@ -79,4 +79,9 @@ public class BranchProduct {
     public void setActive(boolean active) {
         this.active = active;
     }
+    
+    @Override
+    public String toString() {
+        return String.format("%s - %s - %s", this.id, this.branchId, this.productId);
+    }
 }

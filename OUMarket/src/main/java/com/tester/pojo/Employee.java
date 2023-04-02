@@ -49,6 +49,7 @@ public class Employee {
         this.role = role;
         this.branchId = branchId;
     }
+
     /**
      * @return the id
      */
@@ -159,6 +160,12 @@ public class Employee {
      */
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s - %s - %s - %s", this.id, 
+                this.name, this.username, this.role, this.joinDate);
     }
 
 }

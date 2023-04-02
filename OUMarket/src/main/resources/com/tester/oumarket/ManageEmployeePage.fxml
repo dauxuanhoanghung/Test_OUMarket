@@ -18,15 +18,15 @@
                 <Font name="System Bold" size="30.0" />
             </font>
         </Label>
-        <Label layoutX="27.0" layoutY="187.0" prefHeight="17.0" prefWidth="292.0" text="Danh sách nhân viên ">
+        <Label layoutX="36.0" layoutY="220.0" prefHeight="17.0" prefWidth="292.0" text="Danh sách nhân viên ">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-        <TableView fx:id="tbvEmp" layoutX="27.0" layoutY="233.0" prefHeight="488.0" prefWidth="1227.0">
+        <TableView fx:id="tbvEmp" layoutX="27.0" layoutY="268.0" prefHeight="453.0" prefWidth="1227.0">
            
         </TableView>
-        <Button layoutX="1054.0" layoutY="138.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="150.0" text="THÊM ">
+        <Button layoutX="1088.0" layoutY="186.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="150.0" text="THÊM ">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>

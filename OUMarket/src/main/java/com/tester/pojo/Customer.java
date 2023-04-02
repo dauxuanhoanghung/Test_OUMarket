@@ -93,5 +93,9 @@ public class Customer {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
-
+    
+    @Override
+    public String toString() {
+        return String.format("%s - %s - %s - %s", this.id, this.name, this.phone, this.birthday);
+    }
 }

@@ -21,6 +21,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -36,6 +38,15 @@ public class ManageEmployeeController extends AbstractManageController {
         super.initialize(url, rb);
         loadTableColumn();
         loadContentToTableView();
+        tbvEmp.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+                Employee selectedItem = (Employee) tbvEmp.getSelectionModel().getSelectedItem();
+                if (selectedItem != null) {
+                    // perform some action with the selected item
+                    System.out.println("Selected: " + selectedItem.toString());
+                }
+            }
+        });
     }
 
     public void loadTableColumn() {
@@ -76,7 +87,7 @@ public class ManageEmployeeController extends AbstractManageController {
             tbc.setGraphic(btn);
             return tbc;
         });
-        this.tbvEmp.getColumns().addAll(idCol, nameCol, usernameCol, joinDateCol, 
+        this.tbvEmp.getColumns().addAll(idCol, nameCol, usernameCol, joinDateCol,
                 phoneCol, roleCol, branchIdCol, updateCol);
     }
 
