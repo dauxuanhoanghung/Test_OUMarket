@@ -5,11 +5,6 @@
     -fx-border-color: #00CC66;
     -fx-border-width: 0 0 2 0;
 }
-
-.Pane{
-    -fx-font-family: Tahoma;
-    -fx-background-color: #FCF3CF  ;
-}
 Button{
     -fx-font-family: Tahoma;
     -fx-background-color: linear-gradient(to bottom right, #AAB7B8, #34495E , #1E8449);

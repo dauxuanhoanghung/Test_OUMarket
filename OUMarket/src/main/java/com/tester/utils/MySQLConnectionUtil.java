@@ -25,6 +25,6 @@ public class MySQLConnectionUtil {
         }
     }
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DBConstant.dbUrl, DBConstant.user, DBConstant.password);
+        return DriverManager.getConnection(DBConstant.DBURL, DBConstant.USER, DBConstant.PASSWORD);
     }
 }

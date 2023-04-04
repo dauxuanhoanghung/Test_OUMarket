@@ -6,9 +6,7 @@ package com.tester.utils;
 
 import com.tester.pojo.Product;
 import com.tester.service.ProductService;
-import com.tester.service.UnitService;
 import com.tester.service.impl.ProductServiceImpl;
-import com.tester.service.impl.UnitServiceImpl;
 import javafx.scene.control.TextInputControl;
 
 /**
@@ -82,7 +80,7 @@ public class CheckUtils {
     public static int isValidName(String name) {
         if (!isNotNullAndBlankText(name)) 
             return 0;
-        if (!name.matches("^[\\p{L}]+$")) 
+        if (!name.matches("^[\\p{L}\\s]+$")) 
             return -1;
         if (name.length() > 50) 
             return -2;
@@ -137,6 +135,15 @@ public class CheckUtils {
             return -1000;
     }
     
+    /**
+     * 
+     * @param password
+     * @return 
+     * 1: valid
+     * 0: chuỗi rỗng
+     * -1: 
+     * -2: dài quá 50
+     */
     public static int isValidPassword(String password) {
         if (!isNotNullAndBlankText(password)) 
             return 0;
