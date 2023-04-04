@@ -96,10 +96,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             stm.setString(2, employee.getName());
             stm.setString(3, employee.getUsername());
             stm.setString(4, employee.getPassword());
-            stm.setDate(5, (Date) employee.getJoinDate());
+            stm.setDate(5, new Date(employee.getJoinDate().getTime()));
             stm.setString(6, employee.getPhone());
             stm.setString(7, employee.getRole());
-            stm.setInt(8, employee.getBranchId());
+            if (employee.getBranchId() == 0) {
+                stm.setObject(8, null);
+            } else {
+                stm.setInt(8, employee.getBranchId());
+            }
             int r = stm.executeUpdate();
             conn.commit();
             return r;
@@ -111,7 +115,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int updateEmployee(Employee employee) {
-        return 0;
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            String query = "UPDATE employee SET name = ?, password = ?, phone = ?, role = ?, branch_id = ? WHERE id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setString(1, employee.getName());
+            stm.setString(2, employee.getPassword());
+            stm.setString(3, employee.getPhone());
+            stm.setString(4, employee.getRole());
+            if (employee.getBranchId() == 0) {
+                stm.setObject(5, null);
+            } else {
+                stm.setInt(5, employee.getBranchId());
+            }
+            stm.setString(6, employee.getId());
+            int r = stm.executeUpdate();
+            conn.commit();
+            return r;
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeServiceImpl.class.getName()).log(Level.SEVERE, "Hệ thống có lỗi!!!", ex);
+            return -1;
+        }
     }
 
 }

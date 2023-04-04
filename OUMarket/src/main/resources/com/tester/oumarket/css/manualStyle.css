@@ -1,0 +1,32 @@
+.Pane {
+    -fx-font-family: Tahoma;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-background-color: #FCF3CF  ;
+}
+Label{
+    -fx-font-family: Tahoma;
+    -fx-border-bottom-style: solid;
+    -fx-border-color: #00CC66;
+    -fx-border-width: 0 0 2 0;
+}
+Button{
+    -fx-font-family: Tahoma;
+    -fx-background-color: #00CC66;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50px;
+    -fx-cursor: hand;
+    cursor: pointer;
+}
+.ReturnButton{
+    -fx-background-color: linear-gradient(to bottom right, #6C5B7B, #C06C84, #F67280); 
+}
+.cancelButton {
+    -fx-background-color: #c00000;
+}
+.confirm {
+    -fx-background-color: #c00000;
+}
