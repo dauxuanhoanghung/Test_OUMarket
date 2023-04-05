@@ -31,9 +31,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM employee");
             while (rs.next()) {
-                Employee c = new Employee(rs.getString("id"), rs.getString("name"),
-                        rs.getString("username"), rs.getString("password"),
-                        rs.getDate("join_date"), rs.getString("phone"),
+                Employee c = new Employee(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getDate("join_date"),
+                        rs.getDate("birthday"),
+                        rs.getBoolean("active"),
+                        rs.getString("phone"),
                         rs.getString("role"),
                         rs.getInt("branch_id"));
                 employees.add(c);
@@ -53,10 +58,16 @@ public class EmployeeServiceImpl implements EmployeeService {
             stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                return new Employee(rs.getString("id"), rs.getString("name"),
-                        username, rs.getString("password"),
-                        rs.getDate("join_date"), rs.getString("phone"),
-                        rs.getString("role"),rs.getInt("branch_id"));
+                return new Employee(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getDate("join_date"),
+                        rs.getDate("birthday"),
+                        rs.getBoolean("active"),
+                        rs.getString("phone"),
+                        rs.getString("role"),
+                        rs.getInt("branch_id"));
             }
             return null;
         } catch (SQLException ex) {
@@ -74,10 +85,16 @@ public class EmployeeServiceImpl implements EmployeeService {
             stm.setString(2, password);
             ResultSet rs = stm.executeQuery();
             if (rs != null && rs.next()) {
-                return new Employee(rs.getString("id"), rs.getString("name"),
-                        username, rs.getString("password"),
-                        rs.getDate("join_date"), rs.getString("phone"),
-                        rs.getString("role"),rs.getInt("branch_id"));
+                return new Employee(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getDate("join_date"),
+                        rs.getDate("birthday"),
+                        rs.getBoolean("active"),
+                        rs.getString("phone"),
+                        rs.getString("role"),
+                        rs.getInt("branch_id"));
             }
             return null;
         } catch (SQLException ex) {
@@ -90,19 +107,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public int addEmployee(Employee employee) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
-            String query = "INSERT INTO employee(id, name, username, password, join_date, phone, role, branch_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO employee(id, name, username, password, join_date, birthday, phone, role, branch_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, employee.getId());
             stm.setString(2, employee.getName());
             stm.setString(3, employee.getUsername());
             stm.setString(4, employee.getPassword());
             stm.setDate(5, new Date(employee.getJoinDate().getTime()));
-            stm.setString(6, employee.getPhone());
-            stm.setString(7, employee.getRole());
+            stm.setDate(6, new Date(employee.getBirthday().getTime()));
+            stm.setString(7, employee.getPhone());
+            stm.setString(8, employee.getRole());
             if (employee.getBranchId() == 0) {
-                stm.setObject(8, null);
+                stm.setObject(9, null);
             } else {
-                stm.setInt(8, employee.getBranchId());
+                stm.setInt(9, employee.getBranchId());
             }
             int r = stm.executeUpdate();
             conn.commit();
@@ -117,18 +135,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     public int updateEmployee(Employee employee) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
-            String query = "UPDATE employee SET name = ?, password = ?, phone = ?, role = ?, branch_id = ? WHERE id = ?";
+            String query = "UPDATE employee SET name = ?, password = ?, birthday = ?, phone = ?, role = ?, branch_id = ? WHERE id = ?";
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, employee.getName());
             stm.setString(2, employee.getPassword());
-            stm.setString(3, employee.getPhone());
-            stm.setString(4, employee.getRole());
+            stm.setDate(3, new Date(employee.getBirthday().getTime()));
+            stm.setString(4, employee.getPhone());
+            stm.setString(5, employee.getRole());
             if (employee.getBranchId() == 0) {
-                stm.setObject(5, null);
+                stm.setObject(6, null);
             } else {
-                stm.setInt(5, employee.getBranchId());
+                stm.setInt(6, employee.getBranchId());
             }
-            stm.setString(6, employee.getId());
+            stm.setString(7, employee.getId());
             int r = stm.executeUpdate();
             conn.commit();
             return r;

@@ -79,7 +79,7 @@ public class LoginController implements Initializable {
             this.employeeService = new EmployeeServiceImpl();
             Employee emp = employeeService.authencateEmployee(username, password);
             if (emp != null) { 
-                String root = emp.getRole().equals(Employee.ADMIN) ? "ManageServicePage" : "EmployeePaymentPage";
+                String root = emp.getRole().equals(Employee.ADMIN) ? "ManageServicePage" : "EmployeeServicePage";
                 App.setCurrentEmployee(emp);            
                 App.setSceneSize(UIConstant.otherWidth, UIConstant.otherHeight);
                 App.setRoot(root);

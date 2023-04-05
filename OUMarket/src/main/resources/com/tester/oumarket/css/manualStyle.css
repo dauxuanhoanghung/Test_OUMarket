@@ -21,12 +21,15 @@ Button{
     -fx-cursor: hand;
     cursor: pointer;
 }
+.update, .confirm {
+    -fx-font-size: 10px;
+    -fx-min-width: 50px;
+    -fx-min-height: 20px;
+    -fx-alignment: center;
+}
 .ReturnButton{
     -fx-background-color: linear-gradient(to bottom right, #6C5B7B, #C06C84, #F67280); 
 }
-.cancelButton {
-    -fx-background-color: #c00000;
-}
-.confirm {
+.cancelButton, .confirm {
     -fx-background-color: #c00000;
 }

@@ -20,6 +20,8 @@ public class Employee {
     private String username;
     private String password;
     private Date joinDate;
+    private Date birthday;
+    private boolean active;
     private String phone;
     private String role;
     private int branchId;
@@ -57,6 +59,20 @@ public class Employee {
         this.branchId = branchId;
     }
 
+    public Employee(String id, String name, String username, String password, Date joinDate, Date birthday, boolean active, String phone, String role, int branchId) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.joinDate = joinDate;
+        this.birthday = birthday;
+        this.active = active;
+        this.phone = phone;
+        this.role = role;
+        this.branchId = branchId;
+    }
+    
+    
     /**
      * @return the id
      */
@@ -173,6 +189,34 @@ public class Employee {
     public String toString() {
         return String.format("%s - %s - %s - %s - %s", this.id, 
                 this.name, this.username, this.role, this.joinDate);
+    }
+
+    /**
+     * @return the birthday
+     */
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    /**
+     * @param birthday the birthday to set
+     */
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }
