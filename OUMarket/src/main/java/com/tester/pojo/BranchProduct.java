@@ -16,7 +16,7 @@ public class BranchProduct {
 
     public BranchProduct() {
     }
-
+    
     public BranchProduct(int id, int branchId, String productId, boolean active) {
         this.id = id;
         this.branchId = branchId;

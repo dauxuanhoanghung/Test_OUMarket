@@ -5,8 +5,9 @@
 package com.tester.utils;
 
 import java.util.List;
+import javafx.scene.control.Control;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 
 /**
  *
@@ -26,30 +27,29 @@ public class ChangeStatus {
         }
     }
 
-    public static void disabledButton(List<Button> buttons) {
+    public static void disable(List<Button> buttons) {
         for (Button button : buttons) {
             button.setDisable(true);
         }
+    }    
+    public static void disable(Control... es) {
+        for (Control c : es) {
+            c.setDisable(true);
+        }
     }
-    
-    public static void disabledButton(Button button) { 
-        button.setDisable(true);
-    }
-
-    public static void enableButton(List<Button> buttons) {
+    public static void enable(List<Button> buttons) {
         for (Button button : buttons) {
             button.setDisable(false);
         }
     }
-    
-    public static void disableTextField(TextField... es) {
-        for (TextField tf : es) {
-            tf.setDisable(true);
+    public static void enable(Control... es) {
+        for (Control c : es) {
+            c.setDisable(false);
         }
     }
-    public static void enableTextField(TextField... es) {
-        for (TextField tf : es) {
-            tf.setDisable(false);
+    public static void clearText(TextInputControl... es) {
+        for (TextInputControl t : es) {
+            t.setText("");
         }
     }
 }

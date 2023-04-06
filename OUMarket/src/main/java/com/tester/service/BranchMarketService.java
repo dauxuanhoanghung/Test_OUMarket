@@ -13,5 +13,7 @@ import java.util.List;
  */
 public interface BranchMarketService {
     List<BranchMarket> getBranchMarkets();
-
+    int countEmployeesByBranchId(BranchMarket branch);
+    int countEmployeesByBranchId(int branchId);
+    int addBranchMarket(BranchMarket branch);
 }
