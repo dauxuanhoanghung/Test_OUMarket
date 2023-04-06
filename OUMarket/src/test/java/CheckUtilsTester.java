@@ -24,4 +24,16 @@ public class CheckUtilsTester {
     public void isValidNameTest(int expectedOutput, String name) {
         Assertions.assertEquals(expectedOutput, CheckUtils.isValidName(name));
     }
+    
+    @ParameterizedTest
+    @CsvFileSource(resources = {}, numLinesToSkip = 1)
+    public void isValidPassword(int expectedOutput, String birthday) {
+        
+    }
+    
+    @ParameterizedTest
+    @CsvFileSource(resources = {}, numLinesToSkip = 1)
+    public void isEnough18Test(int expectedOutput, String birthday) {
+        
+    }
 }

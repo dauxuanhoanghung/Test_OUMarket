@@ -120,6 +120,32 @@ public class ManageEmployeeController extends AbstractManageController {
         
         TableColumn<Employee, Boolean> activeCol = new TableColumn<>("Active");
         activeCol.setCellValueFactory(new PropertyValueFactory<>("active"));
+        activeCol.setCellFactory(column -> {
+            Button activeBtn = new Button();
+            ChangeStatus.adjustButton(activeBtn, "","confirm");
+            TableCell<Employee, Boolean> cell = new TableCell<>() {
+                @Override
+                protected void updateItem(Boolean active, boolean empty) {
+                    super.updateItem(active, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        activeBtn.setText(active ? "Delete" : "Restore");
+                        setGraphic(activeBtn);
+                        activeBtn.setOnAction(event -> {
+                            Employee employee = getTableView().getItems().get(getIndex());
+                            employee.setActive(!employee.isActive());
+                            EmployeeService es = new EmployeeServiceImpl();
+                            if (es.updateEmployee(employee) == 1)
+                                activeBtn.setText(employee.isActive() ? "Delete" : "Restore");
+                            else
+                                MessageBox.AlertBox("Error", "Something is error!!!", Alert.AlertType.ERROR).show();
+                        });
+                    }
+                }
+            };
+            return cell;
+        });
         
         TableColumn<Employee, Integer> branchIdCol = new TableColumn<>("Branch ID");
         branchIdCol.setCellValueFactory(new PropertyValueFactory<>("branchId"));
@@ -252,7 +278,10 @@ public class ManageEmployeeController extends AbstractManageController {
         }
         ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);       
     }
-
+    /**
+     * Hàm xử lý hủy các action add - update
+     * @param event 
+     */
     public void handlerCancelButton(ActionEvent event) {
         Alert alert = MessageBox.AlertBox("Cancel", "Hủy mọi thay đổi?", Alert.AlertType.CONFIRMATION);
         alert.showAndWait().ifPresent(res -> {
@@ -295,7 +324,6 @@ public class ManageEmployeeController extends AbstractManageController {
 
     /**
      * Hàm lấy dữ liệu từ textfield -> Object, truyền mới khi add
-     *
      * @param employee
      */
     private Employee mapInputToEmployee(Employee employee) {

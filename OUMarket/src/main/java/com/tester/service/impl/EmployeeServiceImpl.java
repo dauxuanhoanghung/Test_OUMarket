@@ -135,19 +135,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public int updateEmployee(Employee employee) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
-            String query = "UPDATE employee SET name = ?, password = ?, birthday = ?, phone = ?, role = ?, branch_id = ? WHERE id = ?";
+            String query = "UPDATE employee SET name = ?, password = ?, birthday = ?, phone = ?, active = ? ,role = ?, branch_id = ? WHERE id = ?";
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, employee.getName());
             stm.setString(2, employee.getPassword());
             stm.setDate(3, new Date(employee.getBirthday().getTime()));
             stm.setString(4, employee.getPhone());
-            stm.setString(5, employee.getRole());
+            stm.setBoolean(5, employee.isActive());
+            stm.setString(6, employee.getRole());
             if (employee.getBranchId() == 0) {
-                stm.setObject(6, null);
+                stm.setObject(7, null);
             } else {
-                stm.setInt(6, employee.getBranchId());
+                stm.setInt(7, employee.getBranchId());
             }
-            stm.setString(7, employee.getId());
+            stm.setString(8, employee.getId());
             int r = stm.executeUpdate();
             conn.commit();
             return r;
