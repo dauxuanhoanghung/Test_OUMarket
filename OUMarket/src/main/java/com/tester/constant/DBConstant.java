@@ -10,7 +10,7 @@ package com.tester.constant;
  */
 public class DBConstant {
 
-    public static final String DBURL = "jdbc:mysql://localhost/oumarket";
+    public static final String DB_URL = "jdbc:mysql://localhost/oumarket";
     public static final String USER = "root";
-    public static final String PASSWORD = "8643947";
+    public static final String PASSWORD = "Hung28122002@";
 }

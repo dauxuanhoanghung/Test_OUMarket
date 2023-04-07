@@ -9,8 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="Pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.ManageBranchController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="Pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.ManageBranchProductController">
    <children>
       <Label layoutX="47.0" layoutY="32.0" styleClass="Label3" text="Quản lý chi nhánh:">
          <font>
@@ -57,13 +56,13 @@
             <Font name="System Bold" size="34.0" />
          </font>
       </Button>
-      <TableView fx:id="tbvBranch" layoutX="653.0" layoutY="190.0" onMouseClicked="" prefHeight="544.0" prefWidth="600.0" />
+      <TableView fx:id="tbvBranch" layoutX="653.0" layoutY="190.0" prefHeight="544.0" prefWidth="600.0" />
       <Button fx:id="addButton" layoutX="482.0" layoutY="742.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="118.0" stylesheets="" text="Thêm SP" textFill="#121111">
          <font>
             <Font name="System Bold" size="34.0" />
          </font>
       </Button>
-      <TableView fx:id="tbvBranch1" layoutX="22.0" layoutY="190.0" onMouseClicked="" prefHeight="544.0" prefWidth="578.0" />
+      <TableView fx:id="tbvBranch1" layoutX="22.0" layoutY="190.0" prefHeight="544.0" prefWidth="578.0" />
    </children>
    <stylesheets>
       <URL value="@css/ManageBranchPage.css" />

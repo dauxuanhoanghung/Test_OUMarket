@@ -9,10 +9,10 @@ import com.tester.pojo.OrderDetail;
 import com.tester.service.OrderService;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +40,8 @@ public class OrderServiceImpl implements OrderService {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Order o = new Order(rs.getString("id"), rs.getFloat("subtotal"),
-                        rs.getDate("createdDate"), rs.getString("employee_id"),
+                        rs.getObject("createdDate", LocalDateTime.class), 
+                        rs.getString("employee_id"),
                         rs.getString("customer_id"));
                 orders.add(o);
 
@@ -61,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, o.getId());
             stm.setFloat(2, 0);
-            stm.setDate(3, (Date) o.getCreatedDate());
+            stm.setObject(3, o.getCreatedDate());
             stm.setString(4, o.getEmployeeId());
             stm.setString(5, o.getCustomerId());
             int r = stm.executeUpdate();

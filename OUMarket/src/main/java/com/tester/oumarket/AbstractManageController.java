@@ -8,6 +8,8 @@ import com.tester.constant.UIConstant;
 import com.tester.utils.MessageBox;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,8 +17,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 
 /**
  *
@@ -41,7 +45,7 @@ public abstract class AbstractManageController implements Initializable {
             if (res == ButtonType.OK) {
                 App.setCurrentEmployee(null);
                 try {
-                    App.setSceneSize(UIConstant.loginWidth, UIConstant.loginHeight);
+                    App.setSceneSize(UIConstant.LOGIN_WIDTH, UIConstant.LOGIN_HEIGHT);
                     App.setRoot("Login");
                 } catch (IOException ex) {
                     Logger.getLogger(AbstractManageController.class.getName()).log(Level.SEVERE,
@@ -49,5 +53,28 @@ public abstract class AbstractManageController implements Initializable {
                 }
             }
         });
+    }
+    
+    static List<Button> getTableViewButtons(TableView tbv, String... excludeText) {
+        List<Button> buttons = new ArrayList<>();
+        tbv.lookupAll("Button").forEach(node -> {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                boolean shouldExclude = false;
+                for (String text : excludeText) {
+                    if (button.getText().equals(text)) {
+                        shouldExclude = true;
+                        break;
+                    }
+                }
+                if (!shouldExclude) {
+                    buttons.add(button);
+                }
+            }
+        });
+        return buttons;
+    }
+    static List<Button> getTableViewButtons(TableView tbv) {
+        return getTableViewButtons(tbv, "");
     }
 }

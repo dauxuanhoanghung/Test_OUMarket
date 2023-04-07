@@ -4,23 +4,38 @@
  */
 package com.tester.oumarket;
 
+import com.tester.pojo.BranchMarket;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 
 /**
  * FXML Controller class
  *
  * @author LENOVO
  */
-public class ManageBranchProductController implements Initializable {
+public class ManageBranchProductController extends AbstractManageController {
+    
+    private BranchMarket branch;
+    private String previous;
+    
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        super.initialize(url, rb);
     }    
+
+    /**
+     * @param branch the branch to set
+     */
+    public void setBranch(BranchMarket branch) {
+        this.branch = branch;
+    }
+
+    /**
+     * @param previous the previous to set
+     */
+    public void setPrevious(String previous) {
+        this.previous = previous;
+    }
     
 }

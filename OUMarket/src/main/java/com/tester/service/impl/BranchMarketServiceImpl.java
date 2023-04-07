@@ -31,10 +31,32 @@ public class BranchMarketServiceImpl implements BranchMarketService {
             ResultSet rs = stm.executeQuery("SELECT * FROM branch_market");
             while (rs.next()) {
                 BranchMarket c = new BranchMarket(rs.getInt("id"),
-                        rs.getString("name"), rs.getString("location"));
+                        rs.getString("name"),
+                        rs.getString("location"),
+                        rs.getString("phone"));
                 branchMarkets.add(c);
             }
             return branchMarkets;
+        } catch (SQLException ex) {
+            Logger.getLogger(BranchMarketServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    @Override
+    public BranchMarket getBranchMarketById(int id) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "SELECT * FROM branch_market WHERE id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new BranchMarket(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("location"),
+                        rs.getString("phone"));
+            }
+            return null;
         } catch (SQLException ex) {
             Logger.getLogger(BranchMarketServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -70,10 +92,11 @@ public class BranchMarketServiceImpl implements BranchMarketService {
     public int addBranchMarket(BranchMarket branch) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO branch_market(name, location) VALUES (?, ?)";
+            String sql = "INSERT INTO branch_market(name, location, phone) VALUES (?, ?, ?)";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, branch.getName());
             stm.setString(2, branch.getLocation());
+            stm.setString(3, branch.getPhone());
             int r = stm.executeUpdate();
             conn.commit();
 
@@ -81,6 +104,25 @@ public class BranchMarketServiceImpl implements BranchMarketService {
         } catch (SQLException ex) {
             Logger.getLogger(BranchMarketServiceImpl.class.getName()).log(Level.SEVERE, 
                     "There's a error in BranchMarketServiceImpl", ex);
+            return -1;
+        }
+    }
+
+    @Override
+    public int updateBranchMarket(BranchMarket branch) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            String query = "UPDATE branch_market SET name = ?, location = ?, phone = ? WHERE id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setString(1, branch.getName());
+            stm.setString(2, branch.getLocation());
+            stm.setString(3, branch.getPhone());           
+            stm.setInt(4, branch.getId());
+            int r = stm.executeUpdate();
+            conn.commit();
+            return r;
+        } catch (SQLException ex) {
+            Logger.getLogger(BranchMarketServiceImpl.class.getName()).log(Level.SEVERE, "Hệ thống có lỗi!!!", ex);
             return -1;
         }
     }
