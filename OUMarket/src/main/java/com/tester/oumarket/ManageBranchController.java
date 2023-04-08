@@ -177,10 +177,11 @@ public class ManageBranchController extends AbstractManageController {
         Alert alert = MessageBox.AlertBox("Cancel", "Hủy mọi thay đổi?", Alert.AlertType.CONFIRMATION);
         alert.showAndWait().ifPresent(res -> {
             if (res == ButtonType.OK) {
+                ChangeStatus.adjustButton(addButton, "Thêm", "update");
                 ChangeStatus.disable(txtBranchId, txtBranchLocation, txtBranchName,
                         txtBranchPhone, cancelButton);
                 ChangeStatus.enable(addButton);
-                List<Button> btns = getTableViewButtons(tbvBranch);
+                List<Button> btns = getTableViewButtons(tbvBranch, "Quản lý");
                 ChangeStatus.enable(btns);
                 btns.forEach(b -> ChangeStatus.adjustButton(b, "Update", "update"));
                 ChangeStatus.clearText(txtBranchId, txtBranchLocation, txtBranchName, txtBranchPhone);
@@ -202,7 +203,7 @@ public class ManageBranchController extends AbstractManageController {
         mbpController.setBranch(branch); 
         mbpController.setPrevious("ManageBranchMarket");
         try {
-            App.setRoot("ManageProductBranch");
+            App.setRoot("ManageBranchProduct");
         } catch (IOException ex) {
             Logger.getLogger(ManageBranchController.class.getName()).log(Level.SEVERE, null, ex);
         }

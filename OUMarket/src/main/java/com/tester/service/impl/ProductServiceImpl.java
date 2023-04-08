@@ -4,6 +4,7 @@
  */
 package com.tester.service.impl;
 
+import com.tester.pojo.BranchMarket;
 import com.tester.pojo.Product;
 import com.tester.service.ProductService;
 import com.tester.utils.MySQLConnectionUtil;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +36,71 @@ public class ProductServiceImpl implements ProductService {
             if (kw != null && !kw.isBlank()) {
                 stm.setString(1, kw);
                 stm.setString(2, kw);
+            }
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(rs.getString("id"), rs.getString("name"),
+                        rs.getString("description"), rs.getFloat("price"),
+                        rs.getString("origin"), rs.getInt("category_id"),
+                        rs.getInt("unit_id"));
+                products.add(p);
+            }
+            return products;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Product> getProductsByBranch(BranchMarket branch) {
+        return getProductsByBranch(branch.getId());
+    }
+
+    @Override
+    public List<Product> getProductsByBranch(int id) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            List<Product> products = new ArrayList<>();
+            String sql = "SELECT * FROM oumarket.product WHERE id IN (SELECT product_id FROM branch_product WHERE branch_id = ?);";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(rs.getString("id"), rs.getString("name"),
+                        rs.getString("description"), rs.getFloat("price"),
+                        rs.getString("origin"), rs.getInt("category_id"),
+                        rs.getInt("unit_id"));
+                products.add(p);
+            }
+            return products;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public List<Product> getProducts(Map<String, String> params) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            List<Product> products = new ArrayList<>();
+            String sql = "SELECT * FROM product ";
+            List<Object> values = new ArrayList<>();
+            if (params.containsKey("id")) {
+                sql += "WHERE id = ? ";
+                values.add(Integer.valueOf(params.get("id")));
+            }
+            if (params.containsKey("kw") && !params.get("kw").isBlank()) {
+                if (values.isEmpty()) {
+                    sql += "WHERE ";
+                } else {
+                    sql += "AND ";
+                }
+                sql += "name LIKE concat('%', ?, '%') OR description LIKE concat('%', ?, '%')";
+                values.add(params.get("kw"));
+                values.add(params.get("kw"));
+            }
+            PreparedStatement stm = conn.prepareStatement(sql);
+            for (int i = 0; i < values.size(); i++) {
+                stm.setObject(i + 1, values.get(i));
             }
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {

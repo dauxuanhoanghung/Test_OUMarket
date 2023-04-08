@@ -4,8 +4,8 @@
  */
 package com.tester.service;
 
-import com.tester.pojo.BranchMarket;
 import com.tester.pojo.Event;
+import com.tester.pojo.EventProduct;
 import java.util.List;
 
 /**
@@ -19,6 +19,6 @@ public interface EventService {
      * @param branches
      * @return >0 nếu add thành công, -1 nếu có lỗi
      */
-    int addEvent(Event evt, List<BranchMarket> branches);
-//    List<Event> getCurrrentEvents();
+    int addEvent(Event evt, List<EventProduct> eventProduct);
+    Event getCurrentEvent();
 }
