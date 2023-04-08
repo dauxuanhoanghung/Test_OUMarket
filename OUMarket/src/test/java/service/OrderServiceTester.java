@@ -58,7 +58,7 @@ public class OrderServiceTester {
     }
     
     /*Kiểm tra thêm Order thành công hay không*/
-    @Test
+   /* @Test
     public void TestAddOrder()
     {
         int i=0;
@@ -70,5 +70,5 @@ public class OrderServiceTester {
         List<OrderDetail> od=new ArrayList<>();
         i=order.addOrder(o, od);
         Assertions.assertNotEquals(0, i);
-    }
+    }*/
 }

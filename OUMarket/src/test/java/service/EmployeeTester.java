@@ -97,6 +97,7 @@ public class EmployeeTester {
             i = 1;
         }
         Assertions.assertEquals(1, i);
+        
     }
 
     @Test
@@ -165,15 +166,6 @@ public class EmployeeTester {
             }
         }
         Assertions.assertEquals(0, i);
-        int i = 0;
-        String username = "hungnewbie1";
-        String password = "123456789";
-        EmployeeService e = new EmployeeServiceImpl();
-        Employee emp = new Employee();
-        emp = e.authencateEmployee(username, password);
-        if (emp != null) {
-            i = 1;
-        }
-        Assertions.assertEquals(1, i);
+        
     }
 }
