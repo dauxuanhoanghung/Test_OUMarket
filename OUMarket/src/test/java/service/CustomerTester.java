@@ -121,5 +121,22 @@ public class CustomerTester {
         }
         Assertions.assertEquals(1, i);
     }
+    
+    /*Kiểm tra xem số điện thoại có hợp lệ hay không*/
+    @Test
+    public void TestPhoneNumberLegit()
+    {
+        int i =0;
+        CustomerService cus=new CustomerServiceImpl();
+        List<Customer>ListCus=cus.getCustomers();
+        for(Customer c : ListCus)
+        {
+            if(c.getPhone().length()==10)
+            {
+                i=1;
+            }
+        }
+        Assertions.assertEquals(0, i);
+    }
 
 }

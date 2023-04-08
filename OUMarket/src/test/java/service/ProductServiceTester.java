@@ -94,11 +94,13 @@ public class ProductServiceTester {
     @Test
     public void TestUpdateProduct() {
         Product p1 = new Product();
+        
         ProductService prod = new ProductServiceImpl();
         Product p = new Product("847", "Xà phòng", "Siêu thơm", 26000, "BHX", 1, 3);
         p1 = prod.updateProduct(p);
         Assertions.assertNotNull(p1);
     }
+
 
     /*Kiểm tra giá tiền của sản phầm phải lớn hơn không*/
     @Test
@@ -115,14 +117,17 @@ public class ProductServiceTester {
         Assertions.assertNotNull(ListProductTest);
     }
 
+
     /*Kiểm tra sản phẩm có bị trùng hay không */
     @Test
     public void TestProductDuplicat() {
+
         ProductService s = new ProductServiceImpl();
         List<Product> p = s.getProducts(null);
         List<String> ProductName = p.stream().
                 map(mapper -> mapper.getName()).collect(Collectors.toList());
         Set<String> setProductName = new HashSet<>(ProductName);
+
 
         Assertions.assertEquals(ProductName.size(), setProductName.size());
     }
