@@ -10,8 +10,8 @@ package com.tester.constant;
  */
 public class UIConstant {
 
-    public static final double loginWidth = 540;
-    public static final double loginHeight = 350;
-    public static final double otherWidth = 1280;
-    public static final double otherHeight = 830;
+    public static final double LOGIN_WIDTH = 540;
+    public static final double LOGIN_HEIGHT = 350;
+    public static final double OTHER_WIDTH = 1280;
+    public static final double OTHER_HEIGHT = 830;
 }

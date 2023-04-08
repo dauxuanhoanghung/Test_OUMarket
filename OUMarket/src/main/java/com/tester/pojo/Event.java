@@ -4,6 +4,7 @@
  */
 package com.tester.pojo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -14,19 +15,19 @@ public class Event {
 
     private int id;
     private String description;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     public Event() {
     }
     
-    public Event(String description, Date startDate, Date endDate) {
+    public Event(String description, LocalDateTime startDate, LocalDateTime endDate) {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public Event(int id, String description, Date startDate, Date endDate) {
+    public Event(int id, String description, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.description = description;
         this.startDate = startDate;
@@ -64,28 +65,28 @@ public class Event {
     /**
      * @return the startDate
      */
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
     /**
      * @param startDate the startDate to set
      */
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
     /**
      * @return the endDate
      */
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
     /**
      * @param endDate the endDate to set
      */
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
     

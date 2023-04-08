@@ -10,7 +10,7 @@ Pane{
     -fx-font-family: Tahoma;
     -fx-background-color: #FCF3CF  ;
 }
-.ButtonLogout{
+.ButtonLogout {
     -fx-font-family: Tahoma;
     -fx-background-color: linear-gradient(to bottom right, #6C5B7B, #C06C84, #F67280);
     -fx-text-fill: white; /* set text color */

@@ -4,6 +4,7 @@
  */
 package com.tester.pojo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class Order {
 
     private String id;
     private float subtotal;
-    private Date createdDate;
+    private LocalDateTime createdDate;
     private String employeeId;
     private String customerId;
 
@@ -24,8 +25,7 @@ public class Order {
 
     {
         this.setId(UUID.randomUUID().toString());
-        long millis = System.currentTimeMillis();
-        this.createdDate = new Date(millis);
+        createdDate = LocalDateTime.now();
     }
 
     public Order(float subtotal, String employeeId, String customerId) {
@@ -34,7 +34,7 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public Order(String id, float subtotal, Date createdDate, String employeeId, String customerId) {
+    public Order(String id, float subtotal, LocalDateTime createdDate, String employeeId, String customerId) {
         this.id = id;
         this.subtotal = subtotal;
         this.createdDate = createdDate;
@@ -73,14 +73,14 @@ public class Order {
     /**
      * @return the createdDate
      */
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
     /**
      * @param createdDate the createdDate to set
      */
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 

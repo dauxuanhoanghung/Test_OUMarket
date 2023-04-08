@@ -4,7 +4,7 @@
  */
 package com.tester.pojo;
 
-import java.util.UUID;
+import com.tester.utils.RandomIDGenerator;
 
 /**
  *
@@ -24,7 +24,7 @@ public class Product {
     }
 
     {
-        this.id = UUID.randomUUID().toString();
+        this.id = RandomIDGenerator.generate();
     }
 
     public Product(String name, String description, float price, String origin, int categoryId, int unitId) {

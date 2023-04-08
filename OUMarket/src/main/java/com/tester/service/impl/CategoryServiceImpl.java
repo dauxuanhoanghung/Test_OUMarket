@@ -52,14 +52,44 @@ public class CategoryServiceImpl implements CategoryService {
             PreparedStatement stm = conn.prepareCall(query);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
-            if (rs.next())
+            if (rs.next()) {
                 return new Category(rs.getInt("id"),
                         rs.getString("name"), rs.getString("description"));
-            else 
+            } else {
                 return null;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CategoryServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
+
+    @Override
+    public boolean updateCategory(Category category) {
+        String sql = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
+        try (Connection conn = MySQLConnectionUtil.getConnection(); PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDescription());
+            statement.setInt(3, category.getId());
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean deleteCategory(int id) {
+    String sql = "DELETE FROM categories WHERE id = ?";
+    try (Connection conn = MySQLConnectionUtil.getConnection();
+         PreparedStatement statement = conn.prepareStatement(sql)) {
+        statement.setInt(1, id);
+        int rowsDeleted = statement.executeUpdate();
+        return rowsDeleted > 0;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;
+    }
+}
 }

@@ -62,3 +62,17 @@ Pane .CloseButton{
     -fx-font-family: Tahoma;
     -fx-background-color: #00B359;
 }
+.ButtonLogout {
+    -fx-font-family: Tahoma;
+    -fx-background-color: linear-gradient(to bottom right, #6C5B7B, #C06C84, #F67280);
+    -fx-text-fill: white; /* set text color */
+    -fx-font-size: 24pt; /* set font size */
+    -fx-padding: 10px 20px; /* set padding */
+    
+    -fx-font-weight: bolder;
+    
+}
+.ButtonLogout:hover{
+    -fx-font-family: Tahoma;
+    -fx-background-color: #FF6656;
+}

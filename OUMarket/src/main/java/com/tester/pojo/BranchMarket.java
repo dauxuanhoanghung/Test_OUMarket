@@ -13,6 +13,7 @@ public class BranchMarket {
     private int id;
     private String name;
     private String location;
+    private String phone;
 
     public BranchMarket() {
     }
@@ -23,6 +24,13 @@ public class BranchMarket {
         this.location = location;
     }
 
+    public BranchMarket(int id, String name, String location, String phone) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.phone = phone;
+    }
+    
     /**
      * @return the id
      */
@@ -68,6 +76,20 @@ public class BranchMarket {
     @Override
     public String toString() {
         return String.format("%s - %s - %s", this.id, this.name, this.location);
+    }
+
+    /**
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone the phone to set
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 }
