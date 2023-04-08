@@ -14,4 +14,6 @@ import java.util.List;
 public interface CategoryService {
     public List<Category> getCategories();
     Category getCategoryById(int id);
+    boolean updateCategory(Category category);
+    public boolean deleteCategory(int id);
 }

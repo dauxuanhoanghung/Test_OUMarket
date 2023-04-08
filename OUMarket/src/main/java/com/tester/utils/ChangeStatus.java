@@ -52,4 +52,15 @@ public class ChangeStatus {
             t.setText("");
         }
     }
+    
+    public static void invisible(Control... es) {
+        for (Control c : es) {
+            c.setVisible(false);
+        }
+    }
+    public static void visible(Control... es) {
+        for (Control c : es) {
+            c.setVisible(true);
+        }
+    }
 }

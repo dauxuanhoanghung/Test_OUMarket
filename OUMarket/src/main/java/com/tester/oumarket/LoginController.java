@@ -81,7 +81,7 @@ public class LoginController implements Initializable {
             if (emp != null) { 
                 String root = emp.getRole().equals(Employee.ADMIN) ? "ManageServicePage" : "EmployeePaymentPage";
                 App.setCurrentEmployee(emp);            
-                App.setSceneSize(UIConstant.otherWidth, UIConstant.otherHeight);
+                App.setSceneSize(UIConstant.OTHER_WIDTH, UIConstant.OTHER_HEIGHT);
                 App.setRoot(root);
             } else {
                 this.lblLoginFailed.setVisible(true);

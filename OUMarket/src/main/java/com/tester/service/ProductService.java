@@ -4,8 +4,10 @@
  */
 package com.tester.service;
 
+import com.tester.pojo.BranchMarket;
 import com.tester.pojo.Product;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -13,6 +15,8 @@ import java.util.List;
  */
 public interface ProductService {
     List<Product> getProducts(String kw);
+    List<Product> getProductsByBranch(BranchMarket branch);
+    List<Product> getProductsByBranch(int id);
     int addProduct(Product p);
     Product getProductById(String id);
     Product updateProduct(Product p);
