@@ -17,6 +17,9 @@ public interface ProductService {
     List<Product> getProducts(String kw);
     List<Product> getProductsByBranch(BranchMarket branch);
     List<Product> getProductsByBranch(int id);
+    List<Product> getUnsetProductsByBranch(BranchMarket branch);
+    List<Product> getUnsetProductsByBranch(BranchMarket branch, String kw);
+    List<Product> getUnsetProductsByBranch(int id);
     int addProduct(Product p);
     Product getProductById(String id);
     Product updateProduct(Product p);

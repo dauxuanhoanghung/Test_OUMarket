@@ -5,6 +5,8 @@
 package com.tester.service.impl;
 
 import com.tester.pojo.BranchMarket;
+import com.tester.pojo.BranchProduct;
+import com.tester.pojo.Product;
 import com.tester.service.BranchMarketService;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
@@ -127,4 +129,104 @@ public class BranchMarketServiceImpl implements BranchMarketService {
         }
     }
 
+    @Override
+    public int addProductToBranch(BranchMarket branch, Product... products) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            int rowSuccess = 0;
+            String sql = "INSERT INTO branch_product(branch_id, product_id, active) VALUES (?, ?, ?)";
+            for (Product p : products) {
+                PreparedStatement stm = conn.prepareCall(sql);
+                stm.setInt(1, branch.getId());
+                stm.setString(2, p.getId());
+                stm.setBoolean(3, true);
+                rowSuccess += stm.executeUpdate();
+            }
+            conn.commit();
+
+            return rowSuccess;
+        } catch (SQLException ex) {
+            Logger.getLogger(BranchMarketServiceImpl.class.getName()).log(Level.SEVERE, 
+                    "There's a error in BranchMarketServiceImpl", ex);
+            return -1;
+        }
+    }
+
+    @Override
+    public int addProductToBranch(BranchMarket branch, List<Product> products) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            int rowSuccess = 0;
+            String sql = "INSERT INTO branch_product(branch_id, product_id, active) VALUES (?, ?, ?)";
+            for (Product p : products) {
+                PreparedStatement stm = conn.prepareCall(sql);
+                stm.setInt(1, branch.getId());
+                stm.setString(2, p.getId());
+                stm.setBoolean(3, true);
+                rowSuccess += stm.executeUpdate();
+            }
+            conn.commit();
+
+            return rowSuccess;
+        } catch (SQLException ex) {
+            Logger.getLogger(BranchMarketServiceImpl.class.getName()).log(Level.SEVERE, 
+                    "There's a error in BranchMarketServiceImpl", ex);
+            return -1;
+        }
+    }
+
+    @Override
+    public int updateProductInBranch(BranchProduct branchProduct) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            String query = "UPDATE branch_product SET active = ? WHERE id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setBoolean(1, branchProduct.isActive());
+            stm.setInt(2, branchProduct.getId());
+            int r = stm.executeUpdate();
+            conn.commit();
+            return r;
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeServiceImpl.class.getName()).log(Level.SEVERE, "Hệ thống có lỗi!!!", ex);
+            return -1;
+        }
+    }
+
+    @Override
+    public int updateProductInBranch(BranchMarket branch, Product product) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            String query = "UPDATE branch_product SET active = ? WHERE branch_id = ? AND product_id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setInt(1, branch.getId());
+            stm.setString(3, product.getId());
+            int r = stm.executeUpdate();
+            conn.commit();
+            return r;
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeServiceImpl.class.getName()).log(Level.SEVERE, "Hệ thống có lỗi!!!", ex);
+            return -1;
+        }
+    }
+
+    @Override
+    public BranchProduct getBranchProduct(BranchMarket branch, Product product) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "SELECT * FROM branch_product WHERE branch_id = ? AND product_id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setInt(1, branch.getId());
+            stm.setString(2, product.getId());
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new BranchProduct(rs.getInt("id"),
+                        rs.getInt("branch_id"),
+                        rs.getString("product_id"),
+                        rs.getBoolean("active"));
+            }
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(BranchMarketServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 }

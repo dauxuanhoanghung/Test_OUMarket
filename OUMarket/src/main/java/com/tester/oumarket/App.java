@@ -17,12 +17,19 @@ import javafx.stage.Window;
  */
 public class App extends Application {
 
+    /**
+     * @param aScene the scene to set
+     */
+    public static void setScene(Scene aScene) {
+        scene = aScene;
+    }
+
     private static Scene scene;
     private static Employee currentEmployee;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Login"));
+        setScene(new Scene(loadFXML("Login")));
         stage.setTitle("OU MARKET by Group 4 - DH20IT03");
         stage.setScene(scene);
         stage.setResizable(false);

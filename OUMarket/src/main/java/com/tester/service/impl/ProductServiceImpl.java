@@ -39,9 +39,12 @@ public class ProductServiceImpl implements ProductService {
             }
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getString("id"), rs.getString("name"),
-                        rs.getString("description"), rs.getFloat("price"),
-                        rs.getString("origin"), rs.getInt("category_id"),
+                Product p = new Product(rs.getString("id"), 
+                        rs.getString("name"),
+                        rs.getString("description"), 
+                        rs.getFloat("price"),
+                        rs.getString("origin"), 
+                        rs.getInt("category_id"),
                         rs.getInt("unit_id"));
                 products.add(p);
             }
@@ -51,6 +54,8 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
     }
+    
+    
 
     @Override
     public List<Product> getProductsByBranch(BranchMarket branch) {
@@ -61,14 +66,73 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsByBranch(int id) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             List<Product> products = new ArrayList<>();
-            String sql = "SELECT * FROM oumarket.product WHERE id IN (SELECT product_id FROM branch_product WHERE branch_id = ?);";
+            String sql = "SELECT * FROM product WHERE id IN (SELECT product_id FROM branch_product WHERE branch_id = ?)";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getString("id"), rs.getString("name"),
-                        rs.getString("description"), rs.getFloat("price"),
-                        rs.getString("origin"), rs.getInt("category_id"),
+                Product p = new Product(rs.getString("id"), 
+                        rs.getString("name"),
+                        rs.getString("description"), 
+                        rs.getFloat("price"),
+                        rs.getString("origin"), 
+                        rs.getInt("category_id"),
+                        rs.getInt("unit_id"));
+                products.add(p);
+            }
+            return products;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    @Override
+    public List<Product> getUnsetProductsByBranch(BranchMarket branch, String kw) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            List<Product> products = new ArrayList<>();
+            String sql = "SELECT * FROM product WHERE id NOT IN (SELECT product_id FROM branch_product WHERE branch_id = ?) AND name LIKE concat('%', ?, '%')";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, branch.getId());
+            stm.setString(2, kw);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(rs.getString("id"), 
+                        rs.getString("name"),
+                        rs.getString("description"), 
+                        rs.getFloat("price"),
+                        rs.getString("origin"), 
+                        rs.getInt("category_id"),
+                        rs.getInt("unit_id"));
+                products.add(p);
+            }
+            return products;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    @Override
+    public List<Product> getUnsetProductsByBranch(BranchMarket branch) {
+        return getUnsetProductsByBranch(branch.getId());
+    }
+
+    @Override
+    public List<Product> getUnsetProductsByBranch(int id) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            List<Product> products = new ArrayList<>();
+            String sql = "SELECT * FROM product WHERE id NOT IN (SELECT product_id FROM branch_product WHERE branch_id = ?)";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(rs.getString("id"), 
+                        rs.getString("name"),
+                        rs.getString("description"), 
+                        rs.getFloat("price"),
+                        rs.getString("origin"), 
+                        rs.getInt("category_id"),
                         rs.getInt("unit_id"));
                 products.add(p);
             }
@@ -144,7 +208,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String sql = "SELECT * FROM product WHERE id  ?";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new Product(rs.getString("id"), 
+                        rs.getString("name"),
+                        rs.getString("description"), 
+                        rs.getFloat("price"),
+                        rs.getString("origin"), 
+                        rs.getInt("category_id"),
+                        rs.getInt("unit_id"));
+            }
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override
