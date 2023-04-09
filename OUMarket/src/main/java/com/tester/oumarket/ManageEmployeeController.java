@@ -188,7 +188,6 @@ public class ManageEmployeeController extends AbstractManageController {
                 //Xác nhận update
                 if (b.getText().equals("Confirm")) {
                     mapInputToEmployee(employee);
-                    System.out.println(employee);
                     if (CheckUtils.isValidName(employee.getName()) == 1
                             && CheckUtils.isValidPassword(employee.getPassword()) == 1
                             && CheckUtils.isValidPhoneNumber(employee.getPhone()) == 1) {
@@ -258,7 +257,6 @@ public class ManageEmployeeController extends AbstractManageController {
             && CheckUtils.isValidPassword(emp.getPassword()) == 1
             && CheckUtils.isValidPhoneNumber(emp.getPhone()) == 1 
             && CheckUtils.isAgeEnough18(emp.getBirthday()) == 1) {
-                System.out.println(emp);
                 EmployeeService es = new EmployeeServiceImpl();
                 es.addEmployee(emp);
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();

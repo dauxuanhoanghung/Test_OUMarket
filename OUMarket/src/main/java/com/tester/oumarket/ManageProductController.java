@@ -36,16 +36,10 @@ public class ManageProductController extends AbstractManageController {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
-        long startTime = System.currentTimeMillis();
 //        UnitService us = new UnitServiceImpl();
 //        units = us.getUnits();
         loadTableColumn();
         loadContentToTableView(null);
-        long endTime = System.currentTimeMillis();
-
-        long executionTime = endTime - startTime;
-
-        System.out.println("Product time: " + executionTime + " ms");
     }
 
     private void loadTableColumn() {

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.tester.oumarket;
 
 import com.tester.pojo.BranchMarket;
@@ -19,6 +16,10 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -30,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  *
@@ -125,7 +127,6 @@ public class ManageBranchController extends AbstractManageController {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             BranchMarket bm = mapInputToBranchMarket(new BranchMarket());
             if (CheckUtils.isValidName(bm.getName()) == 1) {
-                System.out.println(bm);
                 BranchMarketService bms = new BranchMarketServiceImpl();
                 bms.addBranchMarket(bm);
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
@@ -198,12 +199,19 @@ public class ManageBranchController extends AbstractManageController {
         Button b = (Button) event.getSource();
         TableCell cell = (TableCell) b.getParent();
         BranchMarket branch = (BranchMarket) cell.getTableRow().getItem();
-        
-        ManageBranchProductController mbpController = new ManageBranchProductController();
-        mbpController.setBranch(branch); 
-        mbpController.setPrevious("ManageBranchMarket");
         try {
-            App.setRoot("ManageBranchProduct");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageProductBranch.fxml"));
+            Parent root = loader.load();
+            ManageBranchProductController mbpController = loader.getController();
+            mbpController.setBranch(branch);
+            mbpController.setPrevious("ManageBranchMarket");
+            
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+            App.setScene(scene);
+            mbpController.updateUI();
         } catch (IOException ex) {
             Logger.getLogger(ManageBranchController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -224,7 +232,6 @@ public class ManageBranchController extends AbstractManageController {
                 //Xác nhận update
                 if (b.getText().equals("Confirm")) {
                     mapInputToBranchMarket(branch);
-                    System.out.println(branch);
                     if (CheckUtils.isValidName(branch.getName()) == 1) {
                         //Update here
                         BranchMarketService bms = new BranchMarketServiceImpl();
