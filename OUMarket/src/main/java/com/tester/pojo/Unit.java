@@ -49,4 +49,8 @@ public class Unit {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s", this.name);
+    }
 }

@@ -123,15 +123,15 @@ public class ManageBranchProductController extends AbstractManageController {
     private void loadUnsetTableColumn() {
         TableColumn idCol = new TableColumn("Mã SP");
         idCol.setCellValueFactory(new PropertyValueFactory("id"));
-        idCol.setPrefWidth(100);
+        idCol.setPrefWidth(150);
 
         TableColumn nameCol = new TableColumn("Tên SP");
         nameCol.setCellValueFactory(new PropertyValueFactory("name"));
-        nameCol.setPrefWidth(100);
+        nameCol.setPrefWidth(150);
 
         TableColumn priceCol = new TableColumn("Giá");
         priceCol.setCellValueFactory(new PropertyValueFactory("price"));
-        priceCol.setPrefWidth(300);
+        priceCol.setPrefWidth(50);
 
         this.tbvUnsetProduct.getColumns().addAll(idCol, nameCol, priceCol);
     }
@@ -142,15 +142,15 @@ public class ManageBranchProductController extends AbstractManageController {
     private void loadMainTableColumn() {
         TableColumn idCol = new TableColumn("Mã");
         idCol.setCellValueFactory(new PropertyValueFactory("id"));
-        idCol.setPrefWidth(100);
+        idCol.setPrefWidth(150);
 
         TableColumn nameCol = new TableColumn("Tên SP");
         nameCol.setCellValueFactory(new PropertyValueFactory("name"));
-        nameCol.setPrefWidth(100);
+        nameCol.setPrefWidth(300);
 
         TableColumn priceCol = new TableColumn("Giá");
         priceCol.setCellValueFactory(new PropertyValueFactory("price"));
-        priceCol.setPrefWidth(300);
+        priceCol.setPrefWidth(50);
 
         TableColumn activeCol = new TableColumn<>("Active");
 //        activeCol.setCellFactory(column -> {
