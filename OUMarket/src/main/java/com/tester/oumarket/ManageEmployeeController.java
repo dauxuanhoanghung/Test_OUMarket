@@ -15,7 +15,6 @@ import com.tester.utils.CheckUtils;
 import com.tester.utils.MessageBox;
 import java.net.URL;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -197,7 +196,7 @@ public class ManageEmployeeController extends AbstractManageController {
                             //Xử lý tắt các button tron tbv, tắt nút thêm, bật nút hủy
                             ChangeStatus.adjustButton(b, "Update", "update");
                             ChangeStatus.toggleEnabledButton(cancelButton, addButton);
-                            ChangeStatus.enable(getTableViewButtons());
+                            ChangeStatus.enable(getTableViewButtons(tbvEmp));
                             ChangeStatus.disable(txtName, txtPassword, txtPhone, 
                                     txtUsername, dpBirthday, cbbRole, cbbBranch);
                             loadContentToTableView();
@@ -209,7 +208,7 @@ public class ManageEmployeeController extends AbstractManageController {
                     //Bắt đầu input để update
                     ChangeStatus.adjustButton(b, "Confirm", "confirm");
                     ChangeStatus.toggleEnabledButton(cancelButton, addButton);
-                    ChangeStatus.disable(getTableViewButtons());
+                    ChangeStatus.disable(getTableViewButtons(tbvEmp));
                     ChangeStatus.disable(addButton);
                     ChangeStatus.enable(txtName, txtPassword, txtPhone, 
                         txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
@@ -231,17 +230,17 @@ public class ManageEmployeeController extends AbstractManageController {
             if (selectedEmployee == null) return;
             showEmployeeDetail(selectedEmployee);
             ChangeStatus.disable(txtName, txtPassword, txtPhone, txtUsername);
-            if (event.getClickCount() == 2) {
-                TableCell cell = (TableCell) event.getPickResult().getIntersectedNode()
-                        .getParent().getChildrenUnmodifiable().get(tbvEmp.getColumns().size() - 1);
-                Button b = (Button) cell.getGraphic();
-                ChangeStatus.adjustButton(b, "Confirm", "confirm");
-                ChangeStatus.toggleEnabledButton(cancelButton, addButton);
-                ChangeStatus.disable(getTableViewButtons());
-                ChangeStatus.disable(addButton);
-                ChangeStatus.enable(txtName, txtPassword, txtPhone, txtUsername);
-                b.setDisable(false);
-            }
+//            if (event.getClickCount() == 2) {
+//                TableCell cell = (TableCell) event.getPickResult().getIntersectedNode()
+//                        .getParent().getChildrenUnmodifiable().get(tbvEmp.getColumns().size() - 1);
+//                Button b = (Button) cell.getGraphic();
+//                ChangeStatus.adjustButton(b, "Confirm", "confirm");
+//                ChangeStatus.toggleEnabledButton(cancelButton, addButton);
+//                ChangeStatus.disable(getTableViewButtons());
+//                ChangeStatus.disable(addButton);
+//                ChangeStatus.enable(txtName, txtPassword, txtPhone, txtUsername);
+//                b.setDisable(false);
+//            }
         }
     }
 
@@ -263,16 +262,16 @@ public class ManageEmployeeController extends AbstractManageController {
                 loadContentToTableView();
             } else 
                 MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
-            ChangeStatus.adjustButton(addButton, "Thêm", ".update");
+            ChangeStatus.adjustButton(addButton, "Thêm", "update");
             ChangeStatus.disable(txtName, txtPassword, txtPhone, 
                 txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
-            ChangeStatus.enable(getTableViewButtons());
+            ChangeStatus.enable(getTableViewButtons(tbvEmp));
         }
         else { //Nút thêm
             ChangeStatus.enable(txtName, txtPassword, txtPhone, 
                 txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
-            ChangeStatus.disable(getTableViewButtons());
-            ChangeStatus.adjustButton(addButton, "Confirm", ".update");
+            ChangeStatus.disable(getTableViewButtons(tbvEmp));
+            ChangeStatus.adjustButton(addButton, "Confirm", "update");
         }
         ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);       
     }
@@ -287,9 +286,10 @@ public class ManageEmployeeController extends AbstractManageController {
                 ChangeStatus.disable(txtName, txtPassword, txtPhone, 
                         txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
                 ChangeStatus.enable(addButton);
-                List<Button> btns = getTableViewButtons();
-                ChangeStatus.enable(btns);
+                List<Button> btns = getTableViewButtons(tbvEmp, "Delete", "Restore");
                 btns.forEach(b -> ChangeStatus.adjustButton(b,"Update", "update"));
+                ChangeStatus.enable(getTableViewButtons(tbvEmp));
+                ChangeStatus.adjustButton(addButton, "Thêm", "update");
             }
         });
     }
@@ -336,20 +336,5 @@ public class ManageEmployeeController extends AbstractManageController {
         BranchMarket branch = (BranchMarket) this.cbbBranch.getSelectionModel().getSelectedItem();
         employee.setBranchId(branch != null ? branch.getId() : 0);
         return employee;
-    }
-
-    /**
-     * Lấy cái button của bảng để disable hoặc enable
-     *
-     * @return
-     */
-    private List<Button> getTableViewButtons() {
-        List<Button> buttons = new ArrayList<>();
-        tbvEmp.lookupAll("Button").forEach(node -> {
-            if (node instanceof Button) {
-                buttons.add((Button) node);
-            }
-        });
-        return buttons;
     }
 }

@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
  */
 public class BranchMarketTester {
     private static Connection conn;
+    private static BranchMarketService bms = new BranchMarketServiceImpl();
     
     @BeforeAll
     public static void beforeAll() {
@@ -50,7 +51,7 @@ public class BranchMarketTester {
     }
     
     @Test
-    @DisplayName(value = "Kiem tra ten danh muc khong trung nhau")
+    @DisplayName(value = "Kiem tra ten chi nhanh khong trung nhau")
     public void testNameNotDuplicated() throws SQLException {
         BranchMarketService s = new BranchMarketServiceImpl();
         List<BranchMarket> branches = s.getBranchMarkets();
@@ -69,5 +70,15 @@ public class BranchMarketTester {
         
         long t = branches.stream().filter(b -> b.getName().isBlank()).count();
         Assertions.assertTrue(t == 0);     
+    }
+    
+    @Test
+    @DisplayName(value = "Kiem tra ")
+    public void testBranchAddProduct() {
+        BranchMarket branch = new BranchMarket(0, "New branch", 
+                "Gần trường", "1111111111");
+        bms.addBranchMarket(branch);
+        
+//        Assertions.assertEq
     }
 }

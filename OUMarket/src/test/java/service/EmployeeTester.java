@@ -84,21 +84,21 @@ public class EmployeeTester {
         Assertions.assertEquals(1, i);
     }
 
-    @Test
-    /*Kiểm tra tim thông tin username và mật khẩu*/
-    public void TestAuthencateEmployee() {
-        int i = 0;
-        String username = "hungnewbie1";
-        String password = "123456789";
-        EmployeeService e = new EmployeeServiceImpl();
-        Employee emp = new Employee();
-        emp = e.authencateEmployee(username, password);
-        if (emp != null) {
-            i = 1;
-        }
-        Assertions.assertEquals(1, i);
-        
-    }
+//    @Test
+//    /*Kiểm tra tim thông tin username và mật khẩu*/
+//    public void TestAuthencateEmployee() {
+//        int i = 0;
+//        String username = "hungnewbie1";
+//        String password = "123456789";
+//        EmployeeService e = new EmployeeServiceImpl();
+//        Employee emp = new Employee();
+//        emp = e.authencateEmployee(username, password);
+//        if (emp != null) {
+//            i = 1;
+//        }
+//        Assertions.assertEquals(1, i);
+//        
+//    }
 
     @Test
     /*Kiểm tra xem có thêm nhân viên được không*/

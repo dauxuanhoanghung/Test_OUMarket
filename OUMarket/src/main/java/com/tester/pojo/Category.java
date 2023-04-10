@@ -67,6 +67,6 @@ public class Category {
     
     @Override
     public String toString() {
-        return String.format("%s - %s - %s", this.id, this.name, this.description);
+        return String.format("%s", this.name);
     }
 }
