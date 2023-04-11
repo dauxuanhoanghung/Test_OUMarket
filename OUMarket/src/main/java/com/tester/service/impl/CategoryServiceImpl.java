@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryById(int id) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
-            String query = "SELECT * FROM category WHERE id = ?";
+            String query = "SELECT id, name, description FROM category WHERE id = ?";
             PreparedStatement stm = conn.prepareCall(query);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();

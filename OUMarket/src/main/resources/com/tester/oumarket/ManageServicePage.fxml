@@ -49,10 +49,10 @@
                 <Font name="System Bold" size="34.0" />
             </font>
         </Button>
-      <Button layoutX="671.0" layoutY="313.0" mnemonicParsing="false" onAction="#manageBranch" prefHeight="130.0" prefWidth="540.0" styleClass="Button" text="SỰ KIỆN" textAlignment="CENTER" wrapText="true">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Button>
+        <Button layoutX="671.0" layoutY="313.0" mnemonicParsing="false" onAction="#manageEvent" prefHeight="130.0" prefWidth="540.0" styleClass="Button" text="SỰ KIỆN" textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Button>
     </children>
 </Pane>

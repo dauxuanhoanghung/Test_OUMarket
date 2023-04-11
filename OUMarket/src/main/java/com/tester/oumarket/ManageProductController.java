@@ -107,24 +107,26 @@ public class ManageProductController extends AbstractManageController {
 
         TableColumn<Product, String> categoryCol = new TableColumn<>("Category");
         categoryCol.setCellValueFactory((TableColumn.CellDataFeatures<Product, String> cellData) -> {
-            Integer categoryId = cellData.getValue().getCategoryId();
-            Category category = cs.getCategoryById(categoryId);
-            if (category == null) {
-                return new SimpleStringProperty("");
-            } else {
-                return new SimpleStringProperty(category.getName());
-            }
+//            Integer categoryId = cellData.getValue().getCategoryId();
+//            Category category = cs.getCategoryById(categoryId);
+//            if (category == null) {
+//                return new SimpleStringProperty("");
+//            } else {
+//                return new SimpleStringProperty(category.getName());
+//            }
+               return new SimpleStringProperty(cellData.getValue().getCategory().getName());
         });
 
         TableColumn<Product, String> unitCol = new TableColumn<>("Unit");
         unitCol.setCellValueFactory((TableColumn.CellDataFeatures<Product, String> cellData) -> {
-            Integer unitId = cellData.getValue().getUnitId();
-            Unit unit = us.getUnitById(unitId);
-            if (unit == null) {
-                return new SimpleStringProperty("");
-            } else {
-                return new SimpleStringProperty(unit.getName());
-            }
+//            Integer unitId = cellData.getValue().getUnitId();
+//            Unit unit = us.getUnitById(unitId);
+//            if (unit == null) {
+//                return new SimpleStringProperty("");
+//            } else {
+//                return new SimpleStringProperty(unit.getName());
+//            }
+                return new SimpleStringProperty(cellData.getValue().getUnit().getName());
         });
 
         TableColumn updateCol = new TableColumn();
