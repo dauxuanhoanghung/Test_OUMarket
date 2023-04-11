@@ -230,11 +230,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Product p) {
+    public int updateProduct(Product p) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
             String sql = "UPDATE product "
-                    + " SET name = ?, description = ?, price = ?, origin = ?, = category_id = ? , unit_id = ? "
+                    + " SET name = ?, description = ?, price = ?, origin = ?, category_id = ? , unit_id = ? "
                     + " WHERE id = ?";
             PreparedStatement stm = conn.prepareCall(sql);
 
@@ -248,10 +248,10 @@ public class ProductServiceImpl implements ProductService {
             int r = stm.executeUpdate();
             conn.commit();
 
-            return p;
+            return r;
         } catch (SQLException ex) {
             Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return -1;
         }
     }
 

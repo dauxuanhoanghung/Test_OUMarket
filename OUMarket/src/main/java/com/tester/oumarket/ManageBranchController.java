@@ -1,4 +1,3 @@
-
 package com.tester.oumarket;
 
 import com.tester.pojo.BranchMarket;
@@ -138,11 +137,14 @@ public class ManageBranchController extends AbstractManageController {
             ChangeStatus.disable();
             ChangeStatus.enable();
             ChangeStatus.visible(lblEmplCount);
+            this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
         } else { //Nút thêm
-            ChangeStatus.enable(cancelButton, txtBranchName, txtBranchLocation);
+            ChangeStatus.enable(cancelButton, txtBranchName, txtBranchLocation, txtBranchPhone);
             ChangeStatus.disable(getTableViewButtons(tbvBranch, "Quản lý"));
             ChangeStatus.adjustButton(addButton, "Confirm", ".update");
             ChangeStatus.invisible(lblEmplCount);
+            this.tbvBranch.setOnMouseClicked(evt -> {
+            });
         }
         ChangeStatus.clearText(txtBranchName, txtBranchLocation, txtBranchId);
 
@@ -186,6 +188,8 @@ public class ManageBranchController extends AbstractManageController {
                 ChangeStatus.enable(btns);
                 btns.forEach(b -> ChangeStatus.adjustButton(b, "Update", "update"));
                 ChangeStatus.clearText(txtBranchId, txtBranchLocation, txtBranchName, txtBranchPhone);
+                ChangeStatus.visible(lblEmplCount);
+                this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
             }
         });
     }
@@ -205,7 +209,7 @@ public class ManageBranchController extends AbstractManageController {
             ManageBranchProductController mbpController = loader.getController();
             mbpController.setBranch(branch);
             mbpController.setPrevious("ManageBranchMarket");
-            
+
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -240,12 +244,13 @@ public class ManageBranchController extends AbstractManageController {
                             ChangeStatus.adjustButton(b, "Update", "update");
                             ChangeStatus.toggleEnabledButton(cancelButton, addButton);
                             ChangeStatus.enable(getTableViewButtons(tbvBranch, ""));
-                            ChangeStatus.disable();
+                            ChangeStatus.disable(cancelButton, txtBranchName, txtBranchLocation, txtBranchPhone);
                             loadContentToTableView(null);
                         } else {
                             MessageBox.AlertBox("Error", "Something is error!!!", Alert.AlertType.ERROR).show();
                         }
                     }
+                    this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
                 } else {
                     //Bắt đầu input để update
                     ChangeStatus.adjustButton(b, "Confirm", "confirm");
@@ -255,6 +260,8 @@ public class ManageBranchController extends AbstractManageController {
                     ChangeStatus.enable(cancelButton, txtBranchLocation, txtBranchName, txtBranchPhone);
                     b.setDisable(false);
                     showBranchDetails(branch);
+                    this.tbvBranch.setOnMouseClicked(evt -> {
+                    });
                 }
             }
         });

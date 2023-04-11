@@ -28,4 +28,8 @@ public class ManageServiceController extends AbstractManageController {
     public void manageProduct(ActionEvent event) throws IOException {
         changeScene("ManageProductPage");
     }
+    
+    public void manageEvent(ActionEvent event) throws IOException {
+        changeScene("ManageEventPage");
+    }
 }
