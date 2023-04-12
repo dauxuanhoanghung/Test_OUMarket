@@ -13,11 +13,15 @@ import com.tester.service.impl.EmployeeServiceImpl;
 import com.tester.utils.ChangeStatus;
 import com.tester.utils.CheckUtils;
 import com.tester.utils.MessageBox;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +38,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -60,6 +65,8 @@ public class ManageEmployeeController extends AbstractManageController {
     @FXML
     private Button addButton;
     @FXML
+    private Button exportButton;
+    @FXML
     private DatePicker dpBirthday;
 
     @Override
@@ -83,6 +90,7 @@ public class ManageEmployeeController extends AbstractManageController {
         this.cbbBranch.setItems(FXCollections.observableArrayList(branches));
 
         cancelButton.setOnAction(this::handlerCancelButton);
+        exportButton.setOnAction(this::handlerExportBtn);
 
         loadTableColumn();
         loadContentToTableView();
@@ -306,6 +314,37 @@ public class ManageEmployeeController extends AbstractManageController {
                 this.dpBirthday.setValue(null);
             }
         });
+    }
+
+    public void handlerExportBtn(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        try {
+            fileChooser.setTitle("Open File");
+
+            // Set the initial directory to open
+            fileChooser.setInitialDirectory(new File("D:\\"));
+
+            // Add filters to the dialog to show only certain types of files
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Excel File", "*.xlsx")
+            );
+            File selectedFile = fileChooser.showSaveDialog(null);
+            if (selectedFile != null) {
+                // User selected a file, do something with it
+                exportToExcel(tbvEmp.getItems(), selectedFile.getAbsolutePath());
+                MessageBox.AlertBox("Success", "Success", Alert.AlertType.INFORMATION);
+            } else {
+                // User canceled the dialog
+                System.out.println("No file selected");
+            }
+        } 
+        catch (IOException e) {
+            System.err.println("Lỗi");
+            e.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ManageEmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {}
     }
 
     /**

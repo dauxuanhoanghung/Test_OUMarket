@@ -39,7 +39,7 @@
             <version>8.0.32</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
             <version>11.1.2</version>
@@ -48,6 +48,16 @@
             <groupId>com.cloudinary</groupId>
             <artifactId>cloudinary-http44</artifactId>
             <version>1.29.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.1.0</version>
         </dependency>
     </dependencies>
     <build>

@@ -47,73 +47,74 @@
                 <Font size="24.0" />
             </font>
         </Label>
-      <Label layoutX="23.0" layoutY="107.0" prefHeight="35.0" prefWidth="350.0" styleClass="Label" text="Thiết lập tài khoản">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="27.0" layoutY="163.0" prefHeight="25.0" prefWidth="120.0" text="Tên nhân viên:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtName" layoutX="167.0" layoutY="156.0" prefHeight="40.0" prefWidth="300.0" promptText="Họ và tên nhân viên">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextField>
-      <Label layoutX="25.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" text="Username:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtUsername" layoutX="167.0" layoutY="207.0" prefHeight="40.0" prefWidth="300.0" promptText="Username...">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextField>
-      <Label layoutX="25.0" layoutY="267.0" prefHeight="17.0" prefWidth="120.0" text="Password:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <PasswordField fx:id="txtPassword" layoutX="167.0" layoutY="260.0" prefHeight="40.0" prefWidth="300.0" promptText="Password...">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </PasswordField>
-      <Label layoutX="25.0" layoutY="321.0" prefHeight="25.0" prefWidth="120.0" text="Số điện thoại:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtPhone" layoutX="167.0" layoutY="314.0" prefHeight="40.0" prefWidth="300.0" promptText="e.g 0000.000.000 000-000-0000">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextField>
-      <Label layoutX="23.0" layoutY="375.0" prefHeight="17.0" prefWidth="120.0" text="Chức vụ:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="cbbRole" layoutX="167.0" layoutY="365.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn chức vụ" />
-      <Label layoutX="22.0" layoutY="424.0" prefHeight="17.0" prefWidth="120.0" text="Chi nhánh:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="cbbBranch" layoutX="166.0" layoutY="417.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn chi nhánh" />
-      <Button fx:id="cancelButton" layoutX="27.0" layoutY="669.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="cancelButton" text="HỦY">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Button>
-      <DatePicker fx:id="dpBirthday" layoutX="166.0" layoutY="475.0" prefHeight="40.0" prefWidth="300.0" />
-      <Label layoutX="22.0" layoutY="482.0" prefHeight="25.0" prefWidth="120.0" text="Ngày sinh:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
+        <Label layoutX="23.0" layoutY="107.0" prefHeight="35.0" prefWidth="350.0" styleClass="Label" text="Thiết lập tài khoản">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="27.0" layoutY="163.0" prefHeight="25.0" prefWidth="120.0" text="Tên nhân viên:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtName" layoutX="167.0" layoutY="156.0" prefHeight="40.0" prefWidth="300.0" promptText="Họ và tên nhân viên">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </TextField>
+        <Label layoutX="25.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" text="Username:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtUsername" layoutX="167.0" layoutY="207.0" prefHeight="40.0" prefWidth="300.0" promptText="Username...">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </TextField>
+        <Label layoutX="25.0" layoutY="267.0" prefHeight="17.0" prefWidth="120.0" text="Password:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <PasswordField fx:id="txtPassword" layoutX="167.0" layoutY="260.0" prefHeight="40.0" prefWidth="300.0" promptText="Password...">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </PasswordField>
+        <Label layoutX="25.0" layoutY="321.0" prefHeight="25.0" prefWidth="120.0" text="Số điện thoại:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtPhone" layoutX="167.0" layoutY="314.0" prefHeight="40.0" prefWidth="300.0" promptText="e.g 0000.000.000 000-000-0000">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </TextField>
+        <Label layoutX="23.0" layoutY="375.0" prefHeight="17.0" prefWidth="120.0" text="Chức vụ:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="cbbRole" layoutX="167.0" layoutY="365.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn chức vụ" />
+        <Label layoutX="22.0" layoutY="424.0" prefHeight="17.0" prefWidth="120.0" text="Chi nhánh:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="cbbBranch" layoutX="166.0" layoutY="417.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn chi nhánh" />
+        <Button fx:id="cancelButton" layoutX="27.0" layoutY="669.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="cancelButton" text="HỦY">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Button>
+        <DatePicker fx:id="dpBirthday" layoutX="166.0" layoutY="475.0" prefHeight="40.0" prefWidth="300.0" />
+        <Label layoutX="22.0" layoutY="482.0" prefHeight="25.0" prefWidth="120.0" text="Ngày sinh:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+      <Button fx:id="exportButton" layoutX="784.0" layoutY="106.0" mnemonicParsing="false" text="Export To Excel" />
     </children>
 </Pane>

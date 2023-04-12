@@ -8,6 +8,7 @@ import com.tester.service.CategoryService;
 import com.tester.service.UnitService;
 import com.tester.service.impl.CategoryServiceImpl;
 import com.tester.service.impl.UnitServiceImpl;
+import com.tester.utils.ExcelIgnore;
 import com.tester.utils.RandomIDGenerator;
 
 /**
@@ -16,24 +17,22 @@ import com.tester.utils.RandomIDGenerator;
  */
 public class Product {
 
-    /**
-     * @return the category
-     */
-    public Category getCategory() {
-        return category;
-    }
-
     private String id;
     private String name;
     private String description;
     private float price;
-    private String origin;
+
+    @ExcelIgnore
     private int categoryId;
-    private int unitId;
-    private Category category;
-    private Unit unit;
+    private String origin;
+    @ExcelIgnore
     private final CategoryService cs = new CategoryServiceImpl();
+    private Category category;
+    @ExcelIgnore
     private final UnitService us = new UnitServiceImpl();
+    private Unit unit;
+    @ExcelIgnore
+    private int unitId;
 
     public Product() {
     }
@@ -171,5 +170,12 @@ public class Product {
      */
     public Unit getUnit() {
         return unit;
+    }
+
+    /**
+     * @return the category
+     */
+    public Category getCategory() {
+        return category;
     }
 }

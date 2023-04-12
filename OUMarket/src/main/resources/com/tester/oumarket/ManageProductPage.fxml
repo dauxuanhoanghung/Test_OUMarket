@@ -20,7 +20,7 @@
                 <Font size="14.0" />
             </font>
         </Button>
-        <TableView fx:id="tbvProduct" layoutX="494.0" layoutY="188.0" prefHeight="602.0" prefWidth="770.0">
+        <TableView fx:id="tbvProduct" layoutX="494.0" layoutY="132.0" prefHeight="658.0" prefWidth="770.0">
             
         </TableView>
         <Button layoutX="14.0" layoutY="742.0" mnemonicParsing="false" onAction="#returnMenuService" prefHeight="38.0" prefWidth="135.0" styleClass="ReturnButton" text="TRỞ LẠI">
@@ -28,7 +28,7 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Button>
-        <Label layoutX="494.0" layoutY="143.0" styleClass="Label3" text="Danh sách sản phẩm" />
+        <Label layoutX="494.0" layoutY="82.0" styleClass="Label3" text="Danh sách sản phẩm" />
         <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="1157.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@images/icon.jpg" />
@@ -102,6 +102,7 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <Button fx:id="exportButton" layoutX="789.0" layoutY="80.0" mnemonicParsing="false" text="Export To Excel" />
     </children>
    <stylesheets>
       <URL value="@css/ManageProductPage.css" />

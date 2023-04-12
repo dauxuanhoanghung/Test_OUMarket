@@ -17,9 +17,13 @@ import com.tester.service.impl.UnitServiceImpl;
 import com.tester.utils.ChangeStatus;
 import com.tester.utils.CheckUtils;
 import com.tester.utils.MessageBox;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -36,6 +40,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -47,6 +52,8 @@ public class ManageProductController extends AbstractManageController {
     private Button addButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Button exportButton;
     @FXML
     private ComboBox cbbCategory;
     @FXML
@@ -74,6 +81,7 @@ public class ManageProductController extends AbstractManageController {
         loadContentToTableView(null);
         addButton.setOnAction(this::handlerAddNewEmployee);
         cancelButton.setOnAction(this::handlerCancelButton);
+        exportButton.setOnAction(this::handlerExportBtn);
         tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
 
         cs = new CategoryServiceImpl();
@@ -232,6 +240,36 @@ public class ManageProductController extends AbstractManageController {
 //                b.setDisable(false);
 //            }
         }
+    }
+    
+    public void handlerExportBtn(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        try {
+            fileChooser.setTitle("Open File");
+
+            // Set the initial directory to open
+            fileChooser.setInitialDirectory(new File("D:\\"));
+
+            // Add filters to the dialog to show only certain types of files
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Excel File", "*.xlsx")
+            );
+            File selectedFile = fileChooser.showSaveDialog(null);
+            if (selectedFile != null) {
+                // User selected a file, do something with it
+                exportToExcel(tbvProduct.getItems(), selectedFile.getAbsolutePath());
+                MessageBox.AlertBox("Success", "Success", Alert.AlertType.INFORMATION);
+            } else {
+                System.out.println("No file selected");
+            }
+        } 
+        catch (IOException e) {
+            System.err.println("Lỗi");
+            e.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ManageProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {}
     }
 
     /**

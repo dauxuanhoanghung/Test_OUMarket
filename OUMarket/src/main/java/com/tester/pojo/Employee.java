@@ -4,18 +4,18 @@
  */
 package com.tester.pojo;
 
+import com.tester.utils.ExcelIgnore;
 import java.util.Date;
 import java.util.UUID;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 /**
  *
  * @author LENOVO
  */
 public class Employee {
-
+    @ExcelIgnore
     public static final String ADMIN = "ADMIN";
+    @ExcelIgnore
     public static final String EMPLOYEE = "EMPLOYEE";
     private String id;
     private String name;
