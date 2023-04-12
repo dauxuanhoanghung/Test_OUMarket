@@ -11,7 +11,7 @@ Label{
     -fx-border-color: #00CC66;
     -fx-border-width: 0 0 2 0;
 }
-Button{
+Button {
     -fx-font-family: Tahoma;
     -fx-background-color: #00CC66;
     -fx-text-fill: #FFFFFF;
@@ -32,4 +32,7 @@ Button{
 }
 .cancelButton, .confirm {
     -fx-background-color: #c00000;
+}
+RadioButton {
+  -fx-font-size: 14px;
 }

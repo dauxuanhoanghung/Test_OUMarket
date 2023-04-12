@@ -22,5 +22,5 @@ public interface ProductService {
     List<Product> getUnsetProductsByBranch(int id);
     int addProduct(Product p);
     Product getProductById(String id);
-    Product updateProduct(Product p);
+    int updateProduct(Product p);
 }
