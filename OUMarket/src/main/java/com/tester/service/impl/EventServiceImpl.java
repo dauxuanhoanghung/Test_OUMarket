@@ -5,7 +5,7 @@
 package com.tester.service.impl;
 
 import com.tester.pojo.Event;
-import com.tester.pojo.EventProduct;
+import com.tester.pojo.sub.SubProduct;
 import com.tester.service.EventService;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
@@ -23,28 +23,27 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
 
     @Override
-    public int addEvent(Event evt, List<EventProduct> eventProducts) {
+    public int addEvent(Event evt, List<SubProduct> eventProducts) {
         int numRowsAffected = 0;
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false); // start transaction
-            try (PreparedStatement eventStatement = conn.prepareStatement(
-                    "INSERT INTO events (description, start_date, end_date) VALUES (?, ?, ?)",
-                    Statement.RETURN_GENERATED_KEYS)) {
+            String sql = "INSERT INTO event (description, start_date, end_date) VALUES (?, ?, ?)";
+            try (PreparedStatement eventStatement = conn.prepareStatement(sql
+                    ,Statement.RETURN_GENERATED_KEYS)) {
                 eventStatement.setString(1, evt.getDescription());
                 eventStatement.setObject(2, evt.getStartDate());
-                eventStatement.setObject(3, evt.getEndDate());
-                int numEventRowsAffected = eventStatement.executeUpdate();
-                numRowsAffected += numEventRowsAffected;
-                if (numEventRowsAffected == 1) {
+                eventStatement.setObject(3, evt.getEndDate()); 
+                numRowsAffected += eventStatement.executeUpdate();
+                if (numRowsAffected > 0) {
                     try (ResultSet generatedKeys = eventStatement.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             int eventId = generatedKeys.getInt(1);
                             try (PreparedStatement eventProductStatement = conn.prepareStatement(
-                                    "INSERT INTO event_products (discount_price, event_id, product_id) VALUES (?, ?, ?)")) {
-                                for (EventProduct eventProduct : eventProducts) {
-                                    eventProductStatement.setFloat(1, eventProduct.getDiscountPrice());
+                                    "INSERT INTO event_product (discount_price, event_id, product_id) VALUES (?, ?, ?)")) {
+                                for (SubProduct eventProduct : eventProducts) {
+                                    eventProductStatement.setFloat(1, eventProduct.getPrice());
                                     eventProductStatement.setInt(2, eventId);
-                                    eventProductStatement.setString(3, eventProduct.getProductId());
+                                    eventProductStatement.setString(3, eventProduct.getId());
                                     int numEventProductRowsAffected = eventProductStatement.executeUpdate();
                                     numRowsAffected += numEventProductRowsAffected;
                                 }
@@ -56,12 +55,12 @@ public class EventServiceImpl implements EventService {
                 } else {
                     throw new SQLException("Failed to insert event");
                 }
-                conn.commit(); // commit transaction
+                conn.commit();
             } catch (SQLException e) {
-                conn.rollback(); // rollback transaction on error
+                conn.rollback();
                 throw e;
             } finally {
-                conn.setAutoCommit(true); // reset auto-commit to true
+                conn.setAutoCommit(true);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,7 +71,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event getCurrentEvent() {
         LocalDateTime now = LocalDateTime.now();
-        String sql = "SELECT * FROM events WHERE start_date <= ? AND end_date >= ? LIMIT 1";
+        String sql = "SELECT * FROM event WHERE start_date <= ? AND end_date >= ? LIMIT 1";
         Event event = null;
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);

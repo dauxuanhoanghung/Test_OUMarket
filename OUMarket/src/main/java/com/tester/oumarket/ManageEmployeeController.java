@@ -332,7 +332,7 @@ public class ManageEmployeeController extends AbstractManageController {
             if (selectedFile != null) {
                 // User selected a file, do something with it
                 exportToExcel(tbvEmp.getItems(), selectedFile.getAbsolutePath());
-                MessageBox.AlertBox("Success", "Success", Alert.AlertType.INFORMATION);
+                MessageBox.AlertBox("Success", "Success", Alert.AlertType.INFORMATION).show();
             } else {
                 // User canceled the dialog
                 System.out.println("No file selected");

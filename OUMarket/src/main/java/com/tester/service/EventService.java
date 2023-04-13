@@ -5,7 +5,7 @@
 package com.tester.service;
 
 import com.tester.pojo.Event;
-import com.tester.pojo.EventProduct;
+import com.tester.pojo.sub.SubProduct;
 import java.util.List;
 
 /**
@@ -16,9 +16,9 @@ public interface EventService {
     /**
      * 
      * @param evt
-     * @param branches
+     * @param eventProduct
      * @return >0 nếu add thành công, -1 nếu có lỗi
      */
-    int addEvent(Event evt, List<EventProduct> eventProduct);
+    int addEvent(Event evt, List<SubProduct> eventProduct);
     Event getCurrentEvent();
 }

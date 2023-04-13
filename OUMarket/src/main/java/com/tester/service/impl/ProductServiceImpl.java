@@ -209,7 +209,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(String id) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
-            String sql = "SELECT * FROM product WHERE id  ?";
+            String sql = "SELECT * FROM product WHERE id = ?";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, id);
             ResultSet rs = stm.executeQuery();
