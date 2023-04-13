@@ -4,6 +4,7 @@
  */
 package com.tester.pojo;
 
+import com.tester.pojo.sub.SubProduct;
 import com.tester.service.CategoryService;
 import com.tester.service.UnitService;
 import com.tester.service.impl.CategoryServiceImpl;
@@ -177,5 +178,9 @@ public class Product {
      */
     public Category getCategory() {
         return category;
+    }
+
+    public boolean hasSameId(SubProduct subProduct) {
+        return (this.id == null ? subProduct.getId() == null : this.id.equals(subProduct.getId()));
     }
 }

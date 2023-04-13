@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="Pane" stylesheets="@css/manualStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.ManageEventController">
+    <children>
+        <Label layoutX="669.0" layoutY="185.0" prefHeight="26.0" prefWidth="143.0" text="Description:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="descriptionField" layoutX="827.0" layoutY="178.0" prefHeight="40.0" prefWidth="430.0" styleClass="text-field">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <Label layoutX="669.0" layoutY="254.0" prefHeight="26.0" prefWidth="143.0" text="Start Date:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <DatePicker fx:id="endDatePicker" layoutX="827.0" layoutY="313.0" prefHeight="35.0" prefWidth="170.0" styleClass="text-field" />
+        <Label layoutX="669.0" layoutY="318.0" prefHeight="26.0" prefWidth="143.0" text="End Date:">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <DatePicker fx:id="startDatePicker" layoutX="827.0" layoutY="249.0" prefHeight="35.0" prefWidth="170.0" styleClass="text-field" />
+        <Label layoutX="668.0" layoutY="374.0" text="Discounted Products">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Button fx:id="addBtn" layoutX="530.0" layoutY="745.0" text="Thêm SP" />
+        <Button fx:id="deleteDetail" layoutX="1067.0" layoutY="745.0" prefHeight="36.0" prefWidth="89.0" text="Xóa SP" />
+        <Button fx:id="saveBtn" layoutX="1176.0" layoutY="745.0" prefHeight="36.0" prefWidth="82.0" text="Lưu" />
+        <Button fx:id="cancelBtn" layoutX="963.0" layoutY="745.0" prefHeight="36.0" prefWidth="81.0" text="Hủy" />
+        <Label layoutX="14.0" layoutY="17.0" prefHeight="54.0" prefWidth="283.0" text="QUẢN LÝ SỰ KIỆN">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="1157.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@images/icon.jpg" />
+            </image>
+        </ImageView>
+        <Label fx:id="lblNameAdmin" alignment="CENTER_RIGHT" layoutX="737.0" layoutY="26.0" prefHeight="35.0" prefWidth="420.0" text="Họ và tên quản trị viên">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tbvProductSelected" layoutX="668.0" layoutY="402.0" prefHeight="335.0" prefWidth="590.0" />
+        <TableView fx:id="tbvUnset" layoutX="14.0" layoutY="115.0" prefHeight="622.0" prefWidth="620.0" />
+      <Button layoutX="5.0" layoutY="745.0" mnemonicParsing="false" onAction="#returnMenuService" prefHeight="50.0" prefWidth="150.0" styleClass="ReturnButton" text="TRỞ LẠI">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Button>
+    </children>
+</AnchorPane>

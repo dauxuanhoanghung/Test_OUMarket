@@ -258,7 +258,7 @@ public class ManageProductController extends AbstractManageController {
             if (selectedFile != null) {
                 // User selected a file, do something with it
                 exportToExcel(tbvProduct.getItems(), selectedFile.getAbsolutePath());
-                MessageBox.AlertBox("Success", "Success", Alert.AlertType.INFORMATION);
+                MessageBox.AlertBox("Success", "Success", Alert.AlertType.INFORMATION).show();
             } else {
                 System.out.println("No file selected");
             }

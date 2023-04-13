@@ -10,6 +10,8 @@ module com.tester.oumarket {
     exports com.tester.oumarket;
     opens com.tester.pojo to javafx.fxml;
     exports com.tester.pojo;
+    opens com.tester.pojo.sub to javafx.fxml;
+    exports com.tester.pojo.sub;
     exports com.tester.utils;
     exports com.tester.constant;
 }
