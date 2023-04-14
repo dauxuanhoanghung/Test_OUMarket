@@ -39,11 +39,11 @@ public class ProductServiceImpl implements ProductService {
             }
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getString("id"), 
+                Product p = new Product(rs.getString("id"),
                         rs.getString("name"),
-                        rs.getString("description"), 
+                        rs.getString("description"),
                         rs.getFloat("price"),
-                        rs.getString("origin"), 
+                        rs.getString("origin"),
                         rs.getInt("category_id"),
                         rs.getInt("unit_id"));
                 products.add(p);
@@ -54,8 +54,6 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
     }
-    
-    
 
     @Override
     public List<Product> getProductsByBranch(BranchMarket branch) {
@@ -71,11 +69,11 @@ public class ProductServiceImpl implements ProductService {
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getString("id"), 
+                Product p = new Product(rs.getString("id"),
                         rs.getString("name"),
-                        rs.getString("description"), 
+                        rs.getString("description"),
                         rs.getFloat("price"),
-                        rs.getString("origin"), 
+                        rs.getString("origin"),
                         rs.getInt("category_id"),
                         rs.getInt("unit_id"));
                 products.add(p);
@@ -86,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
     }
-    
+
     @Override
     public List<Product> getUnsetProductsByBranch(BranchMarket branch, String kw) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
@@ -97,11 +95,11 @@ public class ProductServiceImpl implements ProductService {
             stm.setString(2, kw);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getString("id"), 
+                Product p = new Product(rs.getString("id"),
                         rs.getString("name"),
-                        rs.getString("description"), 
+                        rs.getString("description"),
                         rs.getFloat("price"),
-                        rs.getString("origin"), 
+                        rs.getString("origin"),
                         rs.getInt("category_id"),
                         rs.getInt("unit_id"));
                 products.add(p);
@@ -112,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
     }
-    
+
     @Override
     public List<Product> getUnsetProductsByBranch(BranchMarket branch) {
         return getUnsetProductsByBranch(branch.getId());
@@ -127,11 +125,11 @@ public class ProductServiceImpl implements ProductService {
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getString("id"), 
+                Product p = new Product(rs.getString("id"),
                         rs.getString("name"),
-                        rs.getString("description"), 
+                        rs.getString("description"),
                         rs.getFloat("price"),
-                        rs.getString("origin"), 
+                        rs.getString("origin"),
                         rs.getInt("category_id"),
                         rs.getInt("unit_id"));
                 products.add(p);
@@ -146,31 +144,30 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProducts(Map<String, String> params) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             List<Product> products = new ArrayList<>();
-            String sql = "SELECT * FROM product ";
+            String sql = "SELECT * FROM product WHERE 1 = 1 ";
             List<Object> values = new ArrayList<>();
             if (params.containsKey("id")) {
-                sql += "WHERE id = ? ";
-                values.add(Integer.valueOf(params.get("id")));
+                sql += "AND id LIKE concat('%', ?, '%') ";
+                values.add(params.get("id"));
             }
-            if (params.containsKey("kw") && !params.get("kw").isBlank()) {
-                if (values.isEmpty()) {
-                    sql += "WHERE ";
-                } else {
-                    sql += "AND ";
-                }
-                sql += "name LIKE concat('%', ?, '%') OR description LIKE concat('%', ?, '%')";
-                values.add(params.get("kw"));
-                values.add(params.get("kw"));
+            if (params.containsKey("branch_id")) {
+                sql += "AND id IN (SELECT product_id FROM branch_product WHERE branch_id = ? )";
+                values.add(Integer.valueOf(params.get("branch_id")));
             }
+            System.out.println(sql);
             PreparedStatement stm = conn.prepareStatement(sql);
             for (int i = 0; i < values.size(); i++) {
                 stm.setObject(i + 1, values.get(i));
             }
+            System.out.println(stm);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getString("id"), rs.getString("name"),
-                        rs.getString("description"), rs.getFloat("price"),
-                        rs.getString("origin"), rs.getInt("category_id"),
+                Product p = new Product(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getFloat("price"),
+                        rs.getString("origin"),
+                        rs.getInt("category_id"),
                         rs.getInt("unit_id"));
                 products.add(p);
             }
@@ -214,11 +211,11 @@ public class ProductServiceImpl implements ProductService {
             stm.setString(1, id);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                return new Product(rs.getString("id"), 
+                return new Product(rs.getString("id"),
                         rs.getString("name"),
-                        rs.getString("description"), 
+                        rs.getString("description"),
                         rs.getFloat("price"),
-                        rs.getString("origin"), 
+                        rs.getString("origin"),
                         rs.getInt("category_id"),
                         rs.getInt("unit_id"));
             }

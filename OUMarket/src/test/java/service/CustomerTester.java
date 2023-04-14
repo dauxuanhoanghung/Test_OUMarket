@@ -9,10 +9,7 @@ import com.tester.service.CustomerService;
 import com.tester.service.impl.CustomerServiceImpl;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +17,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -95,11 +91,10 @@ public class CustomerTester {
     public void TestAddCustomer() {
         int i;
         String str = "5996325847";
-        Customer newCus = new Customer("128", "C", "5996325847", null);
+        Customer newCus = new Customer("128", "C", "5996325847", null, null);
         CustomerService cus = new CustomerServiceImpl();
         cus.addCustomer(newCus);
-        Customer c1 = new Customer();
-        c1 = cus.getCustomerByPhone(str);
+        Customer c1 = cus.getCustomerByPhone(str);
         if (c1 != null) {
             i = 1;
         } else {
@@ -113,7 +108,7 @@ public class CustomerTester {
     @Test
     public void TestEditAccount() {
         int i = 0;
-        Customer c1 = new Customer("128", "D", "3426546389", null);
+        Customer c1 = new Customer("128", "D", "3426546389", null, null);
         CustomerService cus = new CustomerServiceImpl();
         Customer c2 = new Customer();
         if (cus.updateCustomer(c1) != -1) {

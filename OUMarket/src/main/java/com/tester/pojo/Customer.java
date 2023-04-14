@@ -4,7 +4,8 @@
  */
 package com.tester.pojo;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -16,26 +17,29 @@ public class Customer {
     private String id;
     private String name;
     private String phone;
-    private Date birthday;
+    private LocalDate birthday;
+    private LocalDate joinDate;
 
     public Customer() {
     }
 
     {
         this.id = UUID.randomUUID().toString();
+        this.joinDate = LocalDate.now();
     }
 
-    public Customer(String name, String phone, Date birthday) {
+    public Customer(String name, String phone, LocalDate birthday) {
         this.name = name;
         this.phone = phone;
         this.birthday = birthday;
     }
 
-    public Customer(String id, String name, String phone, Date birthday) {
+    public Customer(String id, String name, String phone, LocalDate birthday, LocalDate joinDate) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.birthday = birthday;
+        this.joinDate = joinDate;
     }
 
     /**
@@ -83,19 +87,33 @@ public class Customer {
     /**
      * @return the birthday
      */
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
     /**
      * @param birthday the birthday to set
      */
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
     
     @Override
     public String toString() {
         return String.format("%s - %s - %s - %s", this.id, this.name, this.phone, this.birthday);
+    }
+
+    /**
+     * @return the joinDate
+     */
+    public LocalDate getJoinDate() {
+        return joinDate;
+    }
+
+    /**
+     * @param joinDate the joinDate to set
+     */
+    public void setJoinDate(LocalDate joinDate) {
+        this.joinDate = joinDate;
     }
 }
