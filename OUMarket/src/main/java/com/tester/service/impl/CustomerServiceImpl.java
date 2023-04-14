@@ -8,7 +8,6 @@ import com.tester.pojo.Customer;
 import com.tester.service.CustomerService;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,7 +33,8 @@ public class CustomerServiceImpl implements CustomerService {
                 Customer c = new Customer(rs.getString("id"),
                         rs.getNString("name"),
                         rs.getString("phone"),
-                        rs.getDate("birthday"));
+                        rs.getDate("birthday").toLocalDate(),
+                        rs.getDate("join_date").toLocalDate());
                 customers.add(c);
             }
             return customers;
@@ -52,8 +52,11 @@ public class CustomerServiceImpl implements CustomerService {
             stm.setString(1, phone);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                return new Customer(rs.getString("id"), rs.getString("name"), 
-                        rs.getString("phone"), rs.getDate("birthday"));
+                return new Customer(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getDate("birthday").toLocalDate(),
+                        rs.getDate("join_date").toLocalDate());
             }
             return null;
         } catch (SQLException ex) {
@@ -66,12 +69,13 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer addCustomer(Customer cus) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
-            String query = "INSERT INTO customer(id, name, phone, birthday) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO customer(id, name, phone, birthday, join_date) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, cus.getId());
             stm.setString(2, cus.getName());
             stm.setString(3, cus.getPhone());
-            stm.setDate(4, (Date) cus.getBirthday());
+            stm.setObject(4, cus.getBirthday());
+            stm.setObject(5, cus.getJoinDate());
             int r = stm.executeUpdate();
             conn.commit();
             return r != 0 ? cus : null;
@@ -88,7 +92,7 @@ public class CustomerServiceImpl implements CustomerService {
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, customer.getName());
             stm.setString(2, customer.getPhone());
-            stm.setDate(3, (Date) customer.getBirthday());
+            stm.setObject(3, customer.getBirthday());
             stm.setString(4, customer.getId());
             return stm.executeUpdate();
         } catch (SQLException ex) {

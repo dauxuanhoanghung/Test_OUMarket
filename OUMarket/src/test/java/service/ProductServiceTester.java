@@ -67,7 +67,7 @@ public class ProductServiceTester {
     @Test
     public void TestListProduct() {
         ProductService prod = new ProductServiceImpl();
-        List<Product> p = prod.getProducts(null);
+        List<Product> p = prod.getProducts("");
         Assertions.assertNotNull(p);
     }
 
@@ -107,7 +107,7 @@ public class ProductServiceTester {
     public void TestPriceOfProduct() {
         float j = 0;
         ProductService prod = new ProductServiceImpl();
-        List<Product> ListProduct = prod.getProducts(null);
+        List<Product> ListProduct = prod.getProducts("");
         List<Product> ListProductTest = new ArrayList<>();
         for (Product p : ListProduct) {
             if (p.getPrice() == j || p.getPrice() < j) {
@@ -123,7 +123,7 @@ public class ProductServiceTester {
     public void TestProductDuplicat() {
 
         ProductService s = new ProductServiceImpl();
-        List<Product> p = s.getProducts(null);
+        List<Product> p = s.getProducts("");
         List<String> ProductName = p.stream().
                 map(mapper -> mapper.getName()).collect(Collectors.toList());
         Set<String> setProductName = new HashSet<>(ProductName);

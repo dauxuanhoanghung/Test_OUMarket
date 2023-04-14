@@ -48,5 +48,6 @@
       <Label layoutX="937.0" layoutY="766.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="Tiền thừa:" />
       <Label alignment="CENTER_RIGHT" layoutX="1048.0" layoutY="705.0" prefHeight="20.0" prefWidth="211.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="0 VNĐ" />
       <Label alignment="CENTER_RIGHT" layoutX="1048.0" layoutY="766.0" prefHeight="20.0" prefWidth="211.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="0 VNĐ" />
+      <Button fx:id="registerBtn" layoutX="193.0" layoutY="744.0" mnemonicParsing="false" text="Đăng kí thành viên" />
     </children>
 </Pane>

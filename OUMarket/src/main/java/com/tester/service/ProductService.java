@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public interface ProductService {
     List<Product> getProducts(String kw);
+    List<Product> getProducts(Map<String, String> params);
     List<Product> getProductsByBranch(BranchMarket branch);
     List<Product> getProductsByBranch(int id);
     List<Product> getUnsetProductsByBranch(BranchMarket branch);

@@ -180,46 +180,9 @@ public class ManageEventController extends AbstractManageController {
         }
     }
 
-//    public void handleAddButton(ActionEvent event) {
-//        ObservableList<Product> selectedProducts = tbvUnset.getSelectionModel().getSelectedItems();
-//        if (selectedProducts.isEmpty()) {
-//            MessageBox.AlertBox("Vui lòng chọn sản phẩm", "Chưa có sản phẩm nào đc chọn",
-//                    Alert.AlertType.WARNING).show();
-//            return;
-//        }
-//        Stage mainStage = (Stage) addBtn.getScene().getWindow();
-//        for (Product p : selectedProducts) {
-//            Stage subStage = new Stage();
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("EventDetails.fxml"));
-//            Parent root = null;
-//            try {
-//                root = loader.load();
-//            } catch (IOException ex) {
-//                Logger.getLogger(ManageEventController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            Scene scene = new Scene(root);
-//            // Set the controller for the sub stage
-//            EventDetailsController edController = loader.getController();
-//            edController.setProduct(p);
-//            edController.showProduct(p);
-//            
-//            subStage.setScene(scene);
-//            subStage.initModality(Modality.APPLICATION_MODAL);
-//            subStage.initOwner(mainStage);
-//            subStage.showAndWait();
-//            SubProduct subProduct = edController.getResult();
-//            if (subProduct != null) {
-//                tbvProductSelected.getItems().add(subProduct);
-//                tbvUnset.getItems().removeIf(product -> {
-//                    return ((Product) product).hasSameId(subProduct);
-//                });
-//            }
-//            
-//        }
-//        MessageBox.AlertBox("OK", "OK", Alert.AlertType.INFORMATION).show();
-//    }
     public void handleAddButton(ActionEvent event) {
-        ObservableList<Product> selectedProducts = tbvUnset.getSelectionModel().getSelectedItems();
+        List<Product> selectedProducts = new ArrayList<>();
+        selectedProducts.addAll(tbvUnset.getSelectionModel().getSelectedItems());
         if (selectedProducts.isEmpty()) {
             MessageBox.AlertBox("Vui lòng chọn sản phẩm", "Chưa có sản phẩm nào đc chọn",
                     Alert.AlertType.WARNING).show();
@@ -248,17 +211,15 @@ public class ManageEventController extends AbstractManageController {
             SubProduct subProduct = edController.getResult();
             if (subProduct != null) {
                 tbvProductSelected.getItems().add(subProduct);
-                for (Object product : tbvUnset.getItems()) {
-                    if (((Product)product).hasSameId(subProduct)) {
-                        tbvUnset.getItems().remove(product);
-                        break;
-                    }
-                }
+                tbvUnset.getItems().removeIf(product -> {
+                    return ((Product) product).hasSameId(subProduct);
+                });
             }
-        }
-        MessageBox.AlertBox("OK", "OK", Alert.AlertType.WARNING).show();
-    }
 
+        }
+        MessageBox.AlertBox("OK", "OK", Alert.AlertType.INFORMATION).show();
+    }
+    
     public void handleCancelButton(ActionEvent event) {
         ChangeStatus.clearText(descriptionField);
         endDatePicker.setValue(null);
