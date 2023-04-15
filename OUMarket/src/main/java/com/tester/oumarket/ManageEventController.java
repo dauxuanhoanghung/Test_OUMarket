@@ -18,8 +18,11 @@ import com.tester.utils.CheckUtils;
 import com.tester.utils.MessageBox;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -38,7 +41,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -46,6 +48,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 /**
  *
@@ -84,6 +87,8 @@ public class ManageEventController extends AbstractManageController {
         loadEventDetailTableColumn();
 
         setHandling();
+        handleDatePicker(endDatePicker);
+        handleDatePicker(startDatePicker);
         ChangeStatus.disable(saveBtn);
 
         tbvProductSelected.getItems().addListener(new ListChangeListener<SubProduct>() {
@@ -105,6 +110,42 @@ public class ManageEventController extends AbstractManageController {
         addBtn.setOnAction(this::handleAddButton);
         cancelBtn.setOnAction(this::handleCancelButton);
         deleteDetail.setOnAction(this::handleRemoveButton);
+    }
+    
+    public void handleDatePicker(DatePicker datePicker) {
+        datePicker.setShowWeekNumbers(true);
+        StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter
+                    = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        };
+        datePicker.setConverter(converter);
+        datePicker.setPromptText("dd/MM/yyyy");
+        datePicker.getEditor().textProperty().addListener((obs, oldText, newText) -> {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate date = LocalDate.parse(newText, formatter);
+                datePicker.setValue(date);
+            } catch (DateTimeParseException e) {
+            }
+        });
     }
 
     private void loadUnsetTableColumn() {

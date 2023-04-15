@@ -66,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer addCustomer(Customer cus) {
+    public int addCustomer(Customer cus) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
             String query = "INSERT INTO customer(id, name, phone, birthday, join_date) VALUES (?, ?, ?, ?, ?)";
@@ -78,10 +78,10 @@ public class CustomerServiceImpl implements CustomerService {
             stm.setObject(5, cus.getJoinDate());
             int r = stm.executeUpdate();
             conn.commit();
-            return r != 0 ? cus : null;
+            return r;
         } catch (SQLException ex) {
             Logger.getLogger(CustomerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return -1;
         }
     }
 
