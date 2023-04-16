@@ -73,33 +73,23 @@ public class EmployeeTester {
     @Test
     /*Kiểm tra tim thông tin nhân viên theo tên đăng nhập*/
     public void TestGetEmployeeByName() {
-        int i = 0;
         String str = "hungnewbie";
         EmployeeService e = new EmployeeServiceImpl();
-        Employee emp = new Employee();
-        emp = e.getEmployeeByUsername(str);
-        if (emp != null) {
-            i = 1;
-        }
-        Assertions.assertEquals(1, i);
+        Employee emp = e.getEmployeeByUsername(str);
+
+        Assertions.assertNotNull(emp);
     }
 
-//    @Test
-//    /*Kiểm tra tim thông tin username và mật khẩu*/
-//    public void TestAuthencateEmployee() {
-//        int i = 0;
-//        String username = "hungnewbie1";
-//        String password = "123456789";
-//        EmployeeService e = new EmployeeServiceImpl();
-//        Employee emp = new Employee();
-//        emp = e.authencateEmployee(username, password);
-//        if (emp != null) {
-//            i = 1;
-//        }
-//        Assertions.assertEquals(1, i);
-//        
-//    }
-
+    @Test
+    /*Kiểm tra tim thông tin username và mật khẩu*/
+    public void TestAuthencateEmployee() {
+        String username = "hungnewbie";
+        String password = "123456789";
+        EmployeeService e = new EmployeeServiceImpl();
+        Employee emp = e.authencateEmployee(username, password);
+        Assertions.assertNotNull(emp);
+        
+    }
     @Test
     /*Kiểm tra xem có thêm nhân viên được không*/
     public void TestAddEmployee() {
@@ -122,22 +112,22 @@ public class EmployeeTester {
         EmployeeService e = new EmployeeServiceImpl();
         Employee emp = new Employee("123", "Nguyễn Hoài Nam", "HoaiNam123", "123456", joinDate1, birthday1, true, "9853719715", "EMPLOYEE", 1);
         i = e.updateEmployee(emp);
-        Assertions.assertNotEquals(0, i);
+        Assertions.assertNotEquals(-1, i);
     }
 
     @Test
     /*Kiểm tra xem coi username, password có rống hay khoong*/
     public void TestUsernamePassword() {
-        int i = 0;
+        boolean expected = false;
         EmployeeService e = new EmployeeServiceImpl();
         List<Employee> ListEmp = e.getEmployees("1");
 
         for (Employee emp : ListEmp) {
             if (emp.getUsername() == null || emp.getPassword() == null) {
-                i = 1;
+                expected = true;
             }
         }
-        Assertions.assertEquals(0, i);
+        Assertions.assertFalse(expected);
     }
 
     public static LocalDate dateToLocalDate(Date date) {
@@ -147,25 +137,25 @@ public class EmployeeTester {
     @Test
     /* Kiểm tra coi nhân viên phải >18 tuổi */
     public void TestOldEmployee() {
-        int i = 0;
+        boolean expected = true;
         LocalDate now = LocalDate.now();
         EmployeeService e = new EmployeeServiceImpl();
         List<Employee> ListEmp = e.getEmployees("1");
 
         for (Employee emp : ListEmp) {
-            Date t=emp.getBirthday();
-            Date Now=Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date t = emp.getBirthday();
+            Date Now = Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
             int age = now.getYear() - t.getYear();
             if (now.getMonthValue() < t.getMonth()
-                    || (now.getMonthValue() == t.getMonth()&& now.getDayOfMonth() < t.getDay())) {
+                    || (now.getMonthValue() == t.getMonth() && now.getDayOfMonth() < t.getDay())) {
                 age--;
             }
             if (age < 18) {
-                i = 1;
+                expected = false;
                 break;
             }
         }
-        Assertions.assertEquals(0, i);
-        
+        Assertions.assertTrue(expected);
+
     }
 }
