@@ -85,6 +85,7 @@ public class CheckUtils {
         }
         return 1;
     }
+
     public static int isValidUsername(String username) {
         if (!isNotNullAndBlankText(username)) {
             return 0;
@@ -94,8 +95,8 @@ public class CheckUtils {
         }
         return 1;
     }
+
     /**
-     *
      * @param p
      * @param quantity
      * @return 0: chuỗi rỗng -1: không khớp là double hoặc int, check ở đây là
@@ -218,20 +219,38 @@ public class CheckUtils {
             return 1;
         }
     }
+
     public static int isValidPrice(float price) {
         //kiểm tra xem price có phải là một số không
         if (Float.isNaN(price)) {
             return 0;
         }
-        String condition= Float.toString(price);
-        if(!CheckUtils.isNotNullAndBlankText(condition))
+        String condition = Float.toString(price);
+        if (!CheckUtils.isNotNullAndBlankText(condition)) {
             return -1;
+        }
         //kiểm tra xem price có bé hơn 0 hay không
-        if (price<0) {
+        if (price < 0) {
             return -2;
         }
         return 1;
+    }
+
+    public static int isValidPrice(String priceText) {
+        if (!isNotNullAndBlankText(priceText)) {
+            return 0;
         }
+        try {
+            Float price = Float.valueOf(priceText);
+            if (price < 0) {
+                return -2;
+            }
+            return 1;
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
     public static int isValidDescription(String description) {
         if (!isNotNullAndBlankText(description)) {
             return 0;

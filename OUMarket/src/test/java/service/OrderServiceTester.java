@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package service;
+
 import com.tester.pojo.Order;
 import com.tester.service.OrderService;
 import com.tester.service.impl.OrderServiceImpl;
@@ -31,12 +32,14 @@ import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
+
 /**
  *
  * @author ADmin
  */
 public class OrderServiceTester {
-     private static Connection conn;
+
+    private static Connection conn;
 
     @BeforeAll
     public static void beforeAll() {
@@ -56,19 +59,21 @@ public class OrderServiceTester {
             Logger.getLogger(CategoryTester.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /*Kiểm tra thêm Order thành công hay không*/
-   /* @Test
-    public void TestAddOrder()
-    {
-        int i=0;
+    @Test
+    public void testAddOrder() {
+        OrderService orderService = new OrderServiceImpl();
+        Order o = new Order(600000, 
+                "115dd543-2ef0-417e-941a-177756665f64", "34869609-086a-4a2a-8d13-eff266f46183");
+        List<OrderDetail> odList = new ArrayList<>();
+        OrderDetail od1 = new OrderDetail(2, 100000, o.getId(), "0209408506947819600");
+        OrderDetail od2 = new OrderDetail(1, 400000, o.getId(), "020940850694781960004");
+        odList.add(od2);
+        odList.add(od1);
+        int i = orderService.addOrder(o, odList);
         
-        java.util.Date utilDate = new java.util.Date();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        OrderService order=new OrderServiceImpl();
-        Order o=new Order("2",600000, sqlDate, "123", "124");
-        List<OrderDetail> od=new ArrayList<>();
-        i=order.addOrder(o, od);
+        
         Assertions.assertNotEquals(0, i);
-    }*/
+    }
 }

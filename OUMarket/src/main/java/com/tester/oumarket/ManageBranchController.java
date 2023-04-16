@@ -61,10 +61,14 @@ public class ManageBranchController extends AbstractManageController {
         this.lblEmplCount.setText("Chưa có chi nhánh được chọn");
         loadTableColumn();
         loadContentToTableView(null);
+        setHandling();
 
-        this.addButton.setOnAction(this::handleClickOnAddButton);
-        this.cancelButton.setOnAction(this::handlerCancelButton);
         ChangeStatus.disable(cancelButton, txtBranchName, txtBranchLocation, txtBranchPhone);
+    }
+
+    public void setHandling() {
+        this.addButton.setOnAction(this::handleAddButton);
+        this.cancelButton.setOnAction(this::handlerCancelButton);
     }
 
     private void loadTableColumn() {
@@ -122,7 +126,7 @@ public class ManageBranchController extends AbstractManageController {
      *
      * @param event
      */
-    public void handleClickOnAddButton(ActionEvent event) {
+    public void handleAddButton(ActionEvent event) {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             BranchMarket bm = mapInputToBranchMarket(new BranchMarket());
             if (CheckUtils.isValidName(bm.getName()) == 1) {

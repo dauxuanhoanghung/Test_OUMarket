@@ -62,7 +62,7 @@ public class EmployeeTester {
 
     @Test
     /*Kiểm tra xem danh sách nhân viên có rỗng không*/
-    public void TestListEmployeeNotNull() throws SQLException {
+    public void testListEmployeeNotNull() throws SQLException {
         EmployeeService e = new EmployeeServiceImpl();
         List<Employee> cus = e.getEmployees("1");
         List<Employee> Null = null;
@@ -72,7 +72,7 @@ public class EmployeeTester {
 
     @Test
     /*Kiểm tra tim thông tin nhân viên theo tên đăng nhập*/
-    public void TestGetEmployeeByName() {
+    public void testGetEmployeeByName() {
         String str = "hungnewbie";
         EmployeeService e = new EmployeeServiceImpl();
         Employee emp = e.getEmployeeByUsername(str);
@@ -81,7 +81,7 @@ public class EmployeeTester {
 
     @Test
     /*Kiểm tra tim thông tin username và mật khẩu*/
-    public void TestAuthencateEmployee() {
+    public void testAuthencateEmployee() {
         String username = "hungnewbie";
         String password = "123456789";
         EmployeeService e = new EmployeeServiceImpl();
@@ -91,7 +91,7 @@ public class EmployeeTester {
     }
     @Test
     /*Kiểm tra xem có thêm nhân viên được không*/
-    public void TestAddEmployee() {
+    public void testAddEmployee() {
         int i = 0;
         Date joinDate1 = new Date(2022, 3, 1);
         Date birthday1 = new Date(1990, 5, 15);
@@ -104,7 +104,7 @@ public class EmployeeTester {
 
     @Test
     /*Kiểm tra xem có cập nhật nhân viên được không*/
-    public void TestUpdateEmployee() {
+    public void testUpdateEmployee() {
         int i = 0;
         Date joinDate1 = new Date(2022, 3, 1);
         Date birthday1 = new Date(1990, 5, 15);
@@ -116,7 +116,7 @@ public class EmployeeTester {
 
     @Test
     /*Kiểm tra xem coi username, password có rống hay khoong*/
-    public void TestUsernamePassword() {
+    public void testUsernamePassword() {
         boolean expected = false;
         EmployeeService e = new EmployeeServiceImpl();
         List<Employee> ListEmp = e.getEmployees("1");
@@ -135,7 +135,7 @@ public class EmployeeTester {
 
     @Test
     /* Kiểm tra coi nhân viên phải >18 tuổi */
-    public void TestOldEmployee() {
+    public void testOldEmployee() {
         boolean expected = true;
         LocalDate now = LocalDate.now();
         EmployeeService e = new EmployeeServiceImpl();

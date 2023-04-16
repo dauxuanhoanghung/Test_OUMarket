@@ -10,6 +10,7 @@ import com.tester.service.impl.CustomerServiceImpl;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,16 +51,15 @@ public class CustomerTester {
 
     @Test
     /*Kiểm tra xem danh sách khách hàng có rỗng không*/
-    public void TestListCustomerNotNull() throws SQLException {
+    public void testListCustomerNotNull() throws SQLException {
         CustomerService c = new CustomerServiceImpl();
         List<Customer> cus = c.getCustomers();
         List<Customer> Null = null;
         Assertions.assertNotEquals(Null, c);
-
     }
 
     @Test
-    public void TestPhoneNotDupplication() {
+    public void testPhoneNotDuplication() {
         CustomerService c = new CustomerServiceImpl();
         List<Customer> cus = c.getCustomers();
         List<String> cusPhone = cus.stream().
@@ -71,46 +71,44 @@ public class CustomerTester {
 
     /* Kiểm tra việc tra cứu khách hàng theo số điện thoại có hợp lệ hay không? */
     @Test
-    public void TestGetCustomerPhone() {
-        String str = "094568465";
-        CustomerService cus = new CustomerServiceImpl();
-        Customer c1 = cus.getCustomerByPhone(str);
-        Assertions.assertNotNull(c1);
+    public void testGetCustomerPhone() {
+        String str = "0934831458";
+        CustomerService customerService = new CustomerServiceImpl();
+        Customer c = customerService.getCustomerByPhone(str);
+        Assertions.assertNotNull(c);
     }
 
     /* Kiểm tra việc thêm khách hàng có hợp lệ hay không */
     @Test
-    public void TestAddCustomer() {
-  
-        String str = "5996325847";
-        Customer newCus = new Customer("128", "C", "5996325847", null, null);
-        CustomerService cus = new CustomerServiceImpl();
-        cus.addCustomer(newCus);
-        Assertions.assertNotNull(cus);
+    public void testAddCustomer() {
+        String phone = "0112233445";
+        LocalDate birthday = LocalDate.of(1990, 1, 1);
+        Customer newCus = new Customer("C", phone, birthday);
+        CustomerService customerService = new CustomerServiceImpl();
+        customerService.addCustomer(newCus);
+        
+        Assertions.assertNotNull(customerService.getCustomerByPhone(phone));
     }
 
     /*Kiểm tra xem việc thay đổi thông tin khách hàng cơ hợp lệ hay không*/
     @Test
-    public void TestEditAccount() {
+    public void testEditAccount() {
         int i;
         Customer c1 = new Customer("128", "D", "3426546389", null, null);
         CustomerService cus = new CustomerServiceImpl();
-        i=cus.updateCustomer(c1);
+        i = cus.updateCustomer(c1);
         Assertions.assertEquals(-1, i);
     }
-    
+
     /*Kiểm tra xem số điện thoại có hợp lệ hay không*/
     @Test
-    public void TestPhoneNumberLegit()
-    {
-        boolean expected =true;
-        CustomerService cus=new CustomerServiceImpl();
-        List<Customer>ListCus=cus.getCustomers();
-        for(Customer c : ListCus)
-        {
-            if(c.getPhone().length()!=10)
-            {
-                expected=false;
+    public void testPhoneNumberLegit() {
+        boolean expected = true;
+        CustomerService cus = new CustomerServiceImpl();
+        List<Customer> ListCus = cus.getCustomers();
+        for (Customer c : ListCus) {
+            if (c.getPhone().length() != 10) {
+                expected = false;
             }
         }
         Assertions.assertTrue(expected);

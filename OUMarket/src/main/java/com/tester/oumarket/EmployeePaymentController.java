@@ -6,7 +6,6 @@ package com.tester.oumarket;
 
 import com.tester.pojo.Customer;
 import com.tester.pojo.Order;
-import com.tester.pojo.OrderDetail;
 import com.tester.pojo.Product;
 import com.tester.pojo.sub.CartItem;
 import com.tester.service.CustomerService;
@@ -29,7 +28,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,17 +36,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.converter.FloatStringConverter;
-import javafx.util.converter.NumberStringConverter;
 
 /**
  *
@@ -67,6 +62,10 @@ public class EmployeePaymentController extends AbstractManageController {
     @FXML
     private Label lblTotal;
     @FXML
+    private Label lblExchangeMoney;
+    @FXML
+    private Label errorMoneyMessage;
+    @FXML
     private TableView tbvOrderDetail;
     @FXML
     private TableView tbvSearch;
@@ -74,6 +73,8 @@ public class EmployeePaymentController extends AbstractManageController {
     private TextField txtProductId;
     @FXML
     private TextField txtCustomerPhone;
+    @FXML
+    private TextField txtMoney;
     @FXML
     private Button registerBtn;
     @FXML
@@ -89,6 +90,16 @@ public class EmployeePaymentController extends AbstractManageController {
         loadOrderDetailTableColumn();
         loadTableSearchColumn();
         setHandling();
+        ChangeStatus.invisible(errorMoneyMessage);
+    }
+
+    public void setHandling() {
+        this.addBtn.setOnAction(this::handleAddButton);
+        this.registerBtn.setOnAction(this::handleRegisterButton);
+        this.payBtn.setOnAction(this::handlePaymentButton);
+        this.delCusBtn.setOnAction(this::handleDeleteCustomerButton);
+        this.txtMoney.setOnKeyPressed(this::handleMoneyCustomer);
+        handleSearchCustomer();
         this.txtProductId.setOnKeyPressed(event -> {
             ProductService ps = new ProductServiceImpl();
             Map<String, String> params = new HashMap<>();
@@ -98,14 +109,6 @@ public class EmployeePaymentController extends AbstractManageController {
             tbvSearch.getItems().clear();
             tbvSearch.getItems().addAll(products);
         });
-    }
-
-    public void setHandling() {
-        this.addBtn.setOnAction(this::handleAddButton);
-        this.registerBtn.setOnAction(this::handleRegisterButton);
-        this.payBtn.setOnAction(this::handlePaymentButton);
-        this.delCusBtn.setOnAction(this::handleDeleteCustomerButton);
-        handleSearchCustomer();
     }
 
     public void handleRegisterButton(ActionEvent event) {
@@ -172,12 +175,18 @@ public class EmployeePaymentController extends AbstractManageController {
     public void handlePaymentButton(ActionEvent event) {
         OrderService os = new OrderServiceImpl();
         ArrayList<CartItem> cartItems = new ArrayList<>(tbvOrderDetail.getItems());
-        Order order = new Order(Float.parseFloat(lblTotal.getText()), 
+        Order order = new Order(Float.parseFloat(lblTotal.getText()),
                 App.getCurrentEmployee().getId(), customer != null ? customer.getId() : null);
         if (os.addOrder(order, cartItems) > 0) {
+
+            ChangeStatus.clearText(lblCustomerPhone, lblCustomerName, lblCustomerBirthday);
+            ChangeStatus.clearText(txtCustomerPhone, txtMoney);
+            lblTotal.setText("0");
+            lblExchangeMoney.setText("0");
+            tbvOrderDetail.getItems().clear();
             MessageBox.AlertBox("Success", "Thanh toán thành công", Alert.AlertType.CONFIRMATION).show();
         } else {
-            MessageBox.AlertBox("FAILED", "Có lỗi", Alert.AlertType.WARNING).show();
+            MessageBox.AlertBox("FAILED", "Có lỗi", Alert.AlertType.ERROR).show();
         }
 
     }
@@ -188,7 +197,6 @@ public class EmployeePaymentController extends AbstractManageController {
         }
         ChangeStatus.clearText(lblCustomerBirthday, lblCustomerName, lblCustomerPhone);
         this.customer = null;
-
     }
 
     private void loadOrderDetailTableColumn() {
@@ -265,5 +273,35 @@ public class EmployeePaymentController extends AbstractManageController {
                 }
             }
         });
+    }
+
+    public void handleMoneyCustomer(KeyEvent event) {
+        String moneyText = txtMoney.getText();
+        int priceCheck = CheckUtils.isValidPrice(moneyText);
+        if (priceCheck == 1) {
+            ChangeStatus.invisible(errorMoneyMessage);
+            Float total = Float.valueOf(lblTotal.getText());
+            Float money = Float.valueOf(moneyText);
+            Float exchange = money - total;
+            if (exchange < 0) {
+                errorMoneyMessage.setText("Chưa đủ tiền");
+                ChangeStatus.visible(errorMoneyMessage);
+                return;
+            }
+            lblExchangeMoney.setText(exchange + "");
+        } else {
+            ChangeStatus.visible(errorMoneyMessage);
+            switch (priceCheck) {
+                case 0:
+                    errorMoneyMessage.setText("Chưa nhập tiền");
+                    break;
+                case -1:
+                    errorMoneyMessage.setText("Nhập ko phải tiền");
+                    break;
+                case -2:
+                    errorMoneyMessage.setText("Nhập số âm !!!");
+                    break;
+            }
+        }
     }
 }

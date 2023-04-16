@@ -43,19 +43,19 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-      <Label layoutX="865.0" layoutY="644.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="Tổng tiền:" />
-      <TextField layoutX="974.0" layoutY="675.0" prefHeight="25.0" prefWidth="217.0" />
-      <Label layoutX="865.0" layoutY="677.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="Tiền đưa:" />
-      <Label layoutX="865.0" layoutY="705.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="Tiền thừa:" />
-      <Label fx:id="lblTotal" alignment="CENTER_RIGHT" layoutX="976.0" layoutY="644.0" prefHeight="20.0" prefWidth="211.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="0" />
-      <Label alignment="CENTER_RIGHT" layoutX="976.0" layoutY="705.0" prefHeight="20.0" prefWidth="211.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="0" />
+      <Label layoutX="865.0" layoutY="623.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="Tổng tiền:" />
+      <TextField fx:id="txtMoney" layoutX="974.0" layoutY="654.0" prefHeight="25.0" prefWidth="217.0" />
+      <Label layoutX="865.0" layoutY="656.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="Tiền đưa:" />
+      <Label layoutX="865.0" layoutY="714.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="Tiền thừa:" />
+      <Label fx:id="lblTotal" alignment="CENTER_RIGHT" layoutX="976.0" layoutY="623.0" prefHeight="20.0" prefWidth="211.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="0" />
+      <Label fx:id="lblExchangeMoney" alignment="CENTER_RIGHT" layoutX="976.0" layoutY="714.0" prefHeight="20.0" prefWidth="211.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="0" />
       <Button fx:id="registerBtn" layoutX="193.0" layoutY="744.0" mnemonicParsing="false" text="Đăng kí thành viên" />
       <Label layoutX="701.0" layoutY="195.0" stylesheets="@css/ManagerServicePage.css" text="Tra cứu khách hàng">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Pane layoutX="701.0" layoutY="281.0" prefHeight="200.0" prefWidth="490.0" style="-fx-background-color: #222222; -fx-opacity: 0.2;">
+      <Pane layoutX="701.0" layoutY="281.0" prefHeight="200.0" prefWidth="490.0" styleClass="SubPane">
          <children>
             <Label layoutX="23.0" layoutY="27.0" text="Tên KH:" textFill="WHITE">
                <font>
@@ -91,8 +91,10 @@
          </children></Pane>
       <TableView fx:id="tbvSearch" layoutX="20.0" layoutY="117.0" prefHeight="124.0" prefWidth="490.0" />
       <Button fx:id="payBtn" layoutX="1032.0" layoutY="744.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="164.0" text="Thanh toán" />
-      <Label alignment="CENTER_RIGHT" layoutX="1019.0" layoutY="644.0" prefHeight="20.0" prefWidth="211.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="VNĐ" />
-      <Label alignment="CENTER_RIGHT" layoutX="1019.0" layoutY="705.0" prefHeight="20.0" prefWidth="211.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="VNĐ" />
+      <Label alignment="CENTER_RIGHT" layoutX="1183.0" layoutY="623.0" prefHeight="22.0" prefWidth="47.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="VNĐ" />
+      <Label alignment="CENTER_RIGHT" layoutX="1183.0" layoutY="714.0" prefHeight="22.0" prefWidth="47.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="VNĐ" />
+      <Label fx:id="errorMoneyMessage" alignment="CENTER_RIGHT" layoutX="976.0" layoutY="679.0" prefHeight="22.0" prefWidth="217.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" />
+      <Label alignment="CENTER_RIGHT" layoutX="1191.0" layoutY="656.0" prefHeight="22.0" prefWidth="41.0" styleClass="label1" stylesheets="@css/EmployeeServicePage.css" text="VNĐ" />
     </children>
    <stylesheets>
       <URL value="@css/EmployeeServicePage.css" />

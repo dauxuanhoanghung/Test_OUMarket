@@ -75,8 +75,6 @@ public class ManageProductController extends AbstractManageController {
     private Label lbProductNameFalse;
     @FXML
     private Label lbPriceFalse;
-    @FXML
-    private Label lbDescriptionFalse;
     private CategoryService cs;
     private UnitService us;
 

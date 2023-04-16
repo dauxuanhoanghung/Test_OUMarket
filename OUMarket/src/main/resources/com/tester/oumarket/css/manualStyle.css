@@ -28,11 +28,14 @@ Button {
     -fx-alignment: center;
 }
 .ReturnButton{
-    -fx-background-color: linear-gradient(to bottom right, #6C5B7B, #C06C84, #F67280); 
+    -fx-background-color: linear-gradient(to bottom right, #6C5B7B, #C06C84, #F67280);
 }
 .cancelButton, .confirm {
     -fx-background-color: #c00000;
 }
 RadioButton {
-  -fx-font-size: 14px;
+    -fx-font-size: 14px;
+}
+.SubPane {
+    -fx-background-color: rgba(122, 202, 255, 0.3);
 }

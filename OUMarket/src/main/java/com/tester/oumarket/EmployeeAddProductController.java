@@ -1,4 +1,3 @@
-
 package com.tester.oumarket;
 
 import com.tester.pojo.Event;
@@ -49,6 +48,9 @@ public class EmployeeAddProductController implements Initializable {
     private void setHandling() {
         this.cancelBtn.setOnAction(this::handleCancelButton);
         this.addBtn.setOnAction(this::handleAddButton);
+        txtNumber.setOnKeyPressed(event -> {
+            addToCart();
+        });
     }
 
     public void handleCancelButton(ActionEvent event) {
@@ -57,15 +59,19 @@ public class EmployeeAddProductController implements Initializable {
     }
 
     public void handleAddButton(ActionEvent event) {
+        addToCart();
+    }
+
+    private void addToCart() {
         String id = txtId.getText();
-        Float price = Float.valueOf(txtPrice.getText());        
-        
+        Float price = Float.valueOf(txtPrice.getText());
+
         int quantityCheck = CheckUtils.isValidQuantity(product, txtNumber.getText());
 
         if (quantityCheck == 1) {
             errorQuantityMessage.setText("");
             Float quantity = Float.valueOf(txtNumber.getText());
-            CartItem item = new CartItem(id, product.getName(), price, product.getPrice() ,quantity);
+            CartItem item = new CartItem(id, product.getName(), price, product.getPrice(), quantity);
             setCartItem(item);
             Stage stage = (Stage) addBtn.getScene().getWindow();
             stage.close();
@@ -82,10 +88,10 @@ public class EmployeeAddProductController implements Initializable {
         EventProduct ep = es.getEventProduct(e, product);
         if (ep == null) {
             txtPrice.setText(p.getPrice() + "");
-        }
-        else
+        } else {
             txtPrice.setText(ep.getDiscountPrice() + "");
-        
+        }
+
         txtNumber.setText("1");
     }
 

@@ -202,18 +202,22 @@ public class ManageEmployeeController extends AbstractManageController {
      * @param event
      */
     public void handlerUpdateButton(ActionEvent event) {
+        Button b = (Button) event.getSource();
+        TableCell cell = (TableCell) b.getParent();
+        Employee employee = (Employee) cell.getTableRow().getItem();
+        if (employee == null) {
+            return;
+        }
         Alert alert = MessageBox.AlertBox("Update", "Chỉnh sửa ?", Alert.AlertType.CONFIRMATION);
         alert.showAndWait().ifPresent(res -> {
             if (res == ButtonType.OK) {
-                Button b = (Button) event.getSource();
-                TableCell cell = (TableCell) b.getParent();
-                Employee employee = (Employee) cell.getTableRow().getItem();
                 //Xác nhận update
                 if (b.getText().equals("Confirm")) {
                     mapInputToEmployee(employee);
                     if (CheckUtils.isValidName(employee.getName()) == 1
                             && CheckUtils.isValidPassword(employee.getPassword()) == 1
-                            && CheckUtils.isValidPhoneNumber(employee.getPhone()) == 1) {
+                            && CheckUtils.isValidPhoneNumber(employee.getPhone()) == 1
+                            && CheckUtils.isAgeEnough18(employee.getBirthday()) == 1) {
                         //Update here
                         EmployeeService es = new EmployeeServiceImpl();
                         if (es.updateEmployee(employee) > 0) { //update thành công
@@ -223,11 +227,15 @@ public class ManageEmployeeController extends AbstractManageController {
                             ChangeStatus.enable(getTableViewButtons(tbvEmp));
                             ChangeStatus.disable(txtName, txtPassword, txtPhone,
                                     txtUsername, dpBirthday, cbbRole, cbbBranch);
+                            ChangeStatus.invisible(lbNameFalse, lbUsernameFalse, lbPasswordFalse,
+                                    lbPhoneFalse, lbPositionFalse, lbBranchFalse, lbBirthdayFalse);
                             loadContentToTableView();
                         } else {
                             MessageBox.AlertBox("Error", "Something is error!!!", Alert.AlertType.ERROR).show();
                         }
                         tbvEmp.setOnMouseClicked(this::handlerClickOnTableView);
+                    } else {
+                        handlerCheckInfo(employee);
                     }
                 } else {
                     //Bắt đầu input để update
@@ -287,11 +295,12 @@ public class ManageEmployeeController extends AbstractManageController {
                     && CheckUtils.isAgeEnough18(emp.getBirthday()) == 1) {
                 EmployeeService es = new EmployeeServiceImpl();
                 es.addEmployee(emp);
+                ChangeStatus.invisible(lbNameFalse, lbUsernameFalse, lbPasswordFalse,
+                        lbPhoneFalse, lbPositionFalse, lbBranchFalse, lbBirthdayFalse);
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
                 loadContentToTableView();
             } else {
                 handlerCheckInfo(emp);
-//                MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
             }
             ChangeStatus.adjustButton(addButton, "Thêm", "update");
             ChangeStatus.disable(txtName, txtPassword, txtPhone,
@@ -314,38 +323,56 @@ public class ManageEmployeeController extends AbstractManageController {
         int usernameCondition = CheckUtils.isValidUsername(emp.getUsername());
         int passwordCondition = CheckUtils.isValidPassword(emp.getPassword());
         int phoneCondition = CheckUtils.isValidPhoneNumber(emp.getPhone());
+        int ageCondition = CheckUtils.isAgeEnough18(emp.getBirthday());
 
-        if (nameCondition == 0) {
-            lbNameFalse.setText("Họ Tên nhân viên không được nhập");
-            lbNameFalse.setVisible(true);
+        switch (nameCondition) {
+            case 0:
+                lbNameFalse.setText("Họ Tên nhân viên không được nhập");
+                ChangeStatus.visible(lbNameFalse);
+                break;
+            case -1:
+                lbNameFalse.setText("Họ tên nhân viên chứa ký tự đặt biệt");
+                ChangeStatus.visible(lbNameFalse);
+                break;
+            case -2:
+                lbNameFalse.setText("Họ tên nhân viên vượt qua 50 ký tự");
+                ChangeStatus.visible(lbNameFalse);
+                break;
         }
-        if (usernameCondition == 0) {
-            lbUsernameFalse.setText("Tên đăng nhập đang không được nhập");
-            lbUsernameFalse.setVisible(true);
+
+        switch (phoneCondition) {
+            case 0:
+                lbPhoneFalse.setText("Số điện thoại đang không được nhập");
+                ChangeStatus.visible(lbPhoneFalse);
+                break;
+            case -1:
+                lbPhoneFalse.setText("Số điện thoại phải đủ 10 ký tự");
+                ChangeStatus.visible(lbPhoneFalse);
+                break;
+            case -2:
+                lbPhoneFalse.setText("Số điện thoại chỉ có thể là số");
+                ChangeStatus.visible(lbPhoneFalse);
+                break;
+            case -3:
+                lbPhoneFalse.setText("Số điện thoại phải bắt đầu bằng số 0");
+                ChangeStatus.visible(lbPhoneFalse);
+                break;
         }
+
+        switch (usernameCondition) {
+            case 0:
+                lbUsernameFalse.setText("Tên đăng nhập đang không được nhập");
+                ChangeStatus.visible(lbUsernameFalse);
+                break;
+            case -1:
+                lbUsernameFalse.setText("Tên đăng nhập vượt quá 50 ký tự");
+                ChangeStatus.visible(lbUsernameFalse);
+                break;
+        }
+
         if (passwordCondition == 0) {
             lbPasswordFalse.setText("Mật khẩu đang không được nhập");
-            lbPasswordFalse.setVisible(true);
-        }
-        if (phoneCondition == 0) {
-            lbPhoneFalse.setText("Số điện thoại đang không được nhập");
-            lbPhoneFalse.setVisible(true);
-        }
-        if (CheckUtils.isAgeEnough18(emp.getBirthday()) == 0) {
-            lbBirthdayFalse.setText("Ngày sinh đang không được nhập");
-            lbBirthdayFalse.setVisible(true);
-        }
-        if (nameCondition == -2) {
-            lbNameFalse.setText("Họ tên nhân viên vượt qua 50 ký tự");
-            lbNameFalse.setVisible(true);
-        }
-        if (nameCondition == -1) {
-            lbNameFalse.setText("Họ tên nhân viên chứa ký tự đặt biệt");
-            lbNameFalse.setVisible(true);
-        }
-        if (usernameCondition == -1) {
-            lbUsernameFalse.setText("Tên đăng nhập vượt quá 50 ký tự");
-            lbUsernameFalse.setVisible(true);
+            ChangeStatus.visible(lbPasswordFalse);
         }
         if (passwordCondition == -1) {
             lbPasswordFalse.setText("Mật khẩu ít hơn 8 ký tự");
@@ -355,29 +382,21 @@ public class ManageEmployeeController extends AbstractManageController {
             lbPasswordFalse.setText("Mật khẩu nhiều hơn 50 ký tự");
             lbPasswordFalse.setVisible(true);
         }
-        if (phoneCondition == -1) {
-            lbPhoneFalse.setText("Số điện thoại phải đủ 10 ký tự");
-            lbPhoneFalse.setVisible(true);
+        switch (ageCondition) {
+            case 0:
+                lbBirthdayFalse.setText("Ngày sinh đang không được nhập");
+                ChangeStatus.visible(lbBirthdayFalse);
+                break;
+            case -1:
+                lbBirthdayFalse.setText("Chưa đủ 18 tuổi");
+                ChangeStatus.visible(lbBirthdayFalse);
+                break;
         }
-        if (phoneCondition == -2) {
-            lbPhoneFalse.setText("Số điện thoại chỉ có thể là số");
-            lbPhoneFalse.setVisible(true);
-        }
-        if (phoneCondition == -3) {
-            lbPhoneFalse.setText("Số điện thoại phải bắt đầu bằng số 0");
-            lbPhoneFalse.setVisible(true);
-        }
-
 //            if(cbbRole.getSelectionModel().getSelectedItem()==null) {
 //            lbPositionFalse.setText("Chức vụ chưa được lựa chọn");
 //            lbPositionFalse.setVisible(true);
 //        }
-        if (CheckUtils.isAgeEnough18(emp.getBirthday()) == -1) {
-            lbBirthdayFalse.setText("Chưa đủ 18 tuổi");
-            lbBirthdayFalse.setVisible(true);
-        }
 
-       
 //        if(cbbRole.getSelectionModel().getSelectedItem()== Employee.EMPLOYEE)
 //        {
 //            if(cbbBranch.getSelectionModel().getSelectedIndex().)

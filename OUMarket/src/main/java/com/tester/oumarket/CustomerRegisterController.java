@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -93,9 +94,28 @@ public class CustomerRegisterController implements Initializable {
     public void setHandling() {
         this.registerBtn.setOnAction(this::handleRegisterButton);
         this.cancelBtn.setOnAction(this::handleCancelButton);
+        txtName.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                txtPhone.requestFocus();
+            }
+        });
+        txtPhone.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                dpBirthday.requestFocus();
+            }
+        });
+        dpBirthday.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                register();
+            }
+        });
     }
 
     public void handleRegisterButton(ActionEvent event) {
+        register();
+    }
+
+    public void register() {
         String name = txtName.getText();
         String phone = txtPhone.getText();
         LocalDate birthday = dpBirthday.getValue();
@@ -118,41 +138,37 @@ public class CustomerRegisterController implements Initializable {
                         Alert.AlertType.CONFIRMATION).show();
                 Stage stage = (Stage) registerBtn.getScene().getWindow();
                 stage.close();
-            }
-            else
+            } else {
                 MessageBox.AlertBox("FAILED", "Hệ thống có lỗi!!!",
                         Alert.AlertType.WARNING).show();
+            }
         } else {
-            if (nameCheck != 1) {
-                switch (nameCheck) {
-                    case 0:
-                        errorNameMessage.setText("Không thể để trống tên khách hàng");
-                        break;
-                    case -1:
-                        errorNameMessage.setText("Tên có kí tự lạ, không hợp lệ");
-                        break;
-                    case -2:
-                        errorNameMessage.setText("Tên dài hơn 50");
-                        break;
-                }
+            switch (nameCheck) {
+                case 0:
+                    errorNameMessage.setText("Không thể để trống tên khách hàng");
+                    break;
+                case -1:
+                    errorNameMessage.setText("Tên có kí tự lạ, không hợp lệ");
+                    break;
+                case -2:
+                    errorNameMessage.setText("Tên dài hơn 50");
+                    break;
             }
+        }
 
-            if (phoneCheck != 1) {
-                switch (phoneCheck) {
-                    case 0:
-                        errorPhoneMessage.setText("Không thể để trống sđt");
-                        break;
-                    case -1:
-                        errorPhoneMessage.setText("Độ dài không bằng 10");
-                        break;
-                    case -2:
-                        errorPhoneMessage.setText("SĐT chỉ có số");
-                        break;
-                    case -3:
-                        errorPhoneMessage.setText("Số điện thoại cần bắt đầu bằng số 0");
-                        break;
-                }
-            }
+        switch (phoneCheck) {
+            case 0:
+                errorPhoneMessage.setText("Không thể để trống sđt");
+                break;
+            case -1:
+                errorPhoneMessage.setText("Độ dài không bằng 10");
+                break;
+            case -2:
+                errorPhoneMessage.setText("SĐT chỉ có số");
+                break;
+            case -3:
+                errorPhoneMessage.setText("Số điện thoại cần bắt đầu bằng số 0");
+                break;
         }
     }
 
