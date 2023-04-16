@@ -30,6 +30,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -68,6 +69,20 @@ public class ManageEmployeeController extends AbstractManageController {
     private Button exportButton;
     @FXML
     private DatePicker dpBirthday;
+    @FXML
+    private Label lbNameFalse;
+    @FXML
+    private Label lbUsernameFalse;
+    @FXML
+    private Label lbPasswordFalse;
+    @FXML
+    private Label lbPhoneFalse;
+    @FXML
+    private Label lbPositionFalse;
+    @FXML
+    private Label lbBranchFalse;
+    @FXML
+    private Label lbBirthdayFalse;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -275,7 +290,8 @@ public class ManageEmployeeController extends AbstractManageController {
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
                 loadContentToTableView();
             } else {
-                MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
+                handlerCheckInfo(emp);
+//                MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
             }
             ChangeStatus.adjustButton(addButton, "Thêm", "update");
             ChangeStatus.disable(txtName, txtPassword, txtPhone,
@@ -291,6 +307,83 @@ public class ManageEmployeeController extends AbstractManageController {
             });
         }
         ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
+    }
+
+    public void handlerCheckInfo(Employee emp) {
+        int nameCondition = CheckUtils.isValidName(emp.getName());
+        int usernameCondition = CheckUtils.isValidUsername(emp.getUsername());
+        int passwordCondition = CheckUtils.isValidPassword(emp.getPassword());
+        int phoneCondition = CheckUtils.isValidPhoneNumber(emp.getPhone());
+
+        if (nameCondition == 0) {
+            lbNameFalse.setText("Họ Tên nhân viên không được nhập");
+            lbNameFalse.setVisible(true);
+        }
+        if (usernameCondition == 0) {
+            lbUsernameFalse.setText("Tên đăng nhập đang không được nhập");
+            lbUsernameFalse.setVisible(true);
+        }
+        if (passwordCondition == 0) {
+            lbPasswordFalse.setText("Mật khẩu đang không được nhập");
+            lbPasswordFalse.setVisible(true);
+        }
+        if (phoneCondition == 0) {
+            lbPhoneFalse.setText("Số điện thoại đang không được nhập");
+            lbPhoneFalse.setVisible(true);
+        }
+        if (CheckUtils.isAgeEnough18(emp.getBirthday()) == 0) {
+            lbBirthdayFalse.setText("Ngày sinh đang không được nhập");
+            lbBirthdayFalse.setVisible(true);
+        }
+        if (nameCondition == -2) {
+            lbNameFalse.setText("Họ tên nhân viên vượt qua 50 ký tự");
+            lbNameFalse.setVisible(true);
+        }
+        if (nameCondition == -1) {
+            lbNameFalse.setText("Họ tên nhân viên chứa ký tự đặt biệt");
+            lbNameFalse.setVisible(true);
+        }
+        if (usernameCondition == -1) {
+            lbUsernameFalse.setText("Tên đăng nhập vượt quá 50 ký tự");
+            lbUsernameFalse.setVisible(true);
+        }
+        if (passwordCondition == -1) {
+            lbPasswordFalse.setText("Mật khẩu ít hơn 8 ký tự");
+            lbPasswordFalse.setVisible(true);
+        }
+        if (passwordCondition == -2) {
+            lbPasswordFalse.setText("Mật khẩu nhiều hơn 50 ký tự");
+            lbPasswordFalse.setVisible(true);
+        }
+        if (phoneCondition == -1) {
+            lbPhoneFalse.setText("Số điện thoại phải đủ 10 ký tự");
+            lbPhoneFalse.setVisible(true);
+        }
+        if (phoneCondition == -2) {
+            lbPhoneFalse.setText("Số điện thoại chỉ có thể là số");
+            lbPhoneFalse.setVisible(true);
+        }
+        if (phoneCondition == -3) {
+            lbPhoneFalse.setText("Số điện thoại phải bắt đầu bằng số 0");
+            lbPhoneFalse.setVisible(true);
+        }
+
+//            if(cbbRole.getSelectionModel().getSelectedItem()==null) {
+//            lbPositionFalse.setText("Chức vụ chưa được lựa chọn");
+//            lbPositionFalse.setVisible(true);
+//        }
+        if (CheckUtils.isAgeEnough18(emp.getBirthday()) == -1) {
+            lbBirthdayFalse.setText("Chưa đủ 18 tuổi");
+            lbBirthdayFalse.setVisible(true);
+        }
+
+       
+//        if(cbbRole.getSelectionModel().getSelectedItem()== Employee.EMPLOYEE)
+//        {
+//            if(cbbBranch.getSelectionModel().getSelectedIndex().)
+//            lbBranchFalse.setText("Chi nhánh của nhân viên không được chọn");
+//            lbBranchFalse.setVisible(true);
+//        }
     }
 
     /**
@@ -309,11 +402,21 @@ public class ManageEmployeeController extends AbstractManageController {
                 this.cbbBranch.getSelectionModel().clearSelection();
                 this.cbbRole.getSelectionModel().clearSelection();
                 this.dpBirthday.setValue(null);
+
+                lbNameFalse.setVisible(false);
+                lbUsernameFalse.setVisible(false);
+                lbPasswordFalse.setVisible(false);
+                lbPhoneFalse.setVisible(false);
+                lbPositionFalse.setVisible(false);
+                lbBranchFalse.setVisible(false);
+                lbBirthdayFalse.setVisible(false);
+
                 ChangeStatus.enable(getTableViewButtons(tbvEmp));
                 ChangeStatus.adjustButton(addButton, "Thêm", "update");
                 ChangeStatus.disable(txtName, txtPassword, txtPhone,
                         txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
                 ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
+
             }
         });
     }

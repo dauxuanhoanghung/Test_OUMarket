@@ -62,59 +62,66 @@
                 <Font size="16.0" />
             </font>
         </TextField>
-        <Label layoutX="25.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" text="Username:">
+        <Label layoutX="25.0" layoutY="234.0" prefHeight="25.0" prefWidth="120.0" text="Username:">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="txtUsername" layoutX="167.0" layoutY="207.0" prefHeight="40.0" prefWidth="300.0" promptText="Username...">
+        <TextField fx:id="txtUsername" layoutX="167.0" layoutY="227.0" prefHeight="40.0" prefWidth="300.0" promptText="Username...">
             <font>
                 <Font size="16.0" />
             </font>
         </TextField>
-        <Label layoutX="25.0" layoutY="267.0" prefHeight="17.0" prefWidth="120.0" text="Password:">
+        <Label layoutX="27.0" layoutY="309.0" prefHeight="17.0" prefWidth="120.0" text="Password:">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <PasswordField fx:id="txtPassword" layoutX="167.0" layoutY="260.0" prefHeight="40.0" prefWidth="300.0" promptText="Password...">
+        <PasswordField fx:id="txtPassword" layoutX="167.0" layoutY="302.0" prefHeight="40.0" prefWidth="300.0" promptText="Password...">
             <font>
                 <Font size="16.0" />
             </font>
         </PasswordField>
-        <Label layoutX="25.0" layoutY="321.0" prefHeight="25.0" prefWidth="120.0" text="Số điện thoại:">
+        <Label layoutX="25.0" layoutY="381.0" prefHeight="25.0" prefWidth="120.0" text="Số điện thoại:">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="txtPhone" layoutX="167.0" layoutY="314.0" prefHeight="40.0" prefWidth="300.0" promptText="e.g 0000.000.000 000-000-0000">
+        <TextField fx:id="txtPhone" layoutX="167.0" layoutY="374.0" prefHeight="40.0" prefWidth="300.0" promptText="e.g 0000.000.000 000-000-0000">
             <font>
                 <Font size="16.0" />
             </font>
         </TextField>
-        <Label layoutX="23.0" layoutY="375.0" prefHeight="17.0" prefWidth="120.0" text="Chức vụ:">
+        <Label layoutX="23.0" layoutY="461.0" prefHeight="17.0" prefWidth="120.0" text="Chức vụ:">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <ComboBox fx:id="cbbRole" layoutX="167.0" layoutY="365.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn chức vụ" />
-        <Label layoutX="22.0" layoutY="424.0" prefHeight="17.0" prefWidth="120.0" text="Chi nhánh:">
+        <ComboBox fx:id="cbbRole" layoutX="167.0" layoutY="451.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn chức vụ" />
+        <Label layoutX="23.0" layoutY="538.0" prefHeight="17.0" prefWidth="120.0" text="Chi nhánh:">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <ComboBox fx:id="cbbBranch" layoutX="166.0" layoutY="417.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn chi nhánh" />
+        <ComboBox fx:id="cbbBranch" layoutX="167.0" layoutY="531.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn chi nhánh" />
         <Button fx:id="cancelButton" layoutX="27.0" layoutY="669.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="cancelButton" text="HỦY">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
         </Button>
-        <DatePicker fx:id="dpBirthday" layoutX="166.0" layoutY="475.0" prefHeight="40.0" prefWidth="300.0" />
-        <Label layoutX="22.0" layoutY="482.0" prefHeight="25.0" prefWidth="120.0" text="Ngày sinh:">
+        <DatePicker fx:id="dpBirthday" layoutX="169.0" layoutY="601.0" prefHeight="40.0" prefWidth="300.0" />
+        <Label layoutX="25.0" layoutY="608.0" prefHeight="25.0" prefWidth="120.0" text="Ngày sinh:">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
       <Button fx:id="exportButton" layoutX="784.0" layoutY="106.0" mnemonicParsing="false" text="Export To Excel" />
+      <Label fx:id="lbNameFalse" layoutX="169.0" layoutY="204.0" text="Label" textFill="#f50707" visible="false" />
+      <Label fx:id="lbUsernameFalse" layoutX="169.0" layoutY="278.0" text="Label" textFill="#f50707" visible="false" />
+      <Label fx:id="lbPasswordFalse" layoutX="169.0" layoutY="349.0" text="Label" textFill="#f50707" visible="false" />
+      <Label fx:id="lbPhoneFalse" layoutX="169.0" layoutY="420.0" text="Label" textFill="#f50707" visible="false" />
+      <Label fx:id="lbPositionFalse" layoutX="169.0" layoutY="503.0" text="Label" textFill="#f50707" visible="false" />
+      <Label fx:id="lbBranchFalse" layoutX="169.0" layoutY="577.0" text="Label" textFill="#f50707" visible="false" />
+      <Label fx:id="lbBirthdayFalse" layoutX="169.0" layoutY="652.0" text="Label" textFill="#f50707" visible="false" />
     </children>
 </Pane>

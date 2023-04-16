@@ -85,7 +85,15 @@ public class CheckUtils {
         }
         return 1;
     }
-
+    public static int isValidUsername(String username) {
+        if (!isNotNullAndBlankText(username)) {
+            return 0;
+        }
+        if (username.length() > 50) {
+            return -1;
+        }
+        return 1;
+    }
     /**
      *
      * @param p
@@ -210,5 +218,27 @@ public class CheckUtils {
             return 1;
         }
     }
-
+    public static int isValidPrice(float price) {
+        //kiểm tra xem price có phải là một số không
+        if (Float.isNaN(price)) {
+            return 0;
+        }
+        String condition= Float.toString(price);
+        if(!CheckUtils.isNotNullAndBlankText(condition))
+            return -1;
+        //kiểm tra xem price có bé hơn 0 hay không
+        if (price<0) {
+            return -2;
+        }
+        return 1;
+        }
+    public static int isValidDescription(String description) {
+        if (!isNotNullAndBlankText(description)) {
+            return 0;
+        }
+        if (description.length() > 500) {
+            return -2;
+        }
+        return 1;
+    }
 }

@@ -74,11 +74,10 @@ public class ProductServiceTester {
     /*Kiểm tra xem việc thêm product có thành công hay không*/
     @Test
     public void TestAddProduct() {
-        int i = 0;
         ProductService prod = new ProductServiceImpl();
         Product p1 = new Product("847", "Xà phòng", "Siêu thơm", 24000, "BHX", 2, 4);
-        i = prod.addProduct(p1);
-        Assertions.assertNotEquals(0, i);
+        int i = prod.addProduct(p1);
+        Assertions.assertNotEquals(-1, i);
     }
 
     /* Kiểm tra sản phẩm theo ID*/
@@ -93,12 +92,11 @@ public class ProductServiceTester {
     /*Kiểm tra cập nhật sản phẩm thành công hay không*/
     @Test
     public void TestUpdateProduct() {
-//        Product p1 = new Product();
-//        
-//        ProductService prod = new ProductServiceImpl();
-//        Product p = new Product("847", "Xà phòng", "Siêu thơm", 26000, "BHX", 1, 3);
-//        p1 = prod.updateProduct(p);
-//        Assertions.assertNotNull(p1);
+        Product p1 = new Product();
+        ProductService prod = new ProductServiceImpl();
+        Product p = new Product("847", "Xà phòng", "Siêu thơm", 26000, "BHX", 1, 3);
+        int i = prod.updateProduct(p);
+        Assertions.assertNotEquals(-1, i);
     }
 
 

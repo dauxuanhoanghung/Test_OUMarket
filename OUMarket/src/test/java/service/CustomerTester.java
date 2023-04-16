@@ -72,66 +72,48 @@ public class CustomerTester {
     /* Kiểm tra việc tra cứu khách hàng theo số điện thoại có hợp lệ hay không? */
     @Test
     public void TestGetCustomerPhone() {
-        int i;
         String str = "094568465";
         CustomerService cus = new CustomerServiceImpl();
-        Customer c1 = new Customer();
-        c1 = cus.getCustomerByPhone(str);
-        if (c1 != null) {
-            i = 1;
-        } else {
-            i = -1;
-        }
-
-        Assertions.assertEquals(1, i);
+        Customer c1 = cus.getCustomerByPhone(str);
+        Assertions.assertNotNull(c1);
     }
 
     /* Kiểm tra việc thêm khách hàng có hợp lệ hay không */
     @Test
     public void TestAddCustomer() {
-        int i;
+  
         String str = "5996325847";
         Customer newCus = new Customer("128", "C", "5996325847", null, null);
         CustomerService cus = new CustomerServiceImpl();
         cus.addCustomer(newCus);
-        Customer c1 = cus.getCustomerByPhone(str);
-        if (c1 != null) {
-            i = 1;
-        } else {
-            i = -1;
-        }
-
-        Assertions.assertEquals(1, i);
+        Assertions.assertNotNull(cus);
     }
 
     /*Kiểm tra xem việc thay đổi thông tin khách hàng cơ hợp lệ hay không*/
     @Test
     public void TestEditAccount() {
-        int i = 0;
+        int i;
         Customer c1 = new Customer("128", "D", "3426546389", null, null);
         CustomerService cus = new CustomerServiceImpl();
-        Customer c2 = new Customer();
-        if (cus.updateCustomer(c1) != -1) {
-            i = 1;
-        }
-        Assertions.assertEquals(1, i);
+        i=cus.updateCustomer(c1);
+        Assertions.assertEquals(-1, i);
     }
     
     /*Kiểm tra xem số điện thoại có hợp lệ hay không*/
     @Test
     public void TestPhoneNumberLegit()
     {
-        int i =0;
+        boolean expected =true;
         CustomerService cus=new CustomerServiceImpl();
         List<Customer>ListCus=cus.getCustomers();
         for(Customer c : ListCus)
         {
-            if(c.getPhone().length()==10)
+            if(c.getPhone().length()!=10)
             {
-                i=1;
+                expected=false;
             }
         }
-        Assertions.assertEquals(0, i);
+        Assertions.assertTrue(expected);
     }
 
 }

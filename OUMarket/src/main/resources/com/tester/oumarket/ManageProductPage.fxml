@@ -15,7 +15,7 @@
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="Pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.ManageProductController">
     <children>
         <Label layoutX="34.0" layoutY="31.0" styleClass="Label3" text="Product Manage" />
-        <Button fx:id="addButton" layoutX="338.0" layoutY="615.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="135.0" text="Thêm">
+        <Button fx:id="addButton" layoutX="339.0" layoutY="681.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="135.0" text="Thêm">
             <font>
                 <Font size="14.0" />
             </font>
@@ -49,60 +49,66 @@
             <Font size="16.0" />
          </font>
       </TextField>
-      <Label layoutX="34.0" layoutY="175.0" prefHeight="25.0" prefWidth="120.0" text="Tên sản phẩm:">
+      <Label layoutX="34.0" layoutY="203.0" prefHeight="25.0" prefWidth="120.0" text="Tên sản phẩm:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtProductName" layoutX="174.0" layoutY="168.0" prefHeight="40.0" prefWidth="300.0" promptText="Tên sp">
+      <TextField fx:id="txtProductName" layoutX="174.0" layoutY="196.0" prefHeight="40.0" prefWidth="300.0" promptText="Tên sp">
          <font>
             <Font size="16.0" />
          </font>
       </TextField>
-      <Label layoutX="34.0" layoutY="227.0" prefHeight="25.0" prefWidth="120.0" text="Giá:">
+      <Label layoutX="34.0" layoutY="264.0" prefHeight="25.0" prefWidth="120.0" text="Giá:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtProductPrice" layoutX="174.0" layoutY="220.0" prefHeight="40.0" prefWidth="300.0" promptText="Giá sp...">
+      <TextField fx:id="txtProductPrice" layoutX="174.0" layoutY="257.0" prefHeight="40.0" prefWidth="300.0" promptText="Giá sp...">
          <font>
             <Font size="16.0" />
          </font>
       </TextField>
-      <Label layoutX="34.0" layoutY="276.0" prefHeight="25.0" prefWidth="120.0" text="Nguồn gốc:">
+      <Label layoutX="34.0" layoutY="338.0" prefHeight="25.0" prefWidth="120.0" text="Nguồn gốc:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtOrigin" layoutX="174.0" layoutY="269.0" prefHeight="40.0" prefWidth="300.0" promptText="Nguồn gốc...">
+      <TextField fx:id="txtOrigin" layoutX="174.0" layoutY="331.0" prefHeight="40.0" prefWidth="300.0" promptText="Nguồn gốc...">
          <font>
             <Font size="16.0" />
          </font>
       </TextField>
-      <Label layoutX="34.0" layoutY="324.0" prefHeight="25.0" prefWidth="120.0" text="Mô tả:">
+      <Label layoutX="34.0" layoutY="403.0" prefHeight="25.0" prefWidth="120.0" text="Mô tả:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextArea fx:id="txtProductDescription" layoutX="174.0" layoutY="324.0" prefHeight="116.0" prefWidth="300.0" />
-      <Label layoutX="34.0" layoutY="459.0" prefHeight="17.0" prefWidth="120.0" text="Danh mục:">
+      <TextArea fx:id="txtProductDescription" layoutX="174.0" layoutY="403.0" prefHeight="116.0" prefWidth="300.0" />
+      <Label layoutX="34.0" layoutY="566.0" prefHeight="17.0" prefWidth="120.0" text="Danh mục:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cbbCategory" layoutX="174.0" layoutY="453.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn danh mục" />
-      <Label layoutX="34.0" layoutY="508.0" prefHeight="17.0" prefWidth="120.0" text="Đơn vị:">
+      <ComboBox fx:id="cbbCategory" layoutX="174.0" layoutY="560.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn danh mục" />
+      <Label layoutX="34.0" layoutY="634.0" prefHeight="17.0" prefWidth="120.0" text="Đơn vị:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cbbUnit" layoutX="174.0" layoutY="502.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn đơn vị sp" />
-      <Button fx:id="cancelButton" layoutX="26.0" layoutY="615.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="135.0" styleClass="cancelButton" stylesheets="@css/manualStyle.css" text="Hủy">
+      <ComboBox fx:id="cbbUnit" layoutX="174.0" layoutY="628.0" prefHeight="40.0" prefWidth="300.0" promptText="Lựa chọn đơn vị sp" />
+      <Button fx:id="cancelButton" layoutX="14.0" layoutY="681.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="135.0" styleClass="cancelButton" stylesheets="@css/manualStyle.css" text="Hủy">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
       <Button fx:id="exportButton" layoutX="789.0" layoutY="80.0" mnemonicParsing="false" text="Export To Excel" />
+      <Label fx:id="lbProductNameFalse" layoutX="174.0" layoutY="236.0" text="Label" textFill="#d70707" visible="false" />
+      <Label fx:id="lbPriceFalse" layoutX="174.0" layoutY="304.0" text="Label" textFill="#d70707" visible="false" />
+      <Label layoutX="174.0" layoutY="377.0" text="Label" textFill="#d70707" visible="false" />
+      <Label layoutX="174.0" layoutY="530.0" text="Label" textFill="#d70707" visible="false" />
+      <Label layoutX="174.0" layoutY="611.0" text="Label" textFill="#d70707" visible="false" />
+      <Label layoutX="174.0" layoutY="673.0" text="Label" textFill="#d70707" visible="false" />
     </children>
    <stylesheets>
       <URL value="@css/ManageProductPage.css" />
