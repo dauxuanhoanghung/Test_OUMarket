@@ -203,6 +203,9 @@ public class ManageBranchController extends AbstractManageController {
         Button b = (Button) event.getSource();
         TableCell cell = (TableCell) b.getParent();
         BranchMarket branch = (BranchMarket) cell.getTableRow().getItem();
+        if (branch == null) {
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageProductBranch.fxml"));
             Parent root = loader.load();
@@ -227,12 +230,15 @@ public class ManageBranchController extends AbstractManageController {
      * @param event
      */
     public void handlerUpdateButton(ActionEvent event) {
+        Button b = (Button) event.getSource();
+        TableCell cell = (TableCell) b.getParent();
+        BranchMarket branch = (BranchMarket) cell.getTableRow().getItem();
+        if (branch == null) {
+            return;
+        }
         Alert alert = MessageBox.AlertBox("Update", "Chỉnh sửa ?", Alert.AlertType.CONFIRMATION);
         alert.showAndWait().ifPresent(res -> {
             if (res == ButtonType.OK) {
-                Button b = (Button) event.getSource();
-                TableCell cell = (TableCell) b.getParent();
-                BranchMarket branch = (BranchMarket) cell.getTableRow().getItem();
                 //Xác nhận update
                 if (b.getText().equals("Confirm")) {
                     mapInputToBranchMarket(branch);

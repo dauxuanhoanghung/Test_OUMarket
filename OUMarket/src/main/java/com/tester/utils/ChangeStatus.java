@@ -7,6 +7,7 @@ package com.tester.utils;
 import java.util.List;
 import javafx.scene.control.Control;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
 
 /**
@@ -31,33 +32,44 @@ public class ChangeStatus {
         for (Button button : buttons) {
             button.setDisable(true);
         }
-    }    
+    }
+
     public static void disable(Control... es) {
         for (Control c : es) {
             c.setDisable(true);
         }
     }
+
     public static void enable(List<Button> buttons) {
         for (Button button : buttons) {
             button.setDisable(false);
         }
     }
+
     public static void enable(Control... es) {
         for (Control c : es) {
             c.setDisable(false);
         }
     }
+
     public static void clearText(TextInputControl... es) {
         for (TextInputControl t : es) {
             t.setText("");
         }
     }
-    
+
+    public static void clearText(Label... es) {
+        for (Label t : es) {
+            t.setText("");
+        }
+    }
+
     public static void invisible(Control... es) {
         for (Control c : es) {
             c.setVisible(false);
         }
     }
+
     public static void visible(Control... es) {
         for (Control c : es) {
             c.setVisible(true);

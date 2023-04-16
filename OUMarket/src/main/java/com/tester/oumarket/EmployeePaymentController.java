@@ -5,22 +5,31 @@
 package com.tester.oumarket;
 
 import com.tester.pojo.Customer;
+import com.tester.pojo.Order;
+import com.tester.pojo.OrderDetail;
 import com.tester.pojo.Product;
+import com.tester.pojo.sub.CartItem;
 import com.tester.service.CustomerService;
+import com.tester.service.OrderService;
 import com.tester.service.ProductService;
 import com.tester.service.impl.CustomerServiceImpl;
+import com.tester.service.impl.OrderServiceImpl;
 import com.tester.service.impl.ProductServiceImpl;
 import com.tester.utils.ChangeStatus;
 import com.tester.utils.CheckUtils;
 import com.tester.utils.MessageBox;
+import com.tester.utils.Utils;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,6 +78,10 @@ public class EmployeePaymentController extends AbstractManageController {
     private Button registerBtn;
     @FXML
     private Button payBtn;
+    @FXML
+    private Button delCusBtn;
+
+    private Customer customer;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -91,6 +104,7 @@ public class EmployeePaymentController extends AbstractManageController {
         this.addBtn.setOnAction(this::handleAddButton);
         this.registerBtn.setOnAction(this::handleRegisterButton);
         this.payBtn.setOnAction(this::handlePaymentButton);
+        this.delCusBtn.setOnAction(this::handleDeleteCustomerButton);
         handleSearchCustomer();
     }
 
@@ -116,13 +130,64 @@ public class EmployeePaymentController extends AbstractManageController {
 
     public void handleAddButton(ActionEvent event) {
         Product product = (Product) tbvSearch.getSelectionModel().getSelectedItem();
-        if (true) {
-            tbvOrderDetail.getItems().add(product);
-            ChangeStatus.clearText(txtProductId);
+        Stage subStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("EmployeeAddProduct.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(ManageEventController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Scene scene = new Scene(root);
+        Stage mainStage = (Stage) addBtn.getScene().getWindow();
+        // Set the controller for the sub stage
+        EmployeeAddProductController eaController = loader.getController();
+        eaController.setProduct(product);
+        eaController.updateUI(product);
+
+        subStage.setScene(scene);
+        subStage.initModality(Modality.APPLICATION_MODAL);
+        subStage.initOwner(mainStage);
+        subStage.showAndWait();
+        CartItem cartItem = eaController.getCartItem();
+        if (cartItem != null) {
+            List<CartItem> cart = tbvOrderDetail.getItems();
+            Optional<CartItem> existingItem = cart.stream()
+                    .filter(item -> ((CartItem) item).isSameId(cartItem)).findFirst();
+            if (existingItem.isPresent()) {
+                // Update the existing CartItem if necessary
+                CartItem itemToUpdate = existingItem.get();
+                itemToUpdate.setQuantity(itemToUpdate.getQuantity() + cartItem.getQuantity());
+                tbvOrderDetail.refresh();
+                // Call the update method if needed
+            } else {
+                cart.add(cartItem);
+            }
+            lblTotal.setText(Utils.calculate(cart) + "");
+        }
+        ChangeStatus.clearText(txtProductId);
+        tbvSearch.getItems().clear();
     }
 
     public void handlePaymentButton(ActionEvent event) {
+        OrderService os = new OrderServiceImpl();
+        ArrayList<CartItem> cartItems = new ArrayList<>(tbvOrderDetail.getItems());
+        Order order = new Order(Float.parseFloat(lblTotal.getText()), 
+                App.getCurrentEmployee().getId(), customer != null ? customer.getId() : null);
+        if (os.addOrder(order, cartItems) > 0) {
+            MessageBox.AlertBox("Success", "Thanh toán thành công", Alert.AlertType.CONFIRMATION).show();
+        } else {
+            MessageBox.AlertBox("FAILED", "Có lỗi", Alert.AlertType.WARNING).show();
+        }
+
+    }
+
+    public void handleDeleteCustomerButton(ActionEvent event) {
+        if (this.customer == null) {
+            return;
+        }
+        ChangeStatus.clearText(lblCustomerBirthday, lblCustomerName, lblCustomerPhone);
+        this.customer = null;
 
     }
 
@@ -139,41 +204,9 @@ public class EmployeePaymentController extends AbstractManageController {
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         priceCol.setPrefWidth(100);
 
-        TableColumn<Product, Float> quantityCol = new TableColumn<>("Số lượng");
-        quantityCol.setCellFactory(column -> new TableCell<Product, Float>() {
-            private final TextField txtField = new TextField();
-
-            {
-                txtField.setTextFormatter(new TextFormatter<>(new FloatStringConverter()));
-                txtField.setText("1");
-
-                txtField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                    if (!newValue) {
-                        String text = txtField.getText();
-                        // Check for errors in the text and show a message if necessary
-                        if (text.isEmpty() || !text.matches("\\d+")) {
-                            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a valid number");
-                            alert.showAndWait();
-                        }
-                    } else {
-                        MessageBox.AlertBox("Error", "Không thể để trống", Alert.AlertType.WARNING).show();
-                        txtField.setText("1");
-                        txtField.requestFocus();
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(Float item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    txtField.setText(item.toString());
-                    setGraphic(txtField);
-                }
-            }
-        });
+        TableColumn quantityCol = new TableColumn<>("SL");
+        quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantityCol.setPrefWidth(100);
 
         this.tbvOrderDetail.getColumns().addAll(idCol, nameCol, priceCol, quantityCol);
     }
@@ -208,10 +241,14 @@ public class EmployeePaymentController extends AbstractManageController {
                 switch (phoneCheck) {
                     case 1:
                         CustomerService cs = new CustomerServiceImpl();
-                        Customer customer = cs.getCustomerByPhone(phone);
-                        lblCustomerName.setText(customer.getName());
-                        lblCustomerPhone.setText(customer.getPhone());
-                        lblCustomerBirthday.setText(customer.getBirthday().toString());
+                        Customer cus = cs.getCustomerByPhone(phone);
+                        if (cus == null) {
+                            break;
+                        }
+                        lblCustomerName.setText(cus.getName());
+                        lblCustomerPhone.setText(cus.getPhone());
+                        lblCustomerBirthday.setText(cus.getBirthday().toString());
+                        this.customer = cus;
                         break;
                     case 0:
                         MessageBox.AlertBox("Error", "Không thể để rỗng", Alert.AlertType.WARNING).showAndWait();

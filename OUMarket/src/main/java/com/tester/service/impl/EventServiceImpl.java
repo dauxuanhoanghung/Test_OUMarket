@@ -5,6 +5,8 @@
 package com.tester.service.impl;
 
 import com.tester.pojo.Event;
+import com.tester.pojo.EventProduct;
+import com.tester.pojo.Product;
 import com.tester.pojo.sub.SubProduct;
 import com.tester.service.EventService;
 import com.tester.utils.MySQLConnectionUtil;
@@ -15,24 +17,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author LENOVO
  */
 public class EventServiceImpl implements EventService {
-
+    
     @Override
     public int addEvent(Event evt, List<SubProduct> eventProducts) {
         int numRowsAffected = 0;
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false); // start transaction
             String sql = "INSERT INTO event (description, start_date, end_date) VALUES (?, ?, ?)";
-            try (PreparedStatement eventStatement = conn.prepareStatement(sql
-                    ,Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement eventStatement = conn.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS)) {
                 eventStatement.setString(1, evt.getDescription());
                 eventStatement.setObject(2, evt.getStartDate());
-                eventStatement.setObject(3, evt.getEndDate()); 
+                eventStatement.setObject(3, evt.getEndDate());
                 numRowsAffected += eventStatement.executeUpdate();
                 if (numRowsAffected > 0) {
                     try (ResultSet generatedKeys = eventStatement.getGeneratedKeys()) {
@@ -67,7 +71,7 @@ public class EventServiceImpl implements EventService {
         }
         return numRowsAffected;
     }
-
+    
     @Override
     public Event getCurrentEvent() {
         LocalDateTime now = LocalDateTime.now();
@@ -90,4 +94,28 @@ public class EventServiceImpl implements EventService {
         }
         return event;
     }
+    
+    public EventProduct getEventProduct(int eventId, String productId) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "SELECT * FROM event_product WHERE event_id = ? AND product_id = ?";
+            PreparedStatement stm = conn.prepareStatement(query);
+            stm.setInt(1, eventId);
+            stm.setString(2, productId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new EventProduct(rs.getInt("id"), rs.getFloat("discount_price"),
+                        rs.getInt("event_id"), rs.getString("product_id"));
+            }
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(EventServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    @Override
+    public EventProduct getEventProduct(Event event, Product product) {
+        return getEventProduct(event.getId(), product.getId());
+    }
+    
 }

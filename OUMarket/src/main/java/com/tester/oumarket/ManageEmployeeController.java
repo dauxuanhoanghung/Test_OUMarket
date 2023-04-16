@@ -313,6 +313,7 @@ public class ManageEmployeeController extends AbstractManageController {
                 ChangeStatus.adjustButton(addButton, "Thêm", "update");
                 ChangeStatus.disable(txtName, txtPassword, txtPhone,
                         txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
+                ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
             }
         });
     }

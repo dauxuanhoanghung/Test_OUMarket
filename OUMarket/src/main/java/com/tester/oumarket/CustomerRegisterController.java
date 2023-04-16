@@ -11,8 +11,6 @@ import com.tester.utils.CheckUtils;
 import com.tester.utils.MessageBox;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
@@ -27,7 +25,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import javafx.util.converter.LocalDateStringConverter;
 
 /**
  *
@@ -111,6 +108,11 @@ public class CustomerRegisterController implements Initializable {
             errorPhoneMessage.setText("");
             Customer customer = new Customer(name, phone, birthday);
             CustomerService cs = new CustomerServiceImpl();
+            if (cs.getCustomerByPhone(phone) != null) {
+                errorPhoneMessage.setText("Số điện thoại đã được sử dụng để đăng ký");
+                txtPhone.requestFocus();
+                return;
+            }
             if (cs.addCustomer(customer) > 0) {
                 MessageBox.AlertBox("SUCCESSFUL", "Đăng ký khách hàng thành viên thành công!!!",
                         Alert.AlertType.CONFIRMATION).show();
