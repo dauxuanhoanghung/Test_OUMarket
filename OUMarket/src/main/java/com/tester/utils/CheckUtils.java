@@ -95,14 +95,14 @@ public class CheckUtils {
      * double -3: đơn vị là số âm, cho các loại đơn vị kg và các loại khác
      */
     public static int isValidQuantity(Product p, String quantity) {
-        if (isNotNullAndBlankText(quantity)) {
+        if (!isNotNullAndBlankText(quantity)) {
             return 0;
         }
         if (!quantity.matches("-?\\d+(\\.\\d+)?")) {
             return -1; //có thể là double or int
         }        //        UnitService us = new UnitServiceImpl();
         if (p.getUnitId() != 1) {
-            if (!quantity.matches("-?\\d+")) {
+            if (quantity.matches("-?\\d+")) {
                 if (!quantity.matches("\\d+")) {
                     return -3; //số nguyên âm
                 } else {

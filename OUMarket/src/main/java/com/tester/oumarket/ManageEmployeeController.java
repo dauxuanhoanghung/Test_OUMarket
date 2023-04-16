@@ -221,7 +221,7 @@ public class ManageEmployeeController extends AbstractManageController {
                     ChangeStatus.disable(getTableViewButtons(tbvEmp));
                     ChangeStatus.disable(addButton);
                     ChangeStatus.enable(txtName, txtPassword, txtPhone,
-                            txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
+                            dpBirthday, cbbRole, cbbBranch, cancelButton);
                     b.setDisable(false);
                     showEmployeeDetail(employee);
                     tbvEmp.setOnMouseClicked(evt -> {
@@ -302,16 +302,18 @@ public class ManageEmployeeController extends AbstractManageController {
         Alert alert = MessageBox.AlertBox("Cancel", "Hủy mọi thay đổi?", Alert.AlertType.CONFIRMATION);
         alert.showAndWait().ifPresent(res -> {
             if (res == ButtonType.OK) {
-                ChangeStatus.disable(txtName, txtPassword, txtPhone,
-                        txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
                 ChangeStatus.enable(addButton);
                 List<Button> btns = getTableViewButtons(tbvEmp, "Delete", "Restore");
                 btns.forEach(b -> ChangeStatus.adjustButton(b, "Update", "update"));
-                ChangeStatus.enable(getTableViewButtons(tbvEmp));
-                ChangeStatus.adjustButton(addButton, "Thêm", "update");
+
                 this.cbbBranch.getSelectionModel().clearSelection();
                 this.cbbRole.getSelectionModel().clearSelection();
                 this.dpBirthday.setValue(null);
+                ChangeStatus.enable(getTableViewButtons(tbvEmp));
+                ChangeStatus.adjustButton(addButton, "Thêm", "update");
+                ChangeStatus.disable(txtName, txtPassword, txtPhone,
+                        txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
+                ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
             }
         });
     }
@@ -337,14 +339,13 @@ public class ManageEmployeeController extends AbstractManageController {
                 // User canceled the dialog
                 System.out.println("No file selected");
             }
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Lỗi");
             e.printStackTrace();
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ManageEmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
         }
-        finally {}
     }
 
     /**

@@ -4,9 +4,11 @@
  */
 package com.tester.utils;
 
+import com.tester.pojo.sub.CartItem;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,9 +50,13 @@ public class Utils {
             return false;
         }
     }
-
-    public static void main(String[] args) {
-//        String storedHashedPassword = "34819d7beeabb9260a5c854bc85b3e44";
-//        String enteredPassword = "mypassword";
+    
+    public static Float calculate(List<CartItem> cartItems) {
+        Float subTotal = 0f;
+        for(CartItem c : cartItems)
+            subTotal += (c.getQuantity() * c.getPrice());
+        
+        return subTotal;
     }
+
 }

@@ -141,6 +141,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
     public List<Product> getProducts(Map<String, String> params) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             List<Product> products = new ArrayList<>();
@@ -154,12 +155,10 @@ public class ProductServiceImpl implements ProductService {
                 sql += "AND id IN (SELECT product_id FROM branch_product WHERE branch_id = ? )";
                 values.add(Integer.valueOf(params.get("branch_id")));
             }
-            System.out.println(sql);
             PreparedStatement stm = conn.prepareStatement(sql);
             for (int i = 0; i < values.size(); i++) {
                 stm.setObject(i + 1, values.get(i));
             }
-            System.out.println(stm);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Product p = new Product(rs.getString("id"),
