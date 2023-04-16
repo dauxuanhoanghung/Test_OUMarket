@@ -76,7 +76,6 @@ public class EmployeeTester {
         String str = "hungnewbie";
         EmployeeService e = new EmployeeServiceImpl();
         Employee emp = e.getEmployeeByUsername(str);
-
         Assertions.assertNotNull(emp);
     }
 

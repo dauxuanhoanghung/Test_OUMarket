@@ -32,6 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -70,7 +71,12 @@ public class ManageProductController extends AbstractManageController {
     private TextField txtProductPrice;
     @FXML
     private TableView tbvProduct;
-
+    @FXML
+    private Label lbProductNameFalse;
+    @FXML
+    private Label lbPriceFalse;
+    @FXML
+    private Label lbDescriptionFalse;
     private CategoryService cs;
     private UnitService us;
 
@@ -164,13 +170,15 @@ public class ManageProductController extends AbstractManageController {
     public void handlerAddNewEmployee(ActionEvent event) {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             Product product = mapInputToProduct(new Product());
-            if (CheckUtils.isValidName(product.getName()) == 1) {
+            if (CheckUtils.isValidName(product.getName()) == 1
+                    &&CheckUtils.isValidPrice(product.getPrice())==1) {
                 ProductService ps = new ProductServiceImpl();
                 ps.addProduct(product);
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
                 loadContentToTableView("");
             } else {
-                MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
+                    handlerProductCheck(product);
+//                MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
             }
             ChangeStatus.adjustButton(addButton, "Thêm", "update");
             ChangeStatus.disable(cancelButton, txtOrigin,
@@ -192,6 +200,25 @@ public class ManageProductController extends AbstractManageController {
                 txtProductName, txtProductPrice);
     }
 
+    public void handlerProductCheck(Product product)
+    {
+        if(CheckUtils.isValidName(product.getName()) == 0)
+        {
+            lbProductNameFalse.setText("Vui lòng nhập vào tên sản phẩm");
+            lbProductNameFalse.setVisible(true);
+
+        }
+//        if(CheckUtils.isValidPrice(product.getPrice())==-1)
+//        {
+//            lbPriceFalse.setText("Gíá tiền sản phẩm chưa được nhập");
+//            lbPriceFalse.setVisible(true);
+//        }
+//        if(CheckUtils.isValidPrice(product.getPrice())==0)
+//        {
+//            lbPriceFalse.setText("Gía tiền chỉ được phép nhập bằng sô");
+//            lbPriceFalse.setVisible(true);
+//        }
+    }
     /**
      * Hàm xử lý hủy các action add - update
      *
@@ -209,6 +236,8 @@ public class ManageProductController extends AbstractManageController {
                 ChangeStatus.enable(getTableViewButtons(tbvProduct));
                 ChangeStatus.adjustButton(addButton, "Thêm", "update");
                 tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
+                lbProductNameFalse.setVisible(false);
+                lbPriceFalse.setVisible(false);
             }
         });
     }
