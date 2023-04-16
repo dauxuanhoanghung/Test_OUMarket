@@ -11,9 +11,8 @@ import com.tester.utils.CheckUtils;
 import com.tester.utils.MessageBox;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -26,7 +25,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import javafx.util.converter.LocalDateStringConverter;
 
 /**
  *
@@ -52,11 +50,16 @@ public class CustomerRegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setHandling();
-        dpBirthday.setShowWeekNumbers(true);
+        handleDatePicker(dpBirthday);
+        Platform.runLater(() -> this.txtName.requestFocus());
+    }
+
+    public void handleDatePicker(DatePicker datePicker) {
+        datePicker.setShowWeekNumbers(true);
         StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
-            DateTimeFormatter dateFormatter =
-                      DateTimeFormatter.ofPattern("dd/MM/yyyy");
-           
+            DateTimeFormatter dateFormatter
+                    = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
             @Override
             public String toString(LocalDate date) {
                 if (date != null) {
@@ -65,6 +68,7 @@ public class CustomerRegisterController implements Initializable {
                     return "";
                 }
             }
+
             @Override
             public LocalDate fromString(String string) {
                 if (string != null && !string.isEmpty()) {
@@ -73,11 +77,17 @@ public class CustomerRegisterController implements Initializable {
                     return null;
                 }
             }
-        };   
-        dpBirthday.setConverter(converter);
-        dpBirthday.setPromptText("dd-MM-yyyy");
-        
-        Platform.runLater(() -> this.txtName.requestFocus());
+        };
+        datePicker.setConverter(converter);
+        datePicker.setPromptText("dd/MM/yyyy");
+        datePicker.getEditor().textProperty().addListener((obs, oldText, newText) -> {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate date = LocalDate.parse(newText, formatter);
+                datePicker.setValue(date);
+            } catch (DateTimeParseException e) {
+            }
+        });
     }
 
     public void setHandling() {
@@ -98,11 +108,20 @@ public class CustomerRegisterController implements Initializable {
             errorPhoneMessage.setText("");
             Customer customer = new Customer(name, phone, birthday);
             CustomerService cs = new CustomerServiceImpl();
-            cs.addCustomer(customer);
-            MessageBox.AlertBox("SUCCESSFUL", "Đăng ký khách hàng thành viên thành công!!!",
-                    Alert.AlertType.CONFIRMATION).show();
-            Stage stage = (Stage) registerBtn.getScene().getWindow();
-            stage.close();
+            if (cs.getCustomerByPhone(phone) != null) {
+                errorPhoneMessage.setText("Số điện thoại đã được sử dụng để đăng ký");
+                txtPhone.requestFocus();
+                return;
+            }
+            if (cs.addCustomer(customer) > 0) {
+                MessageBox.AlertBox("SUCCESSFUL", "Đăng ký khách hàng thành viên thành công!!!",
+                        Alert.AlertType.CONFIRMATION).show();
+                Stage stage = (Stage) registerBtn.getScene().getWindow();
+                stage.close();
+            }
+            else
+                MessageBox.AlertBox("FAILED", "Hệ thống có lỗi!!!",
+                        Alert.AlertType.WARNING).show();
         } else {
             if (nameCheck != 1) {
                 switch (nameCheck) {

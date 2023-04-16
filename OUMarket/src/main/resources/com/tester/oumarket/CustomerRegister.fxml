@@ -7,13 +7,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="376.0" prefWidth="492.0" styleClass="Pane" stylesheets="@css/manualStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="376.0" prefWidth="492.0" styleClass="Pane" stylesheets="@css/manualStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.CustomerRegisterController">
     <children>
         <Label layoutX="38.0" layoutY="222.0" prefHeight="26.0" prefWidth="139.0" text="Ngày sinh:">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
+      <TextField fx:id="txtName" layoutX="198.0" layoutY="83.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
         <Label layoutX="36.0" layoutY="151.0" prefHeight="26.0" prefWidth="139.0" text="Số điện thoại:">
             <font>
                 <Font size="18.0" />
@@ -37,11 +42,6 @@
          </font>
       </Label>
       <DatePicker fx:id="dpBirthday" layoutX="200.0" layoutY="215.0" prefHeight="40.0" prefWidth="258.0" />
-      <TextField fx:id="txtName" layoutX="198.0" layoutY="83.0" prefHeight="26.0" prefWidth="258.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
       <Label alignment="CENTER" layoutX="106.0" layoutY="26.0" prefHeight="40.0" prefWidth="306.0" text="ĐĂNG KÝ THÀNH VIÊN" textAlignment="CENTER" textFill="#1420c1" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="System Bold" size="24.0" />

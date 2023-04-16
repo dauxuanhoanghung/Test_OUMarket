@@ -85,10 +85,8 @@ public class ManageProductController extends AbstractManageController {
         super.initialize(url, rb);
         loadTableColumn();
         loadContentToTableView(null);
-        addButton.setOnAction(this::handlerAddNewEmployee);
-        cancelButton.setOnAction(this::handlerCancelButton);
-        exportButton.setOnAction(this::handlerExportBtn);
-        tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
+
+        setHandling();
 
         cs = new CategoryServiceImpl();
         List<Category> cates = cs.getCategories();
@@ -101,6 +99,13 @@ public class ManageProductController extends AbstractManageController {
                 txtProductDescription, txtProductName, txtProductPrice,
                 cbbCategory, cbbUnit);
         ChangeStatus.enable(addButton);
+    }
+
+    private void setHandling() {
+        addButton.setOnAction(this::handlerAddNewProduct);
+        cancelButton.setOnAction(this::handlerCancelButton);
+        exportButton.setOnAction(this::handlerExportBtn);
+        tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
     }
 
     private void loadTableColumn() {
@@ -128,7 +133,7 @@ public class ManageProductController extends AbstractManageController {
 //            } else {
 //                return new SimpleStringProperty(category.getName());
 //            }
-               return new SimpleStringProperty(cellData.getValue().getCategory().getName());
+            return new SimpleStringProperty(cellData.getValue().getCategory().getName());
         });
 
         TableColumn<Product, String> unitCol = new TableColumn<>("Unit");
@@ -140,7 +145,7 @@ public class ManageProductController extends AbstractManageController {
 //            } else {
 //                return new SimpleStringProperty(unit.getName());
 //            }
-                return new SimpleStringProperty(cellData.getValue().getUnit().getName());
+            return new SimpleStringProperty(cellData.getValue().getUnit().getName());
         });
 
         TableColumn updateCol = new TableColumn();
@@ -167,7 +172,7 @@ public class ManageProductController extends AbstractManageController {
         this.tbvProduct.setItems(FXCollections.observableList(products));
     }
 
-    public void handlerAddNewEmployee(ActionEvent event) {
+    public void handlerAddNewProduct(ActionEvent event) {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             Product product = mapInputToProduct(new Product());
             if (CheckUtils.isValidName(product.getName()) == 1
@@ -181,10 +186,12 @@ public class ManageProductController extends AbstractManageController {
 //                MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
             }
             ChangeStatus.adjustButton(addButton, "Thêm", "update");
-            ChangeStatus.disable(cancelButton, txtOrigin,
-                    txtProductDescription, txtProductName, txtProductPrice);
+            ChangeStatus.disable(cancelButton, txtOrigin,txtProductDescription, 
+                    txtProductName, txtProductPrice, cbbCategory, cbbUnit);
             ChangeStatus.enable(getTableViewButtons(tbvProduct));
             tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
+            cbbCategory.setValue(null);
+            cbbUnit.setValue(null);
         } else { //Nút thêm
             ChangeStatus.enable(cancelButton, txtOrigin,
                     txtProductDescription, txtProductName, txtProductPrice,
@@ -270,7 +277,7 @@ public class ManageProductController extends AbstractManageController {
 //            }
         }
     }
-    
+
     public void handlerExportBtn(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         try {
@@ -291,14 +298,13 @@ public class ManageProductController extends AbstractManageController {
             } else {
                 System.out.println("No file selected");
             }
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Lỗi");
             e.printStackTrace();
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ManageProductController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
         }
-        finally {}
     }
 
     /**
@@ -307,12 +313,15 @@ public class ManageProductController extends AbstractManageController {
      * @param event
      */
     public void handlerUpdateButton(ActionEvent event) {
+        Button b = (Button) event.getSource();
+        TableCell cell = (TableCell) b.getParent();
+        Product product = (Product) cell.getTableRow().getItem();
+        if (product == null) {
+            return;
+        }
         Alert alert = MessageBox.AlertBox("Update", "Chỉnh sửa ?", Alert.AlertType.CONFIRMATION);
         alert.showAndWait().ifPresent(res -> {
             if (res == ButtonType.OK) {
-                Button b = (Button) event.getSource();
-                TableCell cell = (TableCell) b.getParent();
-                Product product = (Product) cell.getTableRow().getItem();
                 //Xác nhận update
                 if (b.getText().equals("Confirm")) {
                     mapInputToProduct(product);

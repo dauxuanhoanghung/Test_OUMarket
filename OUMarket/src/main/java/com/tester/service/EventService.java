@@ -5,6 +5,8 @@
 package com.tester.service;
 
 import com.tester.pojo.Event;
+import com.tester.pojo.EventProduct;
+import com.tester.pojo.Product;
 import com.tester.pojo.sub.SubProduct;
 import java.util.List;
 
@@ -21,4 +23,5 @@ public interface EventService {
      */
     int addEvent(Event evt, List<SubProduct> eventProduct);
     Event getCurrentEvent();
+    EventProduct getEventProduct(Event event, Product product);
 }

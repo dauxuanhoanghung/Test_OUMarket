@@ -6,6 +6,7 @@ package com.tester.service.impl;
 
 import com.tester.pojo.Order;
 import com.tester.pojo.OrderDetail;
+import com.tester.pojo.sub.CartItem;
 import com.tester.service.OrderService;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
@@ -29,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrders(Map<String, Object> params) {
         List<Order> orders = new ArrayList<>();
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
-            String sql = "SELECT * FROM question";
+            String sql = "SELECT * FROM orders";
             if (params.get("kw") != null && !String.valueOf(params.get("kw")).isBlank()) {
                 sql += " WHERE content LIKE concat('%', ?, '%')";
             }
@@ -57,14 +58,16 @@ public class OrderServiceImpl implements OrderService {
     public int addOrder(Order o, List<OrderDetail> details) {
         try ( Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO order(id, subtotal, created_date, employee_id, customer_id) "
+            String sql = "INSERT INTO orders(id, subtotal, created_date, employee_id, customer_id) "
                     + " VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, o.getId());
-            stm.setFloat(2, 0);
+            stm.setFloat(2, o.getSubtotal());
             stm.setObject(3, o.getCreatedDate());
             stm.setString(4, o.getEmployeeId());
             stm.setString(5, o.getCustomerId());
+            System.out.println(sql);
+            System.out.println(stm);
             int r = stm.executeUpdate();
             for (OrderDetail d : details) {
                 sql = "INSERT INTO order_detail(id, quantity, current_price, order_id, product_id) "
@@ -84,6 +87,16 @@ public class OrderServiceImpl implements OrderService {
             Logger.getLogger(OrderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
         }
+    }
+
+    @Override
+    public int addOrder(Order o, ArrayList<CartItem> cartItems) {
+        List<OrderDetail> odList = new ArrayList<>();
+        cartItems.forEach(c -> {
+            OrderDetail od = new OrderDetail(c.getQuantity(), c.getPrice(), o.getId(), c.getId());
+            odList.add(od);
+        });
+        return addOrder(o, odList);
     }
 
 }

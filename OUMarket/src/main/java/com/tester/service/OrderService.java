@@ -6,6 +6,8 @@ package com.tester.service;
 
 import com.tester.pojo.Order;
 import com.tester.pojo.OrderDetail;
+import com.tester.pojo.sub.CartItem;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,4 +18,5 @@ import java.util.Map;
 public interface OrderService {
     List<Order> getOrders(Map<String, Object> params);
     int addOrder(Order o, List<OrderDetail> details);
+    int addOrder(Order o, ArrayList<CartItem> cartItems);
 }
