@@ -243,7 +243,7 @@ public class ManageEmployeeController extends AbstractManageController {
                     ChangeStatus.toggleEnabledButton(cancelButton, addButton);
                     ChangeStatus.disable(getTableViewButtons(tbvEmp));
                     ChangeStatus.disable(addButton);
-                    ChangeStatus.enable(txtName, txtPassword, txtPhone,
+                    ChangeStatus.enable(txtName, txtPhone,
                             dpBirthday, cbbRole, cbbBranch, cancelButton);
                     b.setDisable(false);
                     showEmployeeDetail(employee);
@@ -294,19 +294,31 @@ public class ManageEmployeeController extends AbstractManageController {
                     && CheckUtils.isValidPhoneNumber(emp.getPhone()) == 1
                     && CheckUtils.isAgeEnough18(emp.getBirthday()) == 1) {
                 EmployeeService es = new EmployeeServiceImpl();
-                es.addEmployee(emp);
                 ChangeStatus.invisible(lbNameFalse, lbUsernameFalse, lbPasswordFalse,
                         lbPhoneFalse, lbPositionFalse, lbBranchFalse, lbBirthdayFalse);
+                if (es.getEmployeeByUsername(emp.getUsername()) != null) {
+                    lbUsernameFalse.setText("Username đã tồn tại");
+                    ChangeStatus.visible(lbUsernameFalse);
+                    return;
+                }
+                if (es.getEmployeeByPhone(emp.getPhone()) != null) {
+                    lbPhoneFalse.setText("Số điện thoại đã tồn tại");
+                    ChangeStatus.visible(lbPhoneFalse);
+                    return;
+                }
+                es.addEmployee(emp);
+
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
                 loadContentToTableView();
+                ChangeStatus.adjustButton(addButton, "Thêm", "update");
+                ChangeStatus.disable(txtName, txtPassword, txtPhone,
+                        txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
+                ChangeStatus.enable(getTableViewButtons(tbvEmp));
+                tbvEmp.setOnMouseClicked(this::handlerClickOnTableView);
+                ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
             } else {
                 handlerCheckInfo(emp);
             }
-            ChangeStatus.adjustButton(addButton, "Thêm", "update");
-            ChangeStatus.disable(txtName, txtPassword, txtPhone,
-                    txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
-            ChangeStatus.enable(getTableViewButtons(tbvEmp));
-            tbvEmp.setOnMouseClicked(this::handlerClickOnTableView);
         } else { //Nút thêm
             ChangeStatus.enable(txtName, txtPassword, txtPhone,
                     txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
@@ -314,8 +326,9 @@ public class ManageEmployeeController extends AbstractManageController {
             ChangeStatus.adjustButton(addButton, "Confirm", "update");
             tbvEmp.setOnMouseClicked(evt -> {
             });
+            ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
         }
-        ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
+
     }
 
     public void handlerCheckInfo(Employee emp) {
@@ -331,7 +344,7 @@ public class ManageEmployeeController extends AbstractManageController {
                 ChangeStatus.visible(lbNameFalse);
                 break;
             case -1:
-                lbNameFalse.setText("Họ tên nhân viên chứa ký tự đặt biệt");
+                lbNameFalse.setText("Họ tên nhân viên chứa ký tự đặc biệt");
                 ChangeStatus.visible(lbNameFalse);
                 break;
             case -2:
@@ -368,19 +381,6 @@ public class ManageEmployeeController extends AbstractManageController {
                 lbUsernameFalse.setText("Tên đăng nhập vượt quá 50 ký tự");
                 ChangeStatus.visible(lbUsernameFalse);
                 break;
-        }
-
-        if (passwordCondition == 0) {
-            lbPasswordFalse.setText("Mật khẩu đang không được nhập");
-            ChangeStatus.visible(lbPasswordFalse);
-        }
-        if (passwordCondition == -1) {
-            lbPasswordFalse.setText("Mật khẩu ít hơn 8 ký tự");
-            lbPasswordFalse.setVisible(true);
-        }
-        if (passwordCondition == -2) {
-            lbPasswordFalse.setText("Mật khẩu nhiều hơn 50 ký tự");
-            lbPasswordFalse.setVisible(true);
         }
         switch (ageCondition) {
             case 0:

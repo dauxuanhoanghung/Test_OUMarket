@@ -34,28 +34,15 @@ public class Employee {
     {
         this.id = UUID.randomUUID().toString();
         long millis = System.currentTimeMillis();
-        this.joinDate = new Date(millis);      
-    }
-
-    public Employee(String name, String username, String password, Date joinDate, String phone, String role, int branchId) {
-        this(null, name, username, password, joinDate, phone, role, branchId);
+        this.joinDate = new Date(millis);
+        this.active = true;
     }
     
-    public Employee(String name, String username, String password, String phone, String role, int branchId) {
+    public Employee(String name, String username, String password, Date birthday, String phone, String role, int branchId) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.phone = phone;
-        this.role = role;
-        this.branchId = branchId;
-    }
-
-    public Employee(String id, String name, String username, String password, Date joinDate, String phone, String role, int branchId) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.joinDate = joinDate;
+        this.birthday = birthday;
         this.phone = phone;
         this.role = role;
         this.branchId = branchId;
