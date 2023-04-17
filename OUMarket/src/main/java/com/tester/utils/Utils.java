@@ -35,20 +35,8 @@ public class Utils {
     }
 
     public static boolean verifyPassword(String enteredPassword, String storedHashedPassword) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] hashInBytes = md.digest(enteredPassword.getBytes(StandardCharsets.UTF_8));
-
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashInBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            String hashedEnteredPassword = sb.toString();
-            return hashedEnteredPassword.equalsIgnoreCase(storedHashedPassword);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return false;
-        }
+        String hashedEnteredPassword = hashPassword(enteredPassword);
+        return hashedEnteredPassword.equalsIgnoreCase(storedHashedPassword);
     }
     
     public static Float calculate(List<CartItem> cartItems) {
@@ -57,6 +45,10 @@ public class Utils {
             subTotal += (c.getQuantity() * c.getPrice());
         
         return subTotal;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(hashPassword("admin@123"));
     }
 
 }

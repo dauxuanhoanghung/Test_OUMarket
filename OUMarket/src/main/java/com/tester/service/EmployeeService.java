@@ -14,6 +14,7 @@ import java.util.List;
 public interface EmployeeService {
     List<Employee> getEmployees(String kw);
     Employee getEmployeeByUsername(String username);
+    Employee getEmployeeByPhone(String phone);
     Employee authencateEmployee(String username, String password);
     int addEmployee(Employee employee);
     int updateEmployee(Employee employee);

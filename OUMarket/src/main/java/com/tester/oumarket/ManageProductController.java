@@ -72,9 +72,13 @@ public class ManageProductController extends AbstractManageController {
     @FXML
     private TableView tbvProduct;
     @FXML
-    private Label lbProductNameFalse;
+    private Label lblPriceFalse;
     @FXML
-    private Label lbPriceFalse;
+    private Label lblProductNameFalse;
+    @FXML
+    private Label lblCateFalse;
+    @FXML
+    private Label lblUnitFalse;
     private CategoryService cs;
     private UnitService us;
 
@@ -97,6 +101,7 @@ public class ManageProductController extends AbstractManageController {
                 txtProductDescription, txtProductName, txtProductPrice,
                 cbbCategory, cbbUnit);
         ChangeStatus.enable(addButton);
+        ChangeStatus.invisible(lblUnitFalse, lblCateFalse, lblProductNameFalse, lblPriceFalse);
     }
 
     private void setHandling() {
@@ -124,25 +129,11 @@ public class ManageProductController extends AbstractManageController {
 
         TableColumn<Product, String> categoryCol = new TableColumn<>("Category");
         categoryCol.setCellValueFactory((TableColumn.CellDataFeatures<Product, String> cellData) -> {
-//            Integer categoryId = cellData.getValue().getCategoryId();
-//            Category category = cs.getCategoryById(categoryId);
-//            if (category == null) {
-//                return new SimpleStringProperty("");
-//            } else {
-//                return new SimpleStringProperty(category.getName());
-//            }
             return new SimpleStringProperty(cellData.getValue().getCategory().getName());
         });
 
         TableColumn<Product, String> unitCol = new TableColumn<>("Unit");
         unitCol.setCellValueFactory((TableColumn.CellDataFeatures<Product, String> cellData) -> {
-//            Integer unitId = cellData.getValue().getUnitId();
-//            Unit unit = us.getUnitById(unitId);
-//            if (unit == null) {
-//                return new SimpleStringProperty("");
-//            } else {
-//                return new SimpleStringProperty(unit.getName());
-//            }
             return new SimpleStringProperty(cellData.getValue().getUnit().getName());
         });
 
@@ -173,23 +164,27 @@ public class ManageProductController extends AbstractManageController {
     public void handlerAddNewProduct(ActionEvent event) {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             Product product = mapInputToProduct(new Product());
+            ChangeStatus.invisible(lblUnitFalse, lblCateFalse, lblProductNameFalse, lblPriceFalse);
             if (CheckUtils.isValidName(product.getName()) == 1
-                    &&CheckUtils.isValidPrice(product.getPrice())==1) {
+                    && CheckUtils.isValidPrice(product.getPrice()) == 1
+                    && this.cbbCategory.getSelectionModel().getSelectedItem() != null
+                    && this.cbbUnit.getSelectionModel().getSelectedItem() != null) {
                 ProductService ps = new ProductServiceImpl();
                 ps.addProduct(product);
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
                 loadContentToTableView("");
+                ChangeStatus.clearText(txtProductID, txtOrigin, txtProductDescription,
+                        txtProductName, txtProductPrice);
+                ChangeStatus.adjustButton(addButton, "Thêm", "update");
+                ChangeStatus.disable(cancelButton, txtOrigin, txtProductDescription,
+                        txtProductName, txtProductPrice, cbbCategory, cbbUnit);
+                ChangeStatus.enable(getTableViewButtons(tbvProduct));
+                tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
+                cbbCategory.setValue(null);
+                cbbUnit.setValue(null);
             } else {
-                    handlerProductCheck(product);
-//                MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
+                handlerProductCheck(product);
             }
-            ChangeStatus.adjustButton(addButton, "Thêm", "update");
-            ChangeStatus.disable(cancelButton, txtOrigin,txtProductDescription, 
-                    txtProductName, txtProductPrice, cbbCategory, cbbUnit);
-            ChangeStatus.enable(getTableViewButtons(tbvProduct));
-            tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
-            cbbCategory.setValue(null);
-            cbbUnit.setValue(null);
         } else { //Nút thêm
             ChangeStatus.enable(cancelButton, txtOrigin,
                     txtProductDescription, txtProductName, txtProductPrice,
@@ -200,30 +195,12 @@ public class ManageProductController extends AbstractManageController {
             this.cbbUnit.getSelectionModel().clearSelection();
             tbvProduct.setOnMouseClicked(evt -> {
             });
+            ChangeStatus.clearText(txtProductID, txtOrigin, txtProductDescription,
+                    txtProductName, txtProductPrice);
         }
-        ChangeStatus.clearText(txtProductID, txtOrigin, txtProductDescription,
-                txtProductName, txtProductPrice);
+
     }
 
-    public void handlerProductCheck(Product product)
-    {
-        if(CheckUtils.isValidName(product.getName()) == 0)
-        {
-            lbProductNameFalse.setText("Vui lòng nhập vào tên sản phẩm");
-            lbProductNameFalse.setVisible(true);
-
-        }
-//        if(CheckUtils.isValidPrice(product.getPrice())==-1)
-//        {
-//            lbPriceFalse.setText("Gíá tiền sản phẩm chưa được nhập");
-//            lbPriceFalse.setVisible(true);
-//        }
-//        if(CheckUtils.isValidPrice(product.getPrice())==0)
-//        {
-//            lbPriceFalse.setText("Gía tiền chỉ được phép nhập bằng sô");
-//            lbPriceFalse.setVisible(true);
-//        }
-    }
     /**
      * Hàm xử lý hủy các action add - update
      *
@@ -241,8 +218,7 @@ public class ManageProductController extends AbstractManageController {
                 ChangeStatus.enable(getTableViewButtons(tbvProduct));
                 ChangeStatus.adjustButton(addButton, "Thêm", "update");
                 tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
-                lbProductNameFalse.setVisible(false);
-                lbPriceFalse.setVisible(false);
+                ChangeStatus.invisible(lblUnitFalse, lblCateFalse, lblPriceFalse, lblProductNameFalse);
             }
         });
     }
@@ -361,12 +337,18 @@ public class ManageProductController extends AbstractManageController {
         product.setName(txtProductName.getText());
         product.setOrigin(txtOrigin.getText());
         product.setDescription(txtProductDescription.getText());
-        product.setPrice(Float.parseFloat(txtProductPrice.getText()));
+        if (CheckUtils.isNotNullAndBlankText(txtProductPrice.getText())) {
+            product.setPrice(Float.parseFloat(txtProductPrice.getText()));
+        }
 
         Category cate = (Category) cbbCategory.getSelectionModel().getSelectedItem();
-        product.setCategoryId(cate.getId());
+        if (cate != null) {
+            product.setCategoryId(cate.getId());
+        }
         Unit unit = (Unit) cbbUnit.getSelectionModel().getSelectedItem();
-        product.setUnitId(unit.getId());
+        if (unit != null) {
+            product.setUnitId(unit.getId());
+        }
         return product;
     }
 
@@ -396,4 +378,37 @@ public class ManageProductController extends AbstractManageController {
 
     }
 
+    public void handlerProductCheck(Product product) {
+        boolean nameCondition = CheckUtils.isNotNullAndBlankText(product.getName());
+        int priceCondition = CheckUtils.isValidPrice(product.getPrice());
+
+        if (!nameCondition) {
+            lblProductNameFalse.setText("Tên sản phẩm không được bỏ trống");
+            ChangeStatus.visible(lblProductNameFalse);
+        }
+        switch (priceCondition) {
+            case 0:
+                lblPriceFalse.setText("Không được bỏ trống ô này!!!");
+                ChangeStatus.visible(lblPriceFalse);
+                break;
+            case -1:
+                lblPriceFalse.setText("Số điện thoại phải đủ 10 ký tự");
+                ChangeStatus.visible(lblPriceFalse);
+                break;
+            case -2:
+                lblPriceFalse.setText("Số tiền nhập không thể < 0");
+                ChangeStatus.visible(lblPriceFalse);
+                break;
+        }
+
+        if (this.cbbCategory.getSelectionModel().getSelectedItem() == null) {
+            lblCateFalse.setText("Phải chọn danh mục");
+            ChangeStatus.visible(lblCateFalse);
+        }
+
+        if (this.cbbUnit.getSelectionModel().getSelectedItem() == null) {
+            lblUnitFalse.setText("Phải chọn đơn vị");
+            ChangeStatus.visible(lblUnitFalse);
+        }
+    }
 }

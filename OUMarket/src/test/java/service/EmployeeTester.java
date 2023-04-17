@@ -72,32 +72,39 @@ public class EmployeeTester {
 
     @Test
     /*Kiểm tra tim thông tin nhân viên theo tên đăng nhập*/
-    public void testGetEmployeeByName() {
-        String str = "hungnewbie";
+    public void testGetEmployeeByUsername() {
+        //Kiểm tra có
+        String hungnewbie = "hungnewbie";
         EmployeeService e = new EmployeeServiceImpl();
-        Employee emp = e.getEmployeeByUsername(str);
+        Employee emp = e.getEmployeeByUsername(hungnewbie);
         Assertions.assertNotNull(emp);
+        //Kiểm tra không
+        String noOne = "noOne";
+        Employee noOneEmp = e.getEmployeeByUsername(noOne);
+        Assertions.assertNull(noOneEmp);
     }
 
     @Test
     /*Kiểm tra tim thông tin username và mật khẩu*/
     public void testAuthencateEmployee() {
-        String username = "hungnewbie";
+        String username = "lva";
         String password = "123456789";
         EmployeeService e = new EmployeeServiceImpl();
-        Employee emp = e.authencateEmployee(username, password);
-        Assertions.assertNotNull(emp);
-        
+        Employee hungnewbie = e.authencateEmployee(username, password);
+        Assertions.assertNotNull(hungnewbie);
+
+        String userNotActive = "hangduchuy";
+        Employee hangduchuy = e.authencateEmployee(userNotActive, password);
+        Assertions.assertNull(hangduchuy);
     }
+
     @Test
     /*Kiểm tra xem có thêm nhân viên được không*/
     public void testAddEmployee() {
-        int i = 0;
-        Date joinDate1 = new Date(2022, 3, 1);
-        Date birthday1 = new Date(1990, 5, 15);
+        Date birthday = new Date(1990, 5, 15);
         EmployeeService e = new EmployeeServiceImpl();
-        Employee emp = new Employee("123", "Nguyễn Hoài Nam", "HoaiNam123", "123456", joinDate1, birthday1, true, "9853719712", "EMPLOYEE", 1);
-        i = e.addEmployee(emp);
+        Employee emp = new Employee("Nguyễn Hoài Nam", "HoaiNam123", "123456", birthday, "9853719712", "EMPLOYEE", 1);
+        int i = e.addEmployee(emp);
 
         Assertions.assertNotEquals(0, i);
     }

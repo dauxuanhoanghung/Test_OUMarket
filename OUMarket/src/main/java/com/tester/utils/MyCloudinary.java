@@ -5,10 +5,14 @@
 package com.tester.utils;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Url;
 import com.cloudinary.utils.ObjectUtils;
+import com.tester.pojo.Employee;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,5 +51,22 @@ public class MyCloudinary {
             return "";
         }
         return cloudinaryUrl;
+    }
+
+    public static boolean deleteFile(Employee employee) {
+        String urlStr = employee.toString();
+        String publicId = urlStr.substring(urlStr.lastIndexOf("/") + 1, urlStr.lastIndexOf("."));
+        System.out.println(publicId);
+        try {
+            Map result = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+            return result.get("result").equals("ok");
+        } catch (IOException ex) {
+            Logger.getLogger(MyCloudinary.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        deleteFile(null);
     }
 }

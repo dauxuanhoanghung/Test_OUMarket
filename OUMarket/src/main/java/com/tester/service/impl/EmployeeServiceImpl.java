@@ -7,6 +7,7 @@ package com.tester.service.impl;
 import com.tester.pojo.Employee;
 import com.tester.service.EmployeeService;
 import com.tester.utils.MySQLConnectionUtil;
+import com.tester.utils.Utils;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -53,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee getEmployeeByUsername(String username) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
-            String query = "SELECT * FROM employee WHERE username = '?'";
+            String query = "SELECT * FROM employee WHERE username = ?";
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
@@ -79,22 +80,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee authencateEmployee(String username, String password) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
-            String query = "SELECT * FROM employee WHERE username = ? AND password = ?";
+            String query = "SELECT * FROM employee WHERE username = ?";
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, username);
-            stm.setString(2, password);
             ResultSet rs = stm.executeQuery();
             if (rs != null && rs.next()) {
-                return new Employee(rs.getString("id"),
-                        rs.getString("name"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getDate("join_date"),
-                        rs.getDate("birthday"),
-                        rs.getBoolean("active"),
-                        rs.getString("phone"),
-                        rs.getString("role"),
-                        rs.getInt("branch_id"));
+                if (rs.getBoolean("active")
+                        && Utils.verifyPassword(password, rs.getString("password"))) {
+                    return new Employee(rs.getString("id"),
+                            rs.getString("name"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getDate("join_date"),
+                            rs.getDate("birthday"),
+                            rs.getBoolean("active"),
+                            rs.getString("phone"),
+                            rs.getString("role"),
+                            rs.getInt("branch_id"));
+                }
+                return null;
             }
             return null;
         } catch (SQLException ex) {
@@ -105,6 +109,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int addEmployee(Employee employee) {
+        employee.setPassword(Utils.hashPassword(employee.getPassword()));
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
             String query = "INSERT INTO employee(id, name, username, password, join_date, birthday, phone, role, branch_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -135,20 +140,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     public int updateEmployee(Employee employee) {
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
-            String query = "UPDATE employee SET name = ?, password = ?, birthday = ?, phone = ?, active = ? ,role = ?, branch_id = ? WHERE id = ?";
+            String query = "UPDATE employee SET name = ?, birthday = ?, phone = ?, active = ? ,role = ?, branch_id = ? WHERE id = ?";
             PreparedStatement stm = conn.prepareCall(query);
             stm.setString(1, employee.getName());
-            stm.setString(2, employee.getPassword());
-            stm.setDate(3, new Date(employee.getBirthday().getTime()));
-            stm.setString(4, employee.getPhone());
-            stm.setBoolean(5, employee.isActive());
-            stm.setString(6, employee.getRole());
+            stm.setDate(2, new Date(employee.getBirthday().getTime()));
+            stm.setString(3, employee.getPhone());
+            stm.setBoolean(4, employee.isActive());
+            stm.setString(5, employee.getRole());
             if (employee.getBranchId() == 0) {
-                stm.setObject(7, null);
+                stm.setObject(6, null);
             } else {
-                stm.setInt(7, employee.getBranchId());
+                stm.setInt(6, employee.getBranchId());
             }
-            stm.setString(8, employee.getId());
+            stm.setString(7, employee.getId());
             int r = stm.executeUpdate();
             conn.commit();
             return r;
@@ -158,4 +162,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Override
+    public Employee getEmployeeByPhone(String phone) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "SELECT * FROM employee WHERE phone = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setString(1, phone);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new Employee(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getDate("join_date"),
+                        rs.getDate("birthday"),
+                        rs.getBoolean("active"),
+                        rs.getString("phone"),
+                        rs.getString("role"),
+                        rs.getInt("branch_id"));
+            }
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 }

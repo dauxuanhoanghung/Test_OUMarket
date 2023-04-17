@@ -129,7 +129,9 @@ public class ManageBranchController extends AbstractManageController {
     public void handleAddButton(ActionEvent event) {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             BranchMarket bm = mapInputToBranchMarket(new BranchMarket());
-            if (CheckUtils.isValidName(bm.getName()) == 1) {
+            if (CheckUtils.isValidName(bm.getName()) == 1
+                    && CheckUtils.isNotNullAndBlankText(txtBranchLocation.getText())
+                    && CheckUtils.isValidPhoneNumber(txtBranchPhone.getText()) == 1) {
                 BranchMarketService bms = new BranchMarketServiceImpl();
                 bms.addBranchMarket(bm);
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();

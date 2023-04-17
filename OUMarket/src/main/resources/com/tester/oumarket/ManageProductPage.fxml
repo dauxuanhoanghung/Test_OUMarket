@@ -103,11 +103,11 @@
          </font>
       </Button>
       <Button fx:id="exportButton" layoutX="789.0" layoutY="80.0" mnemonicParsing="false" text="Export To Excel" />
-      <Label fx:id="lbProductNameFalse" layoutX="174.0" layoutY="215.0" text="Label" textFill="#d70707" />
-      <Label fx:id="lbPriceFalse" layoutX="174.0" layoutY="273.0" text="Label" textFill="#d70707" />
-      <Label layoutX="174.0" layoutY="331.0" text="Label" textFill="#d70707" />
+      <Label fx:id="lblProductNameFalse" layoutX="174.0" layoutY="215.0" text="Label" textFill="#d70707" />
+      <Label fx:id="lblPriceFalse" layoutX="174.0" layoutY="273.0" text="Label" textFill="#d70707" />
       <Label layoutX="174.0" layoutY="611.0" text="Label" textFill="#d70707" visible="false" />
-      <Label layoutX="174.0" layoutY="579.0" text="Label" textFill="#d70707" />
+      <Label fx:id="lblUnitFalse" layoutX="174.0" layoutY="579.0" text="Label" textFill="#d70707" />
+      <Label fx:id="lblCateFalse" layoutX="174.0" layoutY="516.0" text="Label" textFill="#d70707" />
     </children>
    <stylesheets>
       <URL value="@css/ManageProductPage.css" />
