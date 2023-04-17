@@ -76,7 +76,9 @@ public class ManageProductController extends AbstractManageController {
     @FXML
     private Label lbPriceFalse;
     @FXML
-    private Label lbDescriptionFalse;
+    private Label lbCategoryFalse;
+    @FXML
+    private Label lbUnitFalse;
     private CategoryService cs;
     private UnitService us;
 
@@ -171,13 +173,17 @@ public class ManageProductController extends AbstractManageController {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             Product product = mapInputToProduct(new Product());
             if (CheckUtils.isValidName(product.getName()) == 1
-                    &&CheckUtils.isValidPrice(product.getPrice())==1) {
+//                    &&CheckUtils.isValidPrice(product.getPrice())==1
+                    &&product.getCategoryId()!=0
+                    &&product.getUnitId()!=0
+                    ) {
                 ProductService ps = new ProductServiceImpl();
                 ps.addProduct(product);
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
                 loadContentToTableView("");
             } else {
                     handlerProductCheck(product);
+                  
 //                MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
             }
             ChangeStatus.adjustButton(addButton, "Thêm", "update");
@@ -218,6 +224,16 @@ public class ManageProductController extends AbstractManageController {
 //            lbPriceFalse.setText("Gía tiền chỉ được phép nhập bằng sô");
 //            lbPriceFalse.setVisible(true);
 //        }
+//        if(CheckUtils.isValidPrice(product.getPrice())==-2)
+//        {
+//            lbPriceFalse.setText("Gía tiền sản phẩm không được nhỏ hơn 0");
+//            lbPriceFalse.setVisible(true);
+//        }
+//        if(cbbCategory.getSelectionModel().getSelectedItem()==null)
+//            {
+//                lbCategoryFalse.setText("Chưa lựa chọn loại sản phẩm.");
+//                lbCategoryFalse.setVisible(true);
+//            }   
     }
     /**
      * Hàm xử lý hủy các action add - update
@@ -238,6 +254,8 @@ public class ManageProductController extends AbstractManageController {
                 tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
                 lbProductNameFalse.setVisible(false);
                 lbPriceFalse.setVisible(false);
+                lbCategoryFalse.setVisible(false);
+                lbUnitFalse.setVisible(false);
             }
         });
     }
@@ -356,10 +374,24 @@ public class ManageProductController extends AbstractManageController {
         product.setDescription(txtProductDescription.getText());
         product.setPrice(Float.parseFloat(txtProductPrice.getText()));
 
-        Category cate = (Category) cbbCategory.getSelectionModel().getSelectedItem();
-        product.setCategoryId(cate.getId());
+        if(cbbCategory.getValue()==null)
+        {
+            lbCategoryFalse.setText("Danh mục chưa được chọn");
+            lbCategoryFalse.setVisible(true);
+        }
+        else{Category cate = (Category) cbbCategory.getSelectionModel().getSelectedItem();
+            product.setCategoryId(cate.getId());
+        }
+        
+        
+        
+        if(cbbUnit.getValue()==null)
+        {
+            lbUnitFalse.setText("Chưa chọn loại đơn vị của sản phẩm");
+            lbUnitFalse.setVisible(true);
+        }else{
         Unit unit = (Unit) cbbUnit.getSelectionModel().getSelectedItem();
-        product.setUnitId(unit.getId());
+        product.setUnitId(unit.getId());}
         return product;
     }
 

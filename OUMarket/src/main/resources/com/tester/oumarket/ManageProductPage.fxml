@@ -105,10 +105,8 @@
       <Button fx:id="exportButton" layoutX="789.0" layoutY="80.0" mnemonicParsing="false" text="Export To Excel" />
       <Label fx:id="lbProductNameFalse" layoutX="174.0" layoutY="236.0" text="Label" textFill="#d70707" visible="false" />
       <Label fx:id="lbPriceFalse" layoutX="174.0" layoutY="304.0" text="Label" textFill="#d70707" visible="false" />
-      <Label layoutX="174.0" layoutY="377.0" text="Label" textFill="#d70707" visible="false" />
-      <Label layoutX="174.0" layoutY="530.0" text="Label" textFill="#d70707" visible="false" />
-      <Label layoutX="174.0" layoutY="611.0" text="Label" textFill="#d70707" visible="false" />
-      <Label layoutX="174.0" layoutY="673.0" text="Label" textFill="#d70707" visible="false" />
+      <Label fx:id="lbCategoryFalse" layoutX="174.0" layoutY="611.0" text="Label" textFill="#d70707" visible="false" />
+      <Label fx:id="lbUnitFalse" layoutX="174.0" layoutY="673.0" text="Label" textFill="#d70707" visible="false" />
     </children>
    <stylesheets>
       <URL value="@css/ManageProductPage.css" />

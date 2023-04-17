@@ -232,13 +232,4 @@ public class CheckUtils {
         }
         return 1;
         }
-    public static int isValidDescription(String description) {
-        if (!isNotNullAndBlankText(description)) {
-            return 0;
-        }
-        if (description.length() > 500) {
-            return -2;
-        }
-        return 1;
-    }
 }

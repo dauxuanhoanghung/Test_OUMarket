@@ -16,6 +16,7 @@ import com.tester.utils.MessageBox;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -225,9 +226,11 @@ public class ManageEmployeeController extends AbstractManageController {
                                     txtUsername, dpBirthday, cbbRole, cbbBranch);
                             loadContentToTableView();
                         } else {
-                            MessageBox.AlertBox("Error", "Something is error!!!", Alert.AlertType.ERROR).show();
+//                            MessageBox.AlertBox("Error", "Something is error!!!", Alert.AlertType.ERROR).show();
                         }
                         tbvEmp.setOnMouseClicked(this::handlerClickOnTableView);
+                    }else{
+                        handlerCheckInfo(employee);
                     }
                 } else {
                     //Bắt đầu input để update
@@ -282,9 +285,11 @@ public class ManageEmployeeController extends AbstractManageController {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             Employee emp = mapInputToEmployee(new Employee());
             if (CheckUtils.isValidName(emp.getName()) == 1
+                    &&CheckUtils.isValidUsername(emp.getUsername())==1
                     && CheckUtils.isValidPassword(emp.getPassword()) == 1
                     && CheckUtils.isValidPhoneNumber(emp.getPhone()) == 1
-                    && CheckUtils.isAgeEnough18(emp.getBirthday()) == 1) {
+                    && CheckUtils.isAgeEnough18(emp.getBirthday()) == 1
+                    ) {
                 EmployeeService es = new EmployeeServiceImpl();
                 es.addEmployee(emp);
                 MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
@@ -377,7 +382,6 @@ public class ManageEmployeeController extends AbstractManageController {
             lbBirthdayFalse.setVisible(true);
         }
 
-       
 //        if(cbbRole.getSelectionModel().getSelectedItem()== Employee.EMPLOYEE)
 //        {
 //            if(cbbBranch.getSelectionModel().getSelectedIndex().)
@@ -482,13 +486,31 @@ public class ManageEmployeeController extends AbstractManageController {
         employee.setUsername(this.txtUsername.getText());
         employee.setPassword(this.txtPassword.getText());
         employee.setPhone(this.txtPhone.getText());
-        employee.setRole((String) this.cbbRole.getValue());
+//        employee.setRole((String) this.cbbRole.getValue());
         ZoneId zoneId = ZoneId.systemDefault();
         if (dpBirthday.getValue() != null) {
             employee.setBirthday(Date.from(this.dpBirthday.getValue().atStartOfDay(zoneId).toInstant()));
+        } else {
+            lbBirthdayFalse.setText("Ngày sinh chưa được nhập");
+            lbBirthdayFalse.setVisible(true);
+        }
+        if (this.cbbRole.getValue() == null) {
+            lbPositionFalse.setText("Chưa chọn vai trò của nhân viên");
+            lbPositionFalse.setVisible(true);
+        } else {
+            employee.setRole((String) this.cbbRole.getValue());
         }
         BranchMarket branch = (BranchMarket) this.cbbBranch.getSelectionModel().getSelectedItem();
         employee.setBranchId(branch != null ? branch.getId() : 0);
+        if (employee.getBranchId() == 0 ) {
+            lbBranchFalse.setText("Chưa chọn chi nhánh");
+            lbBranchFalse.setVisible(true);
+        }
+        if(employee.getRole() == Employee.ADMIN)
+        {
+            lbBranchFalse.setVisible(false);
+        }
+        
         return employee;
     }
 }
