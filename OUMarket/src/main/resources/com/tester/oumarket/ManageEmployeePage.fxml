@@ -123,5 +123,11 @@
         <Label fx:id="lbPositionFalse" layoutX="165.0" layoutY="424.0" prefHeight="17.0" prefWidth="300.0" textFill="#f50707" visible="false" />
         <Label fx:id="lbBranchFalse" layoutX="165.0" layoutY="481.0" prefHeight="17.0" prefWidth="300.0" textFill="#f50707" visible="false" />
         <Label fx:id="lbBirthdayFalse" layoutX="165.0" layoutY="538.0" prefHeight="17.0" prefWidth="300.0" textFill="#f50707" visible="false" />
+      <ImageView fx:id="imgAvt" fitHeight="94.0" fitWidth="106.0" layoutX="165.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="uploadAvtBtn" layoutX="277.0" layoutY="555.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="106.0" text="Upload">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Button>
     </children>
 </Pane>

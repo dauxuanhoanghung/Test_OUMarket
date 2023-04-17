@@ -93,8 +93,17 @@ public class ManageBranchController extends AbstractManageController {
             Button btn = new Button();
             ChangeStatus.adjustButton(btn, "Update", "update");
             btn.setOnAction(this::handlerUpdateButton);
-            TableCell tbc = new TableCell();
-            tbc.setGraphic(btn);
+            TableCell tbc = new TableCell() {
+                @Override
+                protected void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                    }
+                }
+            };
             return tbc;
         });
 
@@ -103,8 +112,17 @@ public class ManageBranchController extends AbstractManageController {
             Button btn = new Button();
             ChangeStatus.adjustButton(btn, "Quản lý", "confirm");
             btn.setOnAction(this::handlerChangeToManageProduct);
-            TableCell tbc = new TableCell();
-            tbc.setGraphic(btn);
+            TableCell tbc = new TableCell() {
+                @Override
+                protected void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                    }
+                }
+            };
             return tbc;
         });
         this.tbvBranch.getColumns().addAll(idCol, nameCol, locationCol,
@@ -129,21 +147,23 @@ public class ManageBranchController extends AbstractManageController {
     public void handleAddButton(ActionEvent event) {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             BranchMarket bm = mapInputToBranchMarket(new BranchMarket());
-            if (CheckUtils.isValidName(bm.getName()) == 1
-                    && CheckUtils.isNotNullAndBlankText(txtBranchLocation.getText())
-                    && CheckUtils.isValidPhoneNumber(txtBranchPhone.getText()) == 1) {
+            if (CheckUtils.isNotNullAndBlankText(bm.getLocation(), bm.getName())
+                    && CheckUtils.isValidPhoneNumber(bm.getPhone()) == 1) {
                 BranchMarketService bms = new BranchMarketServiceImpl();
-                bms.addBranchMarket(bm);
-                MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
-                loadContentToTableView(null);
+                if (bms.addBranchMarket(bm) > 0) {
+                    MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
+                    loadContentToTableView(null);
+                } else {
+                    MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
+                }
+                ChangeStatus.adjustButton(addButton, "Thêm", ".update");
+                ChangeStatus.disable();
+                ChangeStatus.enable();
+                ChangeStatus.visible(lblEmplCount);
+                this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
             } else {
                 MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
             }
-            ChangeStatus.adjustButton(addButton, "Thêm", ".update");
-            ChangeStatus.disable();
-            ChangeStatus.enable();
-            ChangeStatus.visible(lblEmplCount);
-            this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
         } else { //Nút thêm
             ChangeStatus.enable(cancelButton, txtBranchName, txtBranchLocation, txtBranchPhone);
             ChangeStatus.disable(getTableViewButtons(tbvBranch, "Quản lý"));

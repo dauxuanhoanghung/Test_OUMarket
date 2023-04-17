@@ -260,4 +260,9 @@ public class CheckUtils {
         }
         return 1;
     }
+    
+    public static boolean isBirthday(LocalDate date) {
+        LocalDate now = LocalDate.now();
+        return now.getMonth() == date.getMonth() && now.getDayOfMonth() == date.getDayOfMonth();
+    }
 }

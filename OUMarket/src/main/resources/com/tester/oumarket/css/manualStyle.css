@@ -23,8 +23,8 @@ Button {
 }
 .update, .confirm {
     -fx-font-size: 10px;
-    -fx-min-width: 50px;
-    -fx-min-height: 20px;
+    -fx-min-width: 45px;
+    -fx-min-height: 15px;
     -fx-alignment: center;
 }
 .ReturnButton{

@@ -13,6 +13,7 @@ import java.util.UUID;
  * @author LENOVO
  */
 public class Employee {
+
     @ExcelIgnore
     public static final String ADMIN = "ADMIN";
     @ExcelIgnore
@@ -27,6 +28,7 @@ public class Employee {
     private String phone;
     private String role;
     private int branchId;
+    private String avatar;
 
     public Employee() {
     }
@@ -37,7 +39,7 @@ public class Employee {
         this.joinDate = new Date(millis);
         this.active = true;
     }
-    
+
     public Employee(String name, String username, String password, Date birthday, String phone, String role, int branchId) {
         this.name = name;
         this.username = username;
@@ -60,8 +62,21 @@ public class Employee {
         this.role = role;
         this.branchId = branchId;
     }
-    
-    
+
+    public Employee(String id, String name, String username, String password, Date joinDate, Date birthday, boolean active, String phone, String role, int branchId, String avatar) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.joinDate = joinDate;
+        this.birthday = birthday;
+        this.active = active;
+        this.phone = phone;
+        this.role = role;
+        this.branchId = branchId;
+        this.avatar = avatar;
+    }
+
     /**
      * @return the id
      */
@@ -176,7 +191,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return String.format("%s - %s - %s - %s - %s", this.id, 
+        return String.format("%s - %s - %s - %s - %s", this.id,
                 this.name, this.username, this.role, this.joinDate);
     }
 
@@ -208,5 +223,18 @@ public class Employee {
         this.active = active;
     }
 
-     
+    /**
+     * @return the avatar
+     */
+    public String getAvatar() {
+        return avatar;
+    }
+
+    /**
+     * @param avatar the avatar to set
+     */
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 }

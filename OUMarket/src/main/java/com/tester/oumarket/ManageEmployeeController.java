@@ -13,6 +13,7 @@ import com.tester.service.impl.EmployeeServiceImpl;
 import com.tester.utils.ChangeStatus;
 import com.tester.utils.CheckUtils;
 import com.tester.utils.MessageBox;
+import com.tester.utils.MyCloudinary;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -37,6 +38,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -83,6 +86,11 @@ public class ManageEmployeeController extends AbstractManageController {
     private Label lbBranchFalse;
     @FXML
     private Label lbBirthdayFalse;
+    @FXML
+    private ImageView imgAvt;
+    @FXML
+    private Button uploadAvtBtn;
+    private File avt;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,6 +114,7 @@ public class ManageEmployeeController extends AbstractManageController {
 
         cancelButton.setOnAction(this::handlerCancelButton);
         exportButton.setOnAction(this::handlerExportBtn);
+        uploadAvtBtn.setOnAction(this::handleUploadAvtBtn);
 
         loadTableColumn();
         loadContentToTableView();
@@ -178,8 +187,13 @@ public class ManageEmployeeController extends AbstractManageController {
             Button btn = new Button("Update");
             btn.getStyleClass().add("update");
             btn.setOnAction(this::handlerUpdateButton);
-            TableCell tbc = new TableCell();
-            tbc.setGraphic(btn);
+            TableCell tbc = new TableCell() {
+                @Override
+                protected void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btn);
+                }
+            };
             return tbc;
         });
         this.tbvEmp.getColumns().addAll(idCol, nameCol, usernameCol, joinDateCol,
@@ -230,6 +244,19 @@ public class ManageEmployeeController extends AbstractManageController {
                             ChangeStatus.invisible(lbNameFalse, lbUsernameFalse, lbPasswordFalse,
                                     lbPhoneFalse, lbPositionFalse, lbBranchFalse, lbBirthdayFalse);
                             loadContentToTableView();
+                            if (avt != null) {
+                                new Thread(() -> {
+                                    try {
+                                        String imageUrl = MyCloudinary.upload(avt);
+                                        if (imageUrl != null) {
+                                            es.saveImage(employee.getId(), imageUrl);
+                                        }
+                                        this.avt = null;
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(ManageEmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }).start();
+                            }
                         } else {
                             MessageBox.AlertBox("Error", "Something is error!!!", Alert.AlertType.ERROR).show();
                         }
@@ -306,16 +333,32 @@ public class ManageEmployeeController extends AbstractManageController {
                     ChangeStatus.visible(lbPhoneFalse);
                     return;
                 }
-                es.addEmployee(emp);
+                if (es.addEmployee(emp) > 0) {
 
-                MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
-                loadContentToTableView();
-                ChangeStatus.adjustButton(addButton, "Thêm", "update");
-                ChangeStatus.disable(txtName, txtPassword, txtPhone,
-                        txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
-                ChangeStatus.enable(getTableViewButtons(tbvEmp));
-                tbvEmp.setOnMouseClicked(this::handlerClickOnTableView);
-                ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
+                    loadContentToTableView();
+                    ChangeStatus.adjustButton(addButton, "Thêm", "update");
+                    ChangeStatus.disable(txtName, txtPassword, txtPhone,
+                            txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
+                    ChangeStatus.enable(getTableViewButtons(tbvEmp));
+                    tbvEmp.setOnMouseClicked(this::handlerClickOnTableView);
+                    ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
+                    MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
+                    if (avt != null) {
+                        new Thread(() -> {
+                            try {
+                                String imageUrl = MyCloudinary.upload(avt);
+                                if (imageUrl != null) {
+                                    es.saveImage(emp.getId(), imageUrl);
+                                }
+                                this.avt = null;
+                            } catch (IOException ex) {
+                                Logger.getLogger(ManageEmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }).start();
+                    }
+                } else {
+                    MessageBox.AlertBox("FAILED", "Hệ thống lỗi", Alert.AlertType.ERROR).show();
+                }
             } else {
                 handlerCheckInfo(emp);
             }
@@ -324,6 +367,8 @@ public class ManageEmployeeController extends AbstractManageController {
                     txtUsername, dpBirthday, cbbRole, cbbBranch, cancelButton);
             ChangeStatus.disable(getTableViewButtons(tbvEmp));
             ChangeStatus.adjustButton(addButton, "Confirm", "update");
+            this.avt = null;
+            this.imgAvt.setImage(null);
             tbvEmp.setOnMouseClicked(evt -> {
             });
             ChangeStatus.clearText(txtName, txtPassword, txtPhone, txtUsername);
@@ -421,15 +466,10 @@ public class ManageEmployeeController extends AbstractManageController {
                 this.cbbBranch.getSelectionModel().clearSelection();
                 this.cbbRole.getSelectionModel().clearSelection();
                 this.dpBirthday.setValue(null);
+                this.avt = null;
 
-                lbNameFalse.setVisible(false);
-                lbUsernameFalse.setVisible(false);
-                lbPasswordFalse.setVisible(false);
-                lbPhoneFalse.setVisible(false);
-                lbPositionFalse.setVisible(false);
-                lbBranchFalse.setVisible(false);
-                lbBirthdayFalse.setVisible(false);
-
+                ChangeStatus.invisible(lbNameFalse, lbUsernameFalse, lbPasswordFalse, lbPhoneFalse,
+                        lbPositionFalse, lbBranchFalse, lbBirthdayFalse);
                 ChangeStatus.enable(getTableViewButtons(tbvEmp));
                 ChangeStatus.adjustButton(addButton, "Thêm", "update");
                 ChangeStatus.disable(txtName, txtPassword, txtPhone,
@@ -470,6 +510,28 @@ public class ManageEmployeeController extends AbstractManageController {
         }
     }
 
+    public void handleUploadAvtBtn(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JPG files (.jpg)", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG files (.png)", "*.png")
+        );
+
+        // show the file chooser dialog and get the selected file
+        this.avt = fileChooser.showOpenDialog(null);
+        // check if a file was selected
+        if (avt != null) {
+            try {
+                // create an Image object from the selected file
+                Image image = new Image(avt.toURI().toString());
+                // set the Image as the image for the ImageView control
+                imgAvt.setImage(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * Hàm load Employee được chọn -> textfield, combobox
      *
@@ -494,6 +556,14 @@ public class ManageEmployeeController extends AbstractManageController {
         }
         this.dpBirthday.setValue(new Date(emp.getBirthday().getTime())
                 .toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        imgAvt.setImage(null);
+        if (!emp.getAvatar().isBlank()) {
+            Thread thread = new Thread(() -> {
+                Image image = new Image(emp.getAvatar());
+                imgAvt.setImage(image);
+            });
+            thread.start();
+        }
     }
 
     /**
