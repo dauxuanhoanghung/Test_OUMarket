@@ -35,7 +35,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -61,6 +63,8 @@ public class EmployeePaymentController extends AbstractManageController {
     private Label lblCustomerPhone;
     @FXML
     private Label lblTotal;
+    @FXML
+    private Label lblDiscount;
     @FXML
     private Label lblExchangeMoney;
     @FXML
@@ -133,6 +137,9 @@ public class EmployeePaymentController extends AbstractManageController {
 
     public void handleAddButton(ActionEvent event) {
         Product product = (Product) tbvSearch.getSelectionModel().getSelectedItem();
+        if (product == null) {
+            return;
+        }
         Stage subStage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("EmployeeAddProduct.fxml"));
         Parent root = null;
@@ -175,20 +182,25 @@ public class EmployeePaymentController extends AbstractManageController {
     public void handlePaymentButton(ActionEvent event) {
         OrderService os = new OrderServiceImpl();
         ArrayList<CartItem> cartItems = new ArrayList<>(tbvOrderDetail.getItems());
-        Order order = new Order(Float.parseFloat(lblTotal.getText()),
-                App.getCurrentEmployee().getId(), customer != null ? customer.getId() : null);
-        if (os.addOrder(order, cartItems) > 0) {
+        if (!cartItems.isEmpty()) {
+            Order order = new Order(Float.parseFloat(lblTotal.getText()),
+                    App.getCurrentEmployee().getId(), customer != null ? customer.getId() : null);
+            if (os.addOrder(order, cartItems) > 0) {
 
-            ChangeStatus.clearText(lblCustomerPhone, lblCustomerName, lblCustomerBirthday);
-            ChangeStatus.clearText(txtCustomerPhone, txtMoney);
-            lblTotal.setText("0");
-            lblExchangeMoney.setText("0");
-            tbvOrderDetail.getItems().clear();
-            MessageBox.AlertBox("Success", "Thanh toán thành công", Alert.AlertType.CONFIRMATION).show();
+                ChangeStatus.clearText(lblCustomerPhone, lblCustomerName, lblCustomerBirthday);
+                ChangeStatus.clearText(txtCustomerPhone, txtMoney);
+                lblTotal.setText("0");
+                lblDiscount.setText("0");
+                lblExchangeMoney.setText("0");
+                tbvOrderDetail.getItems().clear();
+                MessageBox.AlertBox("Success", "Thanh toán thành công", Alert.AlertType.CONFIRMATION).show();
+            } else {
+                MessageBox.AlertBox("FAILED", "Có lỗi", Alert.AlertType.ERROR).show();
+            }
         } else {
-            MessageBox.AlertBox("FAILED", "Có lỗi", Alert.AlertType.ERROR).show();
+            MessageBox.AlertBox("NO CART FOUND!!!",
+                    "Chưa có sản phẩm để thanh toán", Alert.AlertType.WARNING).show();
         }
-
     }
 
     public void handleDeleteCustomerButton(ActionEvent event) {
@@ -196,17 +208,18 @@ public class EmployeePaymentController extends AbstractManageController {
             return;
         }
         ChangeStatus.clearText(lblCustomerBirthday, lblCustomerName, lblCustomerPhone);
+        lblDiscount.setText("0");
         this.customer = null;
     }
 
     private void loadOrderDetailTableColumn() {
         TableColumn idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idCol.setPrefWidth(120);
+        idCol.setPrefWidth(100);
 
         TableColumn nameCol = new TableColumn<>("Tên SP");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameCol.setPrefWidth(300);
+        nameCol.setPrefWidth(250);
 
         TableColumn priceCol = new TableColumn<>("Giá");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -216,7 +229,33 @@ public class EmployeePaymentController extends AbstractManageController {
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         quantityCol.setPrefWidth(100);
 
-        this.tbvOrderDetail.getColumns().addAll(idCol, nameCol, priceCol, quantityCol);
+        TableColumn delCol = new TableColumn<>();
+        delCol.setCellFactory(clbck -> {
+            Button btn = new Button("Delete");
+            ChangeStatus.adjustButton(btn, "Delete", "confirm");
+            btn.setOnAction(event -> {
+                Alert alert = MessageBox.AlertBox("Delete", "Xóa khỏi giỏ?", Alert.AlertType.CONFIRMATION);
+                alert.showAndWait().ifPresent(res -> {
+                    if (res == ButtonType.OK) {
+                        Button b = (Button) event.getSource();
+                        TableCell cell = (TableCell) b.getParent();
+                        CartItem p = (CartItem) cell.getTableRow().getItem();
+                        this.tbvOrderDetail.getItems().remove(p);
+                        lblTotal.setText(Utils.calculate(tbvOrderDetail.getItems()) + "");
+                    }
+                });
+            });
+            TableCell tbc = new TableCell() {
+                @Override
+                protected void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btn);
+                }
+            };
+            return tbc;
+        });
+
+        this.tbvOrderDetail.getColumns().addAll(idCol, nameCol, priceCol, quantityCol, delCol);
     }
 
     private void loadTableSearchColumn() {
@@ -257,6 +296,9 @@ public class EmployeePaymentController extends AbstractManageController {
                         lblCustomerPhone.setText(cus.getPhone());
                         lblCustomerBirthday.setText(cus.getBirthday().toString());
                         this.customer = cus;
+                        if (CheckUtils.isBirthday(this.customer.getBirthday())) {
+                            lblDiscount.setText("10");
+                        }
                         break;
                     case 0:
                         MessageBox.AlertBox("Error", "Không thể để rỗng", Alert.AlertType.WARNING).showAndWait();
@@ -282,7 +324,7 @@ public class EmployeePaymentController extends AbstractManageController {
             ChangeStatus.invisible(errorMoneyMessage);
             Float total = Float.valueOf(lblTotal.getText());
             Float money = Float.valueOf(moneyText);
-            Float exchange = money - total;
+            Float exchange = money - (total * Float.valueOf(lblDiscount.getText()));
             if (exchange < 0) {
                 errorMoneyMessage.setText("Chưa đủ tiền");
                 ChangeStatus.visible(errorMoneyMessage);

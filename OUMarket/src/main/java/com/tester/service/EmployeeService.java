@@ -18,4 +18,5 @@ public interface EmployeeService {
     Employee authencateEmployee(String username, String password);
     int addEmployee(Employee employee);
     int updateEmployee(Employee employee);
+    int saveImage(String empId, String url);
 }

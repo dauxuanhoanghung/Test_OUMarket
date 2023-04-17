@@ -142,8 +142,13 @@ public class ManageProductController extends AbstractManageController {
             Button btn = new Button();
             ChangeStatus.adjustButton(btn, "Update", "update");
             btn.setOnAction(this::handlerUpdateButton);
-            TableCell tbc = new TableCell();
-            tbc.setGraphic(btn);
+            TableCell tbc = new TableCell() {
+                @Override
+                protected void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btn);
+                }
+            };
             return tbc;
         });
 
@@ -165,23 +170,26 @@ public class ManageProductController extends AbstractManageController {
         if (addButton.getText().equals("Confirm")) { //Nút xác nhận
             Product product = mapInputToProduct(new Product());
             ChangeStatus.invisible(lblUnitFalse, lblCateFalse, lblProductNameFalse, lblPriceFalse);
-            if (CheckUtils.isValidName(product.getName()) == 1
+            if (CheckUtils.isNotNullAndBlankText(product.getName())
                     && CheckUtils.isValidPrice(product.getPrice()) == 1
                     && this.cbbCategory.getSelectionModel().getSelectedItem() != null
                     && this.cbbUnit.getSelectionModel().getSelectedItem() != null) {
                 ProductService ps = new ProductServiceImpl();
-                ps.addProduct(product);
-                MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
-                loadContentToTableView("");
-                ChangeStatus.clearText(txtProductID, txtOrigin, txtProductDescription,
-                        txtProductName, txtProductPrice);
-                ChangeStatus.adjustButton(addButton, "Thêm", "update");
-                ChangeStatus.disable(cancelButton, txtOrigin, txtProductDescription,
-                        txtProductName, txtProductPrice, cbbCategory, cbbUnit);
-                ChangeStatus.enable(getTableViewButtons(tbvProduct));
-                tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
-                cbbCategory.setValue(null);
-                cbbUnit.setValue(null);
+                if (ps.addProduct(product) > 0) {
+                    loadContentToTableView("");
+                    ChangeStatus.clearText(txtProductID, txtOrigin, txtProductDescription,
+                            txtProductName, txtProductPrice);
+                    ChangeStatus.adjustButton(addButton, "Thêm", "update");
+                    ChangeStatus.disable(cancelButton, txtOrigin, txtProductDescription,
+                            txtProductName, txtProductPrice, cbbCategory, cbbUnit);
+                    ChangeStatus.enable(getTableViewButtons(tbvProduct));
+                    tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
+                    cbbCategory.setValue(null);
+                    cbbUnit.setValue(null);
+                    MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
+                } else {
+                    MessageBox.AlertBox("FAILED", "Hệ thống lỗi", Alert.AlertType.ERROR).show();
+                }
             } else {
                 handlerProductCheck(product);
             }
@@ -218,6 +226,9 @@ public class ManageProductController extends AbstractManageController {
                 ChangeStatus.enable(getTableViewButtons(tbvProduct));
                 ChangeStatus.adjustButton(addButton, "Thêm", "update");
                 tbvProduct.setOnMouseClicked(this::handlerClickOnTableView);
+                ChangeStatus.clearText(txtProductID, txtOrigin, txtProductDescription, txtProductName, txtProductPrice);
+                cbbCategory.getSelectionModel().clearSelection();
+                cbbUnit.getSelectionModel().clearSelection();
                 ChangeStatus.invisible(lblUnitFalse, lblCateFalse, lblPriceFalse, lblProductNameFalse);
             }
         });

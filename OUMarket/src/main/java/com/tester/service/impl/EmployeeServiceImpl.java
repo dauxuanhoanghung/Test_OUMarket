@@ -41,7 +41,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                         rs.getBoolean("active"),
                         rs.getString("phone"),
                         rs.getString("role"),
-                        rs.getInt("branch_id"));
+                        rs.getInt("branch_id"),
+                        rs.getString("avatar"));
                 employees.add(c);
             }
             return employees;
@@ -68,7 +69,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                         rs.getBoolean("active"),
                         rs.getString("phone"),
                         rs.getString("role"),
-                        rs.getInt("branch_id"));
+                        rs.getInt("branch_id"),
+                        rs.getString("avatar"));
             }
             return null;
         } catch (SQLException ex) {
@@ -96,7 +98,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                             rs.getBoolean("active"),
                             rs.getString("phone"),
                             rs.getString("role"),
-                            rs.getInt("branch_id"));
+                            rs.getInt("branch_id"),
+                            rs.getString("avatar"));
                 }
                 return null;
             }
@@ -179,12 +182,31 @@ public class EmployeeServiceImpl implements EmployeeService {
                         rs.getBoolean("active"),
                         rs.getString("phone"),
                         rs.getString("role"),
-                        rs.getInt("branch_id"));
+                        rs.getInt("branch_id"),
+                        rs.getString("avatar"));
             }
             return null;
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        }
+    }
+
+    @Override
+    public int saveImage(String empId, String url) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            String query = "UPDATE employee SET avatar = ? WHERE id = ?";
+            PreparedStatement stm = conn.prepareCall(query);
+            stm.setString(1, url);
+            stm.setString(2, empId);
+
+            int r = stm.executeUpdate();
+            conn.commit();
+            return r;
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeServiceImpl.class.getName()).log(Level.SEVERE, "Hệ thống có lỗi!!!", ex);
+            return -1;
         }
     }
 }
