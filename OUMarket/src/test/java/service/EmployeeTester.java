@@ -65,9 +65,7 @@ public class EmployeeTester {
     public void testListEmployeeNotNull() throws SQLException {
         EmployeeService e = new EmployeeServiceImpl();
         List<Employee> cus = e.getEmployees("1");
-        List<Employee> Null = null;
-        Assertions.assertNotEquals(Null, e);
-
+        Assertions.assertNotEquals(null, e);
     }
 
     @Test

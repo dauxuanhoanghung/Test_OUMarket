@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public interface OrderService {
     List<Order> getOrders(Map<String, Object> params);
+    List<OrderDetail> getOrderDetails(Order order);
     int addOrder(Order o, List<OrderDetail> details);
     int addOrder(Order o, ArrayList<CartItem> cartItems);
     public Map<Integer, Integer> countOrdersInOneMonth();

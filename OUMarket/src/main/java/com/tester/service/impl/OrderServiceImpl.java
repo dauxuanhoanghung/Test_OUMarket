@@ -35,17 +35,17 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = new ArrayList<>();
         try (Connection conn = MySQLConnectionUtil.getConnection()) {
             String sql = "SELECT * FROM orders";
-            if (params.get("kw") != null && !String.valueOf(params.get("kw")).isBlank()) {
+            if (params != null && params.get("kw") != null && !String.valueOf(params.get("kw")).isBlank()) {
                 sql += " WHERE content LIKE concat('%', ?, '%')";
             }
             PreparedStatement stm = conn.prepareCall(sql);
-            if (params.get("kw") != null && !String.valueOf(params.get("kw")).isBlank()) {
+            if (params != null && params.get("kw") != null && !String.valueOf(params.get("kw")).isBlank()) {
                 stm.setString(1, (String) params.get("kw"));
             }
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Order o = new Order(rs.getString("id"), rs.getFloat("subtotal"),
-                        rs.getObject("createdDate", LocalDateTime.class),
+                        rs.getObject("created_date", LocalDateTime.class),
                         rs.getString("employee_id"),
                         rs.getString("customer_id"));
                 orders.add(o);
@@ -144,6 +144,29 @@ public class OrderServiceImpl implements OrderService {
                 result.put(branchId, totalSubtotal);
             }
             return result;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public List<OrderDetail> getOrderDetails(Order order) {
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String sql = "SELECT * FROM order_detail WHERE order_id = ?";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, order.getId());
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                OrderDetail o = new OrderDetail(rs.getString("id"),
+                rs.getFloat("quantity"),
+                rs.getFloat("current_price"),
+                rs.getString("order_id"),
+                rs.getString("product_id"));
+                orderDetails.add(o);
+            }
+            return orderDetails;
         } catch (SQLException ex) {
             Logger.getLogger(OrderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;

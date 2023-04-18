@@ -21,6 +21,8 @@ public interface EventService {
      * @param eventProduct
      * @return >0 nếu add thành công, -1 nếu có lỗi
      */
+    List<Event> getEvents();
+    List<EventProduct> getEventProductsByEvent(Event event);
     int addEvent(Event evt, List<SubProduct> eventProduct);
     Event getCurrentEvent();
     EventProduct getEventProduct(Event event, Product product);

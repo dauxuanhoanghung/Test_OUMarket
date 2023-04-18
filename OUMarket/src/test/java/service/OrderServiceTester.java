@@ -6,32 +6,19 @@ package service;
 
 import com.tester.pojo.Order;
 import com.tester.service.OrderService;
-import com.tester.service.impl.OrderServiceImpl;
 import com.tester.pojo.OrderDetail;
 import com.tester.service.impl.OrderServiceImpl;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
 
 /**
  *
@@ -73,5 +60,33 @@ public class OrderServiceTester {
         odList.add(od1);
         int i = orderService.addOrder(o, odList); 
         Assertions.assertNotEquals(0, i);
+    }
+    
+    @Test
+    public void testOrderHasDetail() {
+        OrderService orderService = new OrderServiceImpl();
+        List<Order> orders = orderService.getOrders(null);
+        for (Order order: orders) {
+            List odList = orderService.getOrderDetails(order);
+            Assertions.assertNotNull(odList);
+        }
+    }
+    
+    @Test
+    public void testOrderSubTotal() {
+        OrderService orderService = new OrderServiceImpl();
+        List<Order> orders = orderService.getOrders(null);
+        for (Order order: orders) {
+            Assertions.assertNotEquals(0f, order.getSubtotal());
+        }
+    }
+    
+    @Test
+    public void testOrderHasEmployeeId() {
+        OrderService orderService = new OrderServiceImpl();
+        List<Order> orders = orderService.getOrders(null);
+        for (Order order: orders) {
+            Assertions.assertNotNull(order.getEmployeeId());
+        }
     }
 }
