@@ -318,13 +318,15 @@ public class EmployeePaymentController extends AbstractManageController {
     }
 
     public void handleMoneyCustomer(KeyEvent event) {
+        if (event.getCode() != KeyCode.ENTER)
+            return;
         String moneyText = txtMoney.getText();
         int priceCheck = CheckUtils.isValidPrice(moneyText);
         if (priceCheck == 1) {
             ChangeStatus.invisible(errorMoneyMessage);
             Float total = Float.valueOf(lblTotal.getText());
             Float money = Float.valueOf(moneyText);
-            Float exchange = money - (total * Float.valueOf(lblDiscount.getText()));
+            Float exchange = money - (total * (100 - Float.parseFloat(lblDiscount.getText())) / 100);
             if (exchange < 0) {
                 errorMoneyMessage.setText("Chưa đủ tiền");
                 ChangeStatus.visible(errorMoneyMessage);

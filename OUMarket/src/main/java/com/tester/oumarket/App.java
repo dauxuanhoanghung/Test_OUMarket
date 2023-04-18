@@ -37,14 +37,20 @@ public class App extends Application {
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-        centerOnScreen();
+        if (scene != null) {
+            scene.setRoot(loadFXML("/com/tester/oumarket/" + fxml));
+            centerOnScreen();
+        }
+        else
+            scene = new Scene(loadFXML("/com/tester/oumarket/" + fxml));
     }
 
     public static void setSceneSize(double width, double height) {
-        Window window = scene.getWindow();
-        window.setWidth(width);
-        window.setHeight(height);
+        if (scene != null) {
+            Window window = scene.getWindow();
+            window.setWidth(width);
+            window.setHeight(height);
+        }
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
@@ -74,14 +80,14 @@ public class App extends Application {
     public static void setCurrentEmployee(Employee aCurrentEmployee) {
         currentEmployee = aCurrentEmployee;
     }
-    
+
     public static void centerOnScreen() {
-        Stage stage = (Stage) scene.getRoot().getScene().getWindow(); 
+        Stage stage = (Stage) scene.getRoot().getScene().getWindow();
         double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
         double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-        
+
         stage.setX((screenWidth - stage.getWidth()) / 2);
         stage.setY((screenHeight - stage.getHeight()) / 2);
     }
-    
+
 }

@@ -19,4 +19,6 @@ public interface OrderService {
     List<Order> getOrders(Map<String, Object> params);
     int addOrder(Order o, List<OrderDetail> details);
     int addOrder(Order o, ArrayList<CartItem> cartItems);
+    public Map<Integer, Integer> countOrdersInOneMonth();
+    public Map<Integer, Float> countOrderByBranchInLastMonth();
 }

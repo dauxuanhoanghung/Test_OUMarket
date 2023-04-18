@@ -40,7 +40,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public abstract class AbstractManageController implements Initializable {
 
     @FXML
-    private Label lblNameAdmin;
+    protected Label lblNameAdmin;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
