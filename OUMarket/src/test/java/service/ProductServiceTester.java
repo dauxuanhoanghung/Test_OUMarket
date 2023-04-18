@@ -92,7 +92,6 @@ public class ProductServiceTester {
         Assertions.assertNotEquals(-1, i);
     }
 
-
     /*Kiểm tra giá tiền của sản phầm phải lớn hơn không*/
     @Test
     public void testPriceOfProduct() {
@@ -110,7 +109,6 @@ public class ProductServiceTester {
     /*Kiểm tra sản phẩm có bị trùng hay không */
     @Test
     public void testProductDuplicate() {
-
         ProductService s = new ProductServiceImpl();
         List<Product> p = s.getProducts("");
         List<String> ProductName = p.stream().
@@ -119,5 +117,12 @@ public class ProductServiceTester {
 
         Assertions.assertEquals(ProductName.size(), setProductName.size());
     }
-
+    
+    @Test
+    public void testGetProductByBranch() {
+        ProductService s = new ProductServiceImpl();
+        List<Product> p = s.getProductsByBranch(1);
+        Assertions.assertNotNull(p);
+    }
+    
 }

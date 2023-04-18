@@ -65,9 +65,7 @@ public class CategoryTester {
     public void testNotANullOrEmptyName() throws SQLException {
         CategoryService s = new CategoryServiceImpl();
         List<Category> cates = s.getCategories();
-        
-        long t = cates.stream().filter(c -> c.getName().isBlank()).count();
-        
-        Assertions.assertTrue(t == 0);     
+        long t = cates.stream().filter(c -> !c.getName().isBlank()).count();
+        Assertions.assertTrue(t == cates.size());     
     }
 }

@@ -126,8 +126,7 @@ public class EmployeeTester {
     public void testUsernamePassword() {
         boolean expected = false;
         EmployeeService e = new EmployeeServiceImpl();
-        List<Employee> ListEmp = e.getEmployees("1");
-
+        List<Employee> ListEmp = e.getEmployees("");
         for (Employee emp : ListEmp) {
             if (emp.getUsername() == null || emp.getPassword() == null) {
                 expected = true;
