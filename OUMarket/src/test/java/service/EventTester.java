@@ -5,14 +5,9 @@
 package service;
 
 import com.tester.pojo.Event;
-import com.tester.pojo.EventProduct;
-import com.tester.pojo.Order;
-import com.tester.pojo.OrderDetail;
 import com.tester.pojo.sub.SubProduct;
 import com.tester.service.EventService;
-import com.tester.service.OrderService;
 import com.tester.service.impl.EventServiceImpl;
-import com.tester.service.impl.OrderServiceImpl;
 import com.tester.utils.MySQLConnectionUtil;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -55,7 +50,7 @@ public class EventTester {
     }
 
     @Test
-    public void testAddOrder() {
+    public void testAddEvent() {
         EventService eventService = new EventServiceImpl();
         Event e = new Event("Unit test", LocalDateTime.of(2024, Month.MARCH, 20, 0, 0),
                 LocalDateTime.of(2023, Month.MARCH, 25, 0, 0));
@@ -65,5 +60,24 @@ public class EventTester {
         edList.add(new SubProduct("536610708324854", "", 1000));
         int i = eventService.addEvent(e, edList);
         Assertions.assertNotEquals(0, i);
+    }
+
+    @Test
+    public void testEventHasStartAndEnd() {
+        EventService eventService = new EventServiceImpl();
+        List<Event> events = eventService.getEvents();
+        for (Event event : events) {
+            Assertions.assertNotNull(event.getStartDate());
+            Assertions.assertNotNull(event.getEndDate());
+        }
+    }
+    @Test
+    public void testEventHasDetail() {
+        EventService eventService = new EventServiceImpl();
+        List<Event> events = eventService.getEvents();
+        for (Event event : events) {
+            List edList = eventService.getEventProductsByEvent(event);
+            Assertions.assertNotNull(edList);
+        }
     }
 }

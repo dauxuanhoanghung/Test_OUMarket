@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,6 +117,49 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventProduct getEventProduct(Event event, Product product) {
         return getEventProduct(event.getId(), product.getId());
+    }
+
+    @Override
+    public List<Event> getEvents() {
+        List<Event> events = new ArrayList<>();
+        String sql = "SELECT * FROM event";
+        Event event = null;
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String description = resultSet.getString("description");
+                LocalDateTime startDate = resultSet.getObject("start_date", LocalDateTime.class);
+                LocalDateTime endDate = resultSet.getObject("end_date", LocalDateTime.class);
+                event = new Event(id, description, startDate, endDate);
+                events.add(event);
+            }
+            return events;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<EventProduct> getEventProductsByEvent(Event event) {
+        List<EventProduct> edList = new ArrayList<>();
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String query = "SELECT * FROM event_product WHERE event_id = ?";
+            PreparedStatement stm = conn.prepareStatement(query);
+            stm.setInt(1, event.getId());
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                EventProduct ed = new EventProduct(rs.getInt("id"), rs.getFloat("discount_price"),
+                        rs.getInt("event_id"), rs.getString("product_id"));
+                edList.add(ed);
+            }
+            return edList;
+        } catch (SQLException ex) {
+            Logger.getLogger(EventServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
     
 }
