@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@css/ManagerServicePage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.ManageServiceController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@css/ManagerServicePage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.ManageServiceController">
     <children>
         <Label layoutX="52.0" layoutY="48.0" stylesheets="@css/ManagerServicePage.css" text="Chức năng quản trị viên ">
             <font>
@@ -39,7 +39,7 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Button>
-        <Button layoutX="59.0" layoutY="535.0" mnemonicParsing="false" onAction="#manageProduct" prefHeight="130.0" prefWidth="1135.0" styleClass="Button" text="THỐNG KÊ" textAlignment="CENTER" wrapText="true">
+        <Button layoutX="59.0" layoutY="535.0" mnemonicParsing="false" onAction="#stats" prefHeight="130.0" prefWidth="1135.0" styleClass="Button" text="THỐNG KÊ" textAlignment="CENTER" wrapText="true">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -49,7 +49,7 @@
                 <Font name="System Bold" size="34.0" />
             </font>
         </Button>
-        <Button layoutX="671.0" layoutY="313.0" mnemonicParsing="false" onAction="#manageEvent" prefHeight="130.0" prefWidth="540.0" styleClass="Button" text="SỰ KIỆN" textAlignment="CENTER" wrapText="true">
+        <Button layoutX="669.0" layoutY="321.0" mnemonicParsing="false" onAction="#manageEvent" prefHeight="130.0" prefWidth="540.0" styleClass="Button" text="SỰ KIỆN" textAlignment="CENTER" wrapText="true">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>

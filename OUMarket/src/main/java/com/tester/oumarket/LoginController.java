@@ -18,6 +18,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -29,6 +30,10 @@ import javafx.scene.input.KeyCode;
  */
 public class LoginController implements Initializable {
 
+    @FXML
+    private Button loginBtn;
+    @FXML
+    private Button closeBtn;
     @FXML
     private TextField txtUsername;
     @FXML
@@ -55,7 +60,7 @@ public class LoginController implements Initializable {
                 try {
                     loginHandler();
                 } catch (IOException ex) {
-                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, 
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE,
                             "There's something error in LoginController!!!", ex);
                 }
             }
@@ -78,9 +83,9 @@ public class LoginController implements Initializable {
         if (CheckUtils.isNotNullAndBlankText(password, username)) {
             this.employeeService = new EmployeeServiceImpl();
             Employee emp = employeeService.authencateEmployee(username, password);
-            if (emp != null) { 
+            if (emp != null) {
                 String root = emp.getRole().equals(Employee.ADMIN) ? "ManageServicePage" : "EmployeePaymentPage";
-                App.setCurrentEmployee(emp);            
+                App.setCurrentEmployee(emp);
                 App.setSceneSize(UIConstant.OTHER_WIDTH, UIConstant.OTHER_HEIGHT);
                 App.setRoot(root);
             } else {

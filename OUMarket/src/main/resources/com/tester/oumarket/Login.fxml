@@ -9,7 +9,7 @@
 
 <!--<?import javafx.scene.image.ImageView-->
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="320.0" prefWidth="540.0" styleClass="Pane" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.LoginController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="320.0" prefWidth="540.0" styleClass="Pane" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tester.oumarket.LoginController">
     <children>
         <Label layoutX="233.0" layoutY="37.0" styleClass="Label" stylesheets="@css/login.css" text="Login">
             <font>
@@ -19,8 +19,8 @@
         <Label alignment="CENTER" layoutX="400.0" layoutY="37.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="186.0" rotate="50.2" styleClass="Label" text="OUMarket" textFill="#489e1c" />
         <Label layoutX="36.0" layoutY="93.0" styleClass="Label" text="Username:" />
         <Label layoutX="39.0" layoutY="168.0" styleClass="Label" text="Password:" />
-        <Button layoutX="98.0" layoutY="242.0" mnemonicParsing="false" onAction="#loginHandler" prefHeight="47.0" prefWidth="113.0" styleClass="Button" text="Login" />
-        <Button id="CloseButton" layoutX="319.0" layoutY="242.0" mnemonicParsing="false" onAction="#closeApp" prefHeight="47.0" prefWidth="113.0" styleClass="CloseButton" text="Close" />
+        <Button fx:id="loginBtn" layoutX="98.0" layoutY="242.0" mnemonicParsing="false" onAction="#loginHandler" prefHeight="47.0" prefWidth="113.0" styleClass="Button" text="Login" />
+        <Button fx:id="closeBtn" layoutX="319.0" layoutY="242.0" mnemonicParsing="false" onAction="#closeApp" prefHeight="47.0" prefWidth="113.0" styleClass="CloseButton" text="Close" />
         <TextField fx:id="txtUsername" layoutX="210.0" layoutY="95.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="272.0" promptText="Username" styleClass="PasswordField" />
         <PasswordField fx:id="txtPassword" layoutX="210.0" layoutY="168.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="272.0" promptText="Password" styleClass="PasswordField" />
         <Label fx:id="lblUsernameError" layoutX="209.0" layoutY="130.0" prefHeight="17.0" prefWidth="247.0" text="Vui lòng nhập username!!!" textFill="RED" visible="false" />

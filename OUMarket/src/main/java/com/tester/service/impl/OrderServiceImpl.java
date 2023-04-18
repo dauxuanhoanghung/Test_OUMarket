@@ -13,8 +13,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -41,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Order o = new Order(rs.getString("id"), rs.getFloat("subtotal"),
-                        rs.getObject("createdDate", LocalDateTime.class), 
+                        rs.getObject("createdDate", LocalDateTime.class),
                         rs.getString("employee_id"),
                         rs.getString("customer_id"));
                 orders.add(o);
@@ -56,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int addOrder(Order o, List<OrderDetail> details) {
-        try ( Connection conn = MySQLConnectionUtil.getConnection()) {
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
             conn.setAutoCommit(false);
             String sql = "INSERT INTO orders(id, subtotal, created_date, employee_id, customer_id) "
                     + " VALUES (?, ?, ?, ?, ?)";
@@ -99,4 +103,50 @@ public class OrderServiceImpl implements OrderService {
         return addOrder(o, odList);
     }
 
+    @Override
+    public Map<Integer, Integer> countOrdersInOneMonth() {
+        Map<Integer, Integer> result = new HashMap<>();
+        String query = "SELECT e.branch_id, COUNT(o.id) AS total_orders FROM orders o "
+                + "INNER JOIN employee e ON o.employee_id = e.id "
+                + "WHERE o.created_date >= ? GROUP BY e.branch_id";
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            PreparedStatement stm = conn.prepareStatement(query);
+            LocalDateTime lastMonth = LocalDateTime.now().minusMonths(1);
+            stm.setObject(1, lastMonth);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                int branchId = rs.getInt("branch_id");
+                int totalOrders = rs.getInt("total_orders");
+                result.put(branchId, totalOrders);
+            }
+            return result;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+    }
+
+    @Override
+    public Map<Integer, Float> countOrderByBranchInLastMonth() {
+        Map<Integer, Float> result = new HashMap<>();
+        try (Connection conn = MySQLConnectionUtil.getConnection()) {
+            String sql = "SELECT employee.branch_id, SUM(subtotal) AS total_subtotal FROM orders "
+                    + "JOIN employee ON orders.employee_id = employee.id "
+                    + "WHERE created_date >= DATE_SUB(NOW(), INTERVAL 1 MONTH) "
+                    + "GROUP BY employee.branch_id";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                int branchId = rs.getInt("branch_id");
+                float totalSubtotal = rs.getFloat("total_subtotal");
+                result.put(branchId, totalSubtotal);
+            }
+            return result;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 }
