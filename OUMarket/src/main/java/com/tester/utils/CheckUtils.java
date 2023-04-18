@@ -242,7 +242,7 @@ public class CheckUtils {
         }
         try {
             Float price = Float.valueOf(priceText);
-            if (price < 0) {
+            if (price <= 0) {
                 return -2;
             }
             return 1;

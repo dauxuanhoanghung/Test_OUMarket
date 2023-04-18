@@ -43,6 +43,12 @@ public class ManageBranchController extends AbstractManageController {
     @FXML
     private Label lblEmplCount;
     @FXML
+    private Label lblLocationMessage;
+    @FXML
+    private Label lblPhoneMessage;
+    @FXML
+    private Label lblNameMesssage;
+    @FXML
     private TableView tbvBranch;
     @FXML
     private TextField txtBranchId;
@@ -62,7 +68,7 @@ public class ManageBranchController extends AbstractManageController {
         loadTableColumn();
         loadContentToTableView(null);
         setHandling();
-
+        ChangeStatus.invisible(lblLocationMessage, lblNameMesssage, lblPhoneMessage);
         ChangeStatus.disable(cancelButton, txtBranchName, txtBranchLocation, txtBranchPhone);
     }
 
@@ -153,15 +159,18 @@ public class ManageBranchController extends AbstractManageController {
                 if (bms.addBranchMarket(bm) > 0) {
                     MessageBox.AlertBox("Add successful", "Add successful", Alert.AlertType.INFORMATION).show();
                     loadContentToTableView(null);
+                    ChangeStatus.adjustButton(addButton, "Thêm", ".update");
+                    ChangeStatus.disable();
+                    ChangeStatus.enable();
+                    ChangeStatus.visible(lblEmplCount);
+                    ChangeStatus.invisible(lblLocationMessage, lblPhoneMessage, lblNameMesssage);
+                    this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
+                    ChangeStatus.clearText(txtBranchName, txtBranchLocation, txtBranchId, txtBranchPhone);
                 } else {
                     MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
                 }
-                ChangeStatus.adjustButton(addButton, "Thêm", ".update");
-                ChangeStatus.disable();
-                ChangeStatus.enable();
-                ChangeStatus.visible(lblEmplCount);
-                this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
             } else {
+                handleError(bm);
                 MessageBox.AlertBox("Error", "Something is error", Alert.AlertType.ERROR).show();
             }
         } else { //Nút thêm
@@ -171,8 +180,8 @@ public class ManageBranchController extends AbstractManageController {
             ChangeStatus.invisible(lblEmplCount);
             this.tbvBranch.setOnMouseClicked(evt -> {
             });
+            ChangeStatus.clearText(txtBranchName, txtBranchLocation, txtBranchId, txtBranchPhone);
         }
-        ChangeStatus.clearText(txtBranchName, txtBranchLocation, txtBranchId);
 
     }
 
@@ -215,6 +224,7 @@ public class ManageBranchController extends AbstractManageController {
                 btns.forEach(b -> ChangeStatus.adjustButton(b, "Update", "update"));
                 ChangeStatus.clearText(txtBranchId, txtBranchLocation, txtBranchName, txtBranchPhone);
                 ChangeStatus.visible(lblEmplCount);
+                ChangeStatus.invisible(lblLocationMessage, lblNameMesssage, lblPhoneMessage);
                 this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
             }
         });
@@ -268,7 +278,8 @@ public class ManageBranchController extends AbstractManageController {
                 //Xác nhận update
                 if (b.getText().equals("Confirm")) {
                     mapInputToBranchMarket(branch);
-                    if (CheckUtils.isValidName(branch.getName()) == 1) {
+                    if (CheckUtils.isNotNullAndBlankText(branch.getLocation(), branch.getName())
+                            && CheckUtils.isValidPhoneNumber(branch.getPhone()) == 1) {
                         //Update here
                         BranchMarketService bms = new BranchMarketServiceImpl();
                         if (bms.updateBranchMarket(branch) > 0) { //update thành công
@@ -278,11 +289,13 @@ public class ManageBranchController extends AbstractManageController {
                             ChangeStatus.enable(getTableViewButtons(tbvBranch, ""));
                             ChangeStatus.disable(cancelButton, txtBranchName, txtBranchLocation, txtBranchPhone);
                             loadContentToTableView(null);
+                            this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
                         } else {
                             MessageBox.AlertBox("Error", "Something is error!!!", Alert.AlertType.ERROR).show();
                         }
+                    } else {
+                        handleError(branch);
                     }
-                    this.tbvBranch.setOnMouseClicked(this::handleMouseClickOnRow);
                 } else {
                     //Bắt đầu input để update
                     ChangeStatus.adjustButton(b, "Confirm", "confirm");
@@ -325,4 +338,37 @@ public class ManageBranchController extends AbstractManageController {
         return branchMarket;
     }
 
+    private void handleError(BranchMarket bm) {
+        boolean locationCheck = CheckUtils.isNotNullAndBlankText(bm.getLocation());
+        boolean nameCheck = CheckUtils.isNotNullAndBlankText(bm.getName());
+        int phoneCheck = CheckUtils.isValidPhoneNumber(bm.getPhone());
+
+        switch (phoneCheck) {
+            case 0:
+                lblPhoneMessage.setText("Số điện thoại đang không được nhập");
+                ChangeStatus.visible(lblPhoneMessage);
+                break;
+            case -1:
+                lblPhoneMessage.setText("Số điện thoại phải đủ 10 ký tự");
+                ChangeStatus.visible(lblPhoneMessage);
+                break;
+            case -2:
+                lblPhoneMessage.setText("Số điện thoại chỉ có thể là số");
+                ChangeStatus.visible(lblPhoneMessage);
+                break;
+            case -3:
+                lblPhoneMessage.setText("Số điện thoại phải bắt đầu bằng số 0");
+                ChangeStatus.visible(lblPhoneMessage);
+                break;
+        }
+
+        if (!nameCheck) {
+            lblNameMesssage.setText("Địa chỉ đang không được nhập");
+            ChangeStatus.visible(lblNameMesssage);
+        }
+        if (!locationCheck) {
+            lblLocationMessage.setText("Địa chỉ đang không được nhập");
+            ChangeStatus.visible(lblLocationMessage);
+        }
+    }
 }

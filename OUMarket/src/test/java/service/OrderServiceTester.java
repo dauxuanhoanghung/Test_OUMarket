@@ -71,9 +71,7 @@ public class OrderServiceTester {
         OrderDetail od2 = new OrderDetail(1, 400000, o.getId(), "020940850694781960004");
         odList.add(od2);
         odList.add(od1);
-        int i = orderService.addOrder(o, odList);
-        
-        
+        int i = orderService.addOrder(o, odList); 
         Assertions.assertNotEquals(0, i);
     }
 }

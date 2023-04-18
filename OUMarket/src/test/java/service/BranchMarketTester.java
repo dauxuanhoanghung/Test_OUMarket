@@ -77,8 +77,7 @@ public class BranchMarketTester {
     public void testBranchAddProduct() {
         BranchMarket branch = new BranchMarket(0, "New branch", 
                 "Gần trường", "1111111111");
-        bms.addBranchMarket(branch);
-        
-//        Assertions.assertEq
+        int res = bms.addBranchMarket(branch);
+        Assertions.assertNotEquals(0, res);
     }
 }
